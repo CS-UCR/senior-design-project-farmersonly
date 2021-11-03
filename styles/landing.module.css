@@ -1,0 +1,13 @@
+.container{
+    
+    background-image: url(../public/background-field.png);
+    padding: 15.5rem;
+}
+
+.title {
+    text-align: center;
+    font-size: 4rem;
+    font-weight: 700;
+    padding: 5rem 8rem;
+    margin-top: 0;
+}

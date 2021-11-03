@@ -1,0 +1,9 @@
+.container {
+    font-size: 1.5rem;
+    flex-flow: row;
+}
+
+.option{
+    text-align: right;
+    border-right: 5px;
+}
