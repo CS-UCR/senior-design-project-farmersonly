@@ -1,6 +1,6 @@
 .container{
-    
     background-image: url(../public/background-field.png);
+    background-size:cover;
     padding: 15.5rem;
 }
 
