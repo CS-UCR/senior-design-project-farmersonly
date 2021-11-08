@@ -4,12 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import styles from '../styles/navbar.module.css'
 
-
 export default function navbar(){
     return (
       <Navbar bg="dark" variant="dark" sticky="top" className={styles.container}>
 
-        <Navbar.Brand href="#home">UCR Water</Navbar.Brand>
+        <Navbar.Brand>UCR Water</Navbar.Brand>
 
         <Nav className="me-auto">
           <Nav.Link href="landing">Home</Nav.Link>

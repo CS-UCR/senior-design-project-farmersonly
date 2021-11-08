@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Navbar from '../components/navbar'
 import Landing from '../pages/landing'
 
 import styles from '../styles/index.module.css'
