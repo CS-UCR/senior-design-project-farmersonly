@@ -1,18 +1,19 @@
-import React from "react";
-import styles from '../styles/navbar.module.css'
+import React, {Component} from 'react'; 
+import styles from '../styles/footer.module.css'
 
 const Footer = () => {
     return(
         <div className="main-footer">
+            <div className = {styles.container}>
             <div className = "container">
                 <div className = "row">
                     {/* Column1 */}
                     <div className = "col-md-3 col-sm-6">
                         <h4>FarmersOnly</h4>
                         <ul className = "list-unstyled">
-                            <li>342-420-6969</li>
-                            <li>Moscow, Russia</li>
-                            <li>123 Something</li>
+                            <li>Something</li>
+                            <li>Something</li>
+                            <li>Something</li>
                         </ul>
                     </div>
                     {/* Column2 */}
@@ -40,6 +41,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     )
 }
