@@ -1,0 +1,8 @@
+.main-footer{
+    color: wheat;
+    background-color: skyblue;
+    padding-top: 3em;
+    position: relative;
+    bottom: 0;
+    width: 100%
+}
