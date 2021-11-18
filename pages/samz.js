@@ -1,16 +1,21 @@
 import React from 'react'
+import Donut from '../components/donutChart'
+import PerformanceChart from '../components/performance'
 
 import styles from '../styles/samz.module.css'
 
 export default function samz(){
   return(
-    <div className={styles.container}>
-      <form>
+    <div >
+      {/* <form>
         <label>
           File:
           <input type="file" name="name" />
         </label>
-      </form>
+      </form> */}
+
+      <Donut/>
+      <PerformanceChart/>
     </div>
     
   )
