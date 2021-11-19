@@ -4,6 +4,14 @@ import styles from '../styles/samz.module.css'
 
 export default function samz(){
   return(
-    <h1>SAMZ Page</h1>
+    <div className={styles.container}>
+      <form>
+        <label>
+          File:
+          <input type="file" name="name" />
+        </label>
+      </form>
+    </div>
+    
   )
 }
