@@ -1,7 +1,14 @@
 import '../styles/globals.css'
+import Navbar from '../components/navbar'
+import React from 'react'
 import Button from '@mui/material/Button';
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+function App({ Component, pageProps }){
+  return(
+    <React.Fragment>
+      <Navbar />
+      <Component {...pageProps} />
+    </React.Fragment>
+  )
 }
 
-export default MyApp
+export default App

@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import XLSX from 'xlsx';
+import Donut from '../components/donutChart'
+//import PerformanceChart from '../components/performance'
 
 import styles from '../styles/samz.module.css'
 const Input = styled('input')({
@@ -67,6 +69,7 @@ export class samz extends Component{
   <p >
    {this.state.mean}
   </p>
+  <Donut/>
   </div>
   );
   }
