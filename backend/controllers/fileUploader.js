@@ -18,8 +18,8 @@ function uploadFile(request, response)
     const spawn = require("child_process").spawn;
     const pythonScript = spawn('python', ['./process.py', path+".xlsx"]);
     pythonScript.stdout.on('data', function(data) {
-        console.log("before python script")
         console.log(data.toString());
+        response.send(data);
     });
     pythonScript.stderr.on('data', (data)=>
     {
@@ -29,7 +29,7 @@ function uploadFile(request, response)
     {
         console.error('exited with code:' + code.toString())
     })
-    response.send("hello world");
+    //response.send(data);
 }
 module.exports = {
     uploadFile
