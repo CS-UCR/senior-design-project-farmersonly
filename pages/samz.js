@@ -1,6 +1,10 @@
 import React, { Component, useState } from "react";
 import ReactDOM from 'react-dom';
 import { styled } from '@mui/material/styles';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import XLSX from 'xlsx';
@@ -45,7 +49,7 @@ export class samz extends Component{
         max: res.data.max,
         min: res.data.min,
         std: res.data.std,
-        clusters: res.data
+        clusters: res.data.clusters
       })
       console.log(res.data.mean)
       //console.log(res.data.mean);
@@ -66,10 +70,30 @@ export class samz extends Component{
       Upload
     </Button>
   </label>
-  <p >
-   {this.state.mean}
-  </p>
-  <Donut/>
+  <List>
+      <ListItem>
+        <ListItemText primary={'mean: ' + this.state.mean} />
+      </ListItem>
+      <Divider />
+      <ListItem>
+        <ListItemText primary={'min: ' + this.state.min} />
+      </ListItem>
+      <Divider />
+      <ListItem>
+        <ListItemText primary={'max: ' + this.state.max} />
+      </ListItem>
+      <Divider />
+      <ListItem>
+        <ListItemText primary={'std: ' + this.state.std} />
+      </ListItem>
+      <Divider />
+      <ListItem>
+        <ListItemText primary={'clusters: ' + this.state.clusters} />
+      </ListItem>
+      <Divider />
+  </List>
+
+  <Donut pieData = {this.state}/>
   </div>
   );
   }
