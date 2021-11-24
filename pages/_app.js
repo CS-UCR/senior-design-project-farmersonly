@@ -1,7 +1,16 @@
 import '../styles/globals.css'
+import Navbar from '../components/navbar'
+import React from 'react'
+import Footer from '../components/footer'
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+function App({ Component, pageProps }){
+  return(
+    <React.Fragment>
+      <Navbar />
+      <Footer />
+      <Component {...pageProps} />
+    </React.Fragment>
+  )
+} 
 
-export default MyApp
+export default App
