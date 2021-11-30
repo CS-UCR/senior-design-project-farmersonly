@@ -19,7 +19,9 @@
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
+    "css-loader": "^6.5.1",
     "eslint": "8.1.0",
-    "eslint-config-next": "11.1.2"
+    "eslint-config-next": "11.1.2",
+    "style-loader": "^3.3.1"
   }
 }
