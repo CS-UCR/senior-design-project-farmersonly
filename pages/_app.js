@@ -7,8 +7,8 @@ function App({ Component, pageProps }){
   return(
     <React.Fragment>
       <Navbar />
-      <Footer />
       <Component {...pageProps} />
+      <Footer />
     </React.Fragment>
   )
 } 
