@@ -1,4 +1,16 @@
 .container{
-    background-color: inherit;
+    background-color: rgb(255, 220, 181);
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+}
+
+.container > * {
+    flex: 1 1 10em;
+    flex-basis: 100%
 }
 
