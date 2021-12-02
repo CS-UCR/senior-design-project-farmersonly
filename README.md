@@ -6,6 +6,7 @@
 - [Usage](#usage)
 - [How To Run](#how-to-run)
 - [Diagrams](#diagrams)
+- [Trello](#trello)
 - [Dependencies](#dependencies)
 
 ## Overview
@@ -79,6 +80,8 @@ Overall System Diagram
 ![Overall System Diagram](public/overall_system_diagram.png)  
 Frontend Structure
 
+## Trello Board
+[This](https://trello.com/b/ar2vNBUt/farmersonly) is where we are tracking features and picking what we want to work on.
 
 ## Dependencies
 [Python 3.10](https://www.python.org/downloads/release/python-3100/)  
