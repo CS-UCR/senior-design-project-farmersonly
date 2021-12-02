@@ -3,6 +3,7 @@ import Navbar from '../components/navbar'
 import React from 'react'
 import Footer from '../components/footer'
 
+import Button from '@mui/material/Button';
 function App({ Component, pageProps }){
   return(
     <React.Fragment>
