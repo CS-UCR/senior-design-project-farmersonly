@@ -1,16 +1,16 @@
 .container{
-    background-color: rgb(255, 220, 181);
+    background-color: rgb(255, 214, 167);
     display: flex;
-    gap: 1em;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    flex-direction: column;
+    flex-flow: column wrap;
+    align-content: space-between;
+    height: 800px;
+    padding-top: 1em;
+    padding-left: 10px;
 
 }
 
 .container > * {
-    flex: 1 1 10em;
-    flex-basis: 100%
+    width: 32%;
+    margin-bottom: 2%; /* (100-32*3)/2 */
 }
 

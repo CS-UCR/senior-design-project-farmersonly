@@ -67,7 +67,6 @@ export class samz extends Component{
   {
   return(
     <div className = {format.container}>
-      
     <label htmlFor="contained-button-file">
     <Input accept=".xlsx" id="contained-button-file" onChange={this.uploadFile} type="file" />
     <Button variant="contained" component="span">
