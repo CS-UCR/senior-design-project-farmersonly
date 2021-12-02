@@ -1,8 +1,12 @@
 .container{
     color: rgb(221, 204, 179);
     background-color: rgb(27, 39, 44);
-    padding-top: 2em;
-    position: absolute;
-    margin-top: 100vh;
-    width: 100%;
+    padding-top: 3vh;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  .content{
+    flex: 1;
   }
