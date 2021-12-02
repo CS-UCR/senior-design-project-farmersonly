@@ -1,12 +1,14 @@
 .container{
     color: rgb(221, 204, 179);
-    background-color: rgb(27, 39, 44);
-    padding-top: 3vh;
+    background-color: rgb(24, 29, 31);
+    padding-top: 2vh;
+    font-size: 12px;
     display: flex;
-    min-height: 100vh;
+    min-height: 10vh;
     flex-direction: column;
   }
 
   .content{
     flex: 1;
+    justify-content: center;
   }
