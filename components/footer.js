@@ -6,6 +6,7 @@ const Footer = () => {
         <div className="main-footer">
             <div className = {styles.container}>
             <div className = "container">
+            <div className = {styles.content}>
                 <div className = "row">
                     {/* Column1 */}
                     <div className = "col-md-3 col-sm-6">
@@ -36,10 +37,11 @@ const Footer = () => {
                     </div>
                     <div className = "row">
                         <p className = "col-sm">
-                            &copy;{new Date().getFullYear} FarmersOnly
+                            Made by the dev team with love.
                         </p>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
         </div>
