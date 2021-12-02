@@ -71,13 +71,16 @@ again to get the frontend server started. You should see an output in the termin
 
 ## Diagrams
 
-Sequence Diagram
-![Sequence Diagram](public/sequence_diagram.png)
+Sequence Diagram  
+
+![Sequence Diagram](public/sequence_diagram.png)  
 Overall System Diagram
-![Overall System Diagram](public/overall_system_diagram.png)
+
+![Overall System Diagram](public/overall_system_diagram.png)  
 Frontend Structure
 
+
 ## Dependencies
-Python 3.10  
-Node.js version 16.13.1
+[Python 3.10](https://www.python.org/downloads/release/python-3100/)  
+[Node.js version 16.13.1](https://nodejs.org/download/release/v16.13.1/)
 
