@@ -6,64 +6,84 @@
 - [Usage](#usage)
 - [How To Run](#how-to-run)
 - [Diagrams](#diagrams)
+- [Trello](#trello)
 - [Dependencies](#dependencies)
 
 ## Overview
-<Include project description?
+This is the Irrigation Water Management Tool Suite. It's a site that hosts tools that help farmers make better decisions about their farms. These tools were also created to tackle California's water scarcity problems.
 
-## Team
+The first tool is in collaboration with Dr. Akansha Garg from the [Hanghverdi Water Management Group](https://ucrwater.com). With her guidance, we developed an advanced version of the SAMZ-Desert Tool. This is a tool for agricultural management zones that relies on NDVI satellite data. The old implementaion only worked on specific fields in Imperial County. We expanded on the tool and allowed users to upload their own field data. Now the tool can be used by farmers from around the world.
+
+## Team Advisors
 <a href="https://github.com/msalloum" target="_blank"><img src="https://avatars3.githubusercontent.com/u/1790819?s=400&v=4" align="left" height="30px">Mariam Salloum </a>
 
+<a align="left" href="https://ucrwater.com" target="_blank"><img src="" align="left" height="30px">Dr. Akanksha Garg</a> 
+
+## Team 
+<a href="https://github.com/RobertNavarro" target="_blank"><img src="https://avatars.githubusercontent.com/u/22530904?s=400&v=4" align="left" height="30px">Robert Navarro</a>
+
+<a href="https://github.com/seabass04" target="_blank"><img src="https://avatars.githubusercontent.com/u/56372630?v=4" align="left" height="30px">Sebastian Garcia</a>
+
+<a href="https://github.com/daniel-nis" target="_blank"><img src="https://avatars.githubusercontent.com/u/72157039?v=4" align="left" height="30px">Daniel Nissan</a>
+
+<a href="https://github.com/jc2673528" target="_blank"><img src="https://avatars.githubusercontent.com/u/36831132?v=4" align="left" height="30px">Juan Castellon</a>
 ## Usage
 Demo: <Link to youtube video>
 
-<Screenshot of application>
+![Current implementation of the tool](public/current_tool_image.png)
 
 ## How To Run
-In the project directory, you can run:
+Start off by installing Python 3.10 and running
+```
+pip install pandas numpy matplotlib scikit-learn
+```
 
-### `npm start`
+After that, install Node.js version 16.13.1. The latest version should also be fine.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Once you have Python and Node.js installed go ahead and download all of our code from github.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Then, from the project directory you want to run
+```
+npm install
+```
+This will install all the necessary packages for the frontend of the project. The backend has it's packages it needs so navigate to the backend folder. Run the install command from the backend folder.
 
-### `npm test`
+Now you should have all the packages you need to get the project running.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You should still be in the backend folder. Run the command
+```
+npm start
+```
+to get the backend server running. You should see an output in the terminal if it was successful.
 
-### `npm run build`
+Open another terminal, but do not close the terminal of the backend. In this new terminal make sure you are at the root of the project folder. We want to get the frontend server running now.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+From the root, run
+```
+npm run build
+```
+This will build the app for production to the build folder.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+We're almost done! Now run
+```
+npm start
+```
+again to get the frontend server started. You should see an output in the terminal if it was successful. Simply click the link that gets outputed to be brought to the website.
 
 ## Diagrams
 
-Sequence Diagram
+Sequence Diagram  
 
-Frontend Structure
-
-
+![Sequence Diagram](public/sequence_diagram.png)  
 Overall System Diagram
 
+![Overall System Diagram](public/overall_system_diagram.png)  
+Frontend Structure
+
+## Trello Board
+[This](https://trello.com/b/ar2vNBUt/farmersonly) is where we are tracking features and picking what we want to work on.
+
 ## Dependencies
-Install Node Package Manager (npm). [Helpful Documentation](https://www.npmjs.com/get-npm)
+[Python 3.10](https://www.python.org/downloads/release/python-3100/)  
+[Node.js version 16.13.1](https://nodejs.org/download/release/v16.13.1/)
 
