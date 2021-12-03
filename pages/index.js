@@ -1,12 +1,6 @@
 import Head from 'next/head'
-<<<<<<< HEAD
 import styles from '../styles/Home.module.css'
-=======
 import Landing from '../pages/landing'
-
-import styles from '../styles/index.module.css'
->>>>>>> main
-
 export default function Home() {
   return (
     <div className={styles.container}>
@@ -17,11 +11,7 @@ export default function Home() {
       </Head>
 
       <>
-<<<<<<< HEAD
-        <h1>Test</h1>
-=======
         <Landing />
->>>>>>> main
       </>
       
 

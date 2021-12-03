@@ -13,11 +13,8 @@ a {
 
 * {
   box-sizing: border-box;
-<<<<<<< HEAD
-=======
 }
 
 flexbox {
   display: flex;
->>>>>>> main
 }

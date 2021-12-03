@@ -63,19 +63,6 @@ export class samz extends Component{
   render()
   {
   return(
-<<<<<<< HEAD
-    <div className={styles.container}>
-      <form>
-        <label>
-          File:
-          <input type="file" name="name" />
-        </label>
-      </form>
-    </div>
-    
-  )
-}
-=======
     <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}>
     <label htmlFor="contained-button-file">
     <Input accept=".xlsx" id="contained-button-file" onChange={this.uploadFile} type="file" />
@@ -112,4 +99,3 @@ export class samz extends Component{
   }
 }
 export default samz;
->>>>>>> main
