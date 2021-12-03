@@ -18,6 +18,7 @@ field_input_index1_mean = 0
 field_input_index1_std = 0
 field_input_index1_max = 0
 field_input_index1_min = 0
+message = ""
 def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     # To check the input index data if it has some out of possible range value
     for p in range(array_size1):
@@ -29,7 +30,8 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     global field_input_index1_mean
     global field_input_index1_max
     global field_input_index1_min
-    global field_input_index1_std        
+    global field_input_index1_std    
+    global message    
     field_input_index1_mean = np.mean(field_input_index1[ind_nonan]) 
     field_input_index1_max = np.amax(field_input_index1[ind_nonan])
     field_input_index1_min = np.amin(field_input_index1[ind_nonan])
@@ -60,7 +62,21 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
                             else:                                                        # not really required
                                 field_input_index1[i+k,j+n] = field_input_index1[i+k,j+n]     
     field_input_index1 = np.reshape(field_input_index1, (-1, 1))#convert back to 1D array (maybe not needed)
-    #print(field_input_index1)
+    
+    outlier_rem_input_array = field_input_index1
+    # Mask NaN pixels
+    Nan_index = np.where(np.isnan(outlier_rem_input_array))
+    Not_Nan_index = np.where(np.isfinite(outlier_rem_input_array))
+    field_input_index2 = (outlier_rem_input_array[Not_Nan_index])
+    field_input_index_reshaped_col = field_input_index2.reshape(-1,1) # Reshaped into a column after removing the outliers
+    if np.max(field_input_index_reshaped_col) < 0.2:
+        message = "Fallow field. Zoning results should be followed cautiously."
+    elif np.max(field_input_index_reshaped_col) - np.min(field_input_index_reshaped_col) < 0.2:
+        message = "Field is almost uniform. Zoning may not be required."
+    else:
+        message = "Zoning may be useful"
+
+# ip_msg.append("Zoning may be useful") # No warnings msg
 
 def main():
     outlier_removal2D(field_input_index1, array_size1, array_size2, win_size)
@@ -95,7 +111,8 @@ def main():
     "max": field_input_index1_max,
     "min": field_input_index1_min,
     "std": field_input_index1_std,
-    "clusters": bestN
+    "clusters": bestN,
+    "message": message
     }
     outputDictJSON = json.dumps(outputDict)
     print(outputDictJSON) #outputs the dictionary of results as json
