@@ -1,0 +1,19 @@
+.container{
+    background-image: url(../public/background-field.png);
+    background-size:cover;
+    padding: 15.5rem;
+}
+
+.title {
+    text-align: center;
+    font-size: 4rem;
+    font-weight: 700;
+    padding: 2rem 6rem;
+    margin-top: 0;
+}   
+
+.body{
+    background-color:palegreen;
+    text-align: center;
+    font-size: 2rem;
+}
