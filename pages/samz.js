@@ -14,7 +14,7 @@ import Donut from '../components/donutChart'
 import format from '../styles/samz.module.css'
 
 import styles from '../styles/samz.module.css'
-import { getOverlayDirection } from "react-bootstrap/esm/helpers";
+//import { getOverlayDirection } from "react-bootstrap";
 const Input = styled('input')({
   display: 'none',
 });
