@@ -11,7 +11,10 @@ import XLSX from 'xlsx';
 import Donut from '../components/donutChart'
 //import PerformanceChart from '../components/performance'
 
+import format from '../styles/samz.module.css'
+
 import styles from '../styles/samz.module.css'
+//import { getOverlayDirection } from "react-bootstrap";
 const Input = styled('input')({
   display: 'none',
 });
@@ -67,7 +70,7 @@ export class samz extends Component{
   render()
   {
   return(
-    <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}>
+    <div className = {format.container}>
     <label htmlFor="contained-button-file">
     <Input accept=".xlsx" id="contained-button-file" onChange={this.uploadFile} type="file" />
     <Button variant="contained" component="span">

@@ -1,4 +1,16 @@
 .container{
-    background-color: inherit;
+    background-color: rgb(255, 214, 167);
+    display: flex;
+    flex-flow: column wrap;
+    align-content: space-between;
+    height: 800px;
+    padding-top: 1em;
+    padding-left: 10px;
+
+}
+
+.container > * {
+    width: 32%;
+    margin-bottom: 2%; /* (100-32*3)/2 */
 }
 
