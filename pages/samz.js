@@ -30,7 +30,8 @@ export class samz extends Component{
         min: 0,
         std: 0,
         clusters: 0,
-        message: "waiting on data"
+        message: "waiting on data",
+        image:"0"
       };
     }
     uploadFile = ({ target: { files } }) =>{
@@ -51,7 +52,8 @@ export class samz extends Component{
         min: res.data.min,
         std: res.data.std,
         clusters: res.data.clusters,
-        message: res.data.message
+        message: res.data.message,
+        image: res.data.image
       })
       console.log(res.data.mean)
       //console.log(res.data.mean);
@@ -95,6 +97,10 @@ export class samz extends Component{
       <Divider />
       <ListItem>
         <ListItemText primary={'message: ' + this.state.message} />
+      </ListItem>
+      <Divider />
+      <ListItem>
+        <img src = {`data:image/jpeg;base64,${this.state.image}`}/>
       </ListItem>
       <Divider />
   </List>

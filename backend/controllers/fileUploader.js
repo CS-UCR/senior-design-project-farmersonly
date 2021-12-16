@@ -10,24 +10,32 @@ function uploadFile(request, response)
     console.log(request.file.filename);
     path = request.file.path;
     fs.renameSync(path, path+".xlsx")
-    /*fs.unlink(path, (err) => { //code to delete file from tmp
-        if (err) {
-          console.error(err)
-          return
-        }})*/
     const spawn = require("child_process").spawn;
     const pythonScript = spawn('python', ['./process.py', path+".xlsx"]);
     pythonScript.stdout.on('data', function(data) {
         console.log(data.toString());
+        fs.unlink("./tmp/Optimal_clustered_image_" + JSON.parse(data).randomID + ".png", (err) => { //code to delete file from tmp
+            if (err) {
+              console.error(err)
+              return
+            }})
+        fs.unlink(path+".xlsx", (err) => { //code to delete file from tmp
+            if (err) {
+                console.error(err)
+                return
+            }})
         response.send(data);
+        return;
     });
     pythonScript.stderr.on('data', (data)=>
     {
         console.error('stderr: ' + data.toString())
+        return;
     })
     pythonScript.on('close', (code)=>
     {
         console.error('exited with code:' + code.toString())
+        return;
     })
     //response.send(data);
 }
