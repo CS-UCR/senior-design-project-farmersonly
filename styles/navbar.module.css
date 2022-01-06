@@ -7,6 +7,7 @@
 .container {
     font-size: 1.5rem;
     flex-flow: row;
+    padding-left: 1ex;
 }
 
 .option{
