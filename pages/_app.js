@@ -3,13 +3,17 @@ import Navbar from '../components/navbar'
 import React from 'react'
 import Footer from '../components/footer'
 import Button from '@mui/material/Button';
+import {AuthProvider} from "../contexts/AuthContext"
+
 function App({ Component, pageProps }){
   return(
-    <React.Fragment>
-      <Navbar />
-      <Component {...pageProps} />
-      <Footer />
-    </React.Fragment>
+    <AuthProvider>
+      <React.Fragment>
+        <Navbar />
+        <Component {...pageProps} />
+        <Footer />
+      </React.Fragment>
+    </AuthProvider>
   )
 } 
 
