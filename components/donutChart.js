@@ -14,6 +14,7 @@ import { PieChart, Pie, Label, Cell } from 'recharts';
 //   { name: "0.59", value: 0 },  
 // ];
 const COLORS = ['#0088FE', '#0088FE', '#DBE2EF', '#0088FE'];
+//const COLORS = ['#284b63', '#284b63', '#d9d9d9', '#284b63'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
@@ -55,13 +56,13 @@ export default function donutChart(props) {
   ]
   return (
     
-    <PieChart width={900} height={900}>
+    <PieChart width={430} height={300}>
       <Pie
         dataKey="value"
         startAngle={180}
         endAngle={0}
         data={data}
-        cx={250}
+        cx={200}
         cy={210}
         outerRadius={170}
         innerRadius={130}
