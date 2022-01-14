@@ -216,8 +216,11 @@ def main():
     plt.show()
     '''
     with open(os.path.join(basepath, 'Optimal_clustered_image_' + randomString + '.png'), "rb") as file:
-        img = file.read()
-    img = base64.b64encode(img).decode('utf-8')
+        delineationImage = file.read()
+    with open(os.path.join(basepath, 'Performance_Graph_image_' + randomString + '.png'), "rb") as file:
+        performanceGraphImage = file.read()
+    delineationImage = base64.b64encode(delineationImage).decode('utf-8')
+    performanceGraphImage = base64.b64encode(performanceGraphImage).decode('utf-8')
     #print("image",base64Image)
     outputDict = {
     "mean": field_input_index1_mean,
@@ -226,7 +229,8 @@ def main():
     "std": field_input_index1_std,
     "clusters": bestN,
     "message": message,
-    "image" : img,
+    "delineationImage" : delineationImage,
+    "performanceGraphImage" : performanceGraphImage,
     "randomID": randomString
     }
     outputDictJSON = json.dumps(outputDict)
