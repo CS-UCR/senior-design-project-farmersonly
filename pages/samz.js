@@ -121,32 +121,20 @@ export class samz extends Component {
               </List>
 
               {/* <p className={styles.piechart}>NDVI Range and Mean</p>
-            <div className={styles.donut}>
-              <Donut pieData = {this.state}/>
+            
             </div> */}
             </div>
 
-            <div class="col-8">
+            <div class="col-3">
               <img src={`data:image/jpeg;base64,${this.state.delineationImage}`} alt="" />
             </div>
-            <div class="col-8">
-              <img src={`data:image/jpeg;base64,${this.state.performanceGraphImage}`} alt="" />
+
+            <div class="col-5">
+            <img src={`data:image/jpeg;base64,${this.state.performanceGraphImage}`} alt="" />
             </div>
-            {/* <div class="col">
-              <img src={`data:image/jpeg;base64,${this.state.image}`} alt="" />
-            </div> */}
           </div>
         </div>
 
-        {/* <div class="row" >
-          <div class="col" >
-            <img src = {`data:image/jpeg;base64,${this.state.image}`}/>
-          </div>
-          <div class="col" >
-            <img src = {`data:image/jpeg;base64,${this.state.image}`}/>
-          </div>
-        </div> */}
-        {/* </div> */}
       </div>
     );
   }
