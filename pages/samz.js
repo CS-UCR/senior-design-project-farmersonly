@@ -28,7 +28,7 @@ export class samz extends Component {
         min: 0,
         std: 0,
         clusters: 0,
-        message: "waiting on data",
+        message: "Waiting on file upload",
         delineationImage:"0",
         performanceGraphImage:"0"
       };
@@ -90,27 +90,27 @@ export class samz extends Component {
               <List>
                 <Divider />
                 <ListItem>
-                  <ListItemText primary={"mean: " + this.state.mean} />
+                  <ListItemText primary={"Mean: " + this.state.mean} />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                  <ListItemText primary={"min: " + this.state.min} />
+                  <ListItemText primary={"Min: " + this.state.min} />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                  <ListItemText primary={"max: " + this.state.max} />
+                  <ListItemText primary={"Max: " + this.state.max} />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                  <ListItemText primary={"std: " + this.state.std} />
+                  <ListItemText primary={"STD: " + this.state.std} />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                  <ListItemText primary={"clusters: " + this.state.clusters} />
+                  <ListItemText primary={"Clusters: " + this.state.clusters} />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                  <ListItemText primary={"message: " + this.state.message} />
+                  <ListItemText primary={"Message: " + this.state.message} />
                 </ListItem>
                 <Divider />
                 <p className={styles.piechart}>NDVI Range and Mean</p>
