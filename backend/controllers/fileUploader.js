@@ -14,7 +14,7 @@ function uploadFile(request, response)
     const pythonScript = spawn('python', ['./process.py', path+".xlsx"]);
     pythonScript.stdout.on('data', function(data) {
         console.log(data.toString());
-        fs.unlink("./tmp/Optimal_clustered_image_" + JSON.parse(data).randomID + ".png", (err) => { //code to delete file from tmp
+        /*fs.unlink("./tmp/Optimal_clustered_image_" + JSON.parse(data).randomID + ".png", (err) => { //code to delete file from tmp
             if (err) {
               console.error(err)
               return
@@ -23,7 +23,7 @@ function uploadFile(request, response)
             if (err) {
                 console.error(err)
                 return
-            }})
+            }})*/
         fs.unlink(path+".xlsx", (err) => { //code to delete file from tmp
             if (err) {
                 console.error(err)
