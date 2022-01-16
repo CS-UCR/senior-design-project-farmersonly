@@ -155,7 +155,7 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
         plt.xticks(np.arange(min(Zones_no), max(Zones_no) + 1, 1.0))
         plt.xlabel('Number of Zones')
         plt.ylabel('Total Within-Zone Variance (%)')
-        plt.title('Performance Graph for Field ')
+        plt.title('Performance Graph')
         #plt.show()
         #fig1.savefig('Performance_graphs_socal_apr272018_final/{}'.format('Performance_graph_'+ '.png'), bbox_inches = 'tight', pad_inches = 0.5)
         fig1.savefig('{}'.format(os.path.join(basepath, 'Performance_Graph_image_' + randomString + '.png')), bbox_inches = 'tight', pad_inches = 0.5) 
@@ -175,7 +175,7 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     cmap = plt.cm.RdYlGn
     cmap.set_bad(color = 'black')    # To set nan values color as 'black'
     clustered_image_optimal = plt.imshow(field_input_index_clustered_optimal, cmap = plt.cm.RdYlGn, vmin = 1, vmax = optimalClusters- 1)                   
-    plt.title('Zones Delineation for the Field')         
+    plt.title('Zones Delineation')         
     # For Colorbar
     ticks2 = np.linspace(0, optimalClusters - 1, optimalClusters) # to show the ticks same as number of optimal zones/clusters in colorbar
     cbar = plt.colorbar(clustered_image_optimal, shrink = 0.9, ticks = ticks2, label = 'NDVI Value')
