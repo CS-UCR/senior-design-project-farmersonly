@@ -1,5 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+//import 'firebase/firestore'
+//import { useAuthState } from 'react-firebase-hooks/auth'
+//import { useCollectionData } from 'react-firebase-hooks/firestore'
+//import { signInWithEmailAndPassword } from 'firebase/auth' // added //
+import firebase from 'firebase/app'
 
 const firebaseConfig = {
   apiKey: "AIzaSyBYwE7zeVbWElrkzByoplpr1Tjy-UX3irg",
@@ -14,18 +19,25 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 
-const provider = new GoogleAuthProvider();
+export const provider = new GoogleAuthProvider();
+ 
+//export default app;  // added // 
 
-export const signInWithGoogle = () => {
-    signInWithPopup(auth, provider).then((result) => {
-        const name = result.user.displayName;
-        const email = result.user.email;
-        const profilePic = result.user.photoURL;
-
-        localStorage.setItem("name", name)
-        localStorage.setItem("email", email)
-        localStorage.setItem("profilePic", profilePic)
-    }).catch((error) => {
+/*export const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+    .then((re)=>{
+        console.log(re);
+    })
+    .catch((error) => {
         console.log(error);
     });
 }
+
+export function SignOut() {
+    signOut(auth)
+    .then(() => {
+    })
+    .catch((error) => {
+    });
+}*/

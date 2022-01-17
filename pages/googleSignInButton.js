@@ -1,19 +1,45 @@
-import React, { useEffect } from 'react';
-import { signInWithGoogle } from "../Firebase"
+import React, { useEffect, useState } from 'react';
+//import { signInWithGoogle, SignOut } from "../Firebase"
+import { provider, auth } from "../Firebase"
+import { signInWithPopup } from 'firebase/auth'
+import useRouter from 'next/router'
 
-function googleSignIn(){
-    var name = "name"
-    var email = "email"
+function redirect({to}) {
+    let router = useRouter();
+
     useEffect(() => {
-        const name = localStorage.getItem("name")
-        const email = localStorage.getItem("email")
-      }, [])
-      
+        router.push(to);
+    }, [to]);
+
+    return null;
+}
+
+function googleSignIn(/* { setIsAuth } */){
+    const signInWithGoogle = () => {
+        signInWithPopup(auth, provider)
+        .then((result)=>{
+            localStorage.setItem("isAuth", true);
+            console.log(result);
+            console.log("in")
+            redirect("/about");
+            window.location.pathname = "/about";
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
     return (
         <div className="googleButton">
             <button onClick={signInWithGoogle}> Sign In With Google </button>
-            <h1>{name}</h1>
-            <h1>{email}</h1>
+        </div>
+    )
+}
+
+
+function logout(){
+    return (
+        <div className="googleButton">
+            <button onClick={SignOut}> Sign Out </button>
         </div>
     )
 }
