@@ -6,7 +6,7 @@ import styles from "../styles/navbar.module.css";
 
 export default function navbar() {
   return (
-    <Navbar bg="dark" variant="dark" sticky="top" className={styles.container}>
+    <Navbar variant="dark" sticky="top" className={styles.nav}>
       <Navbar.Brand>UCR Water</Navbar.Brand>
 
       <Nav className="me-auto">
