@@ -1,19 +1,47 @@
 .container{
-    background-image: url(../public/background-field.png);
-    background-size:cover;
-    padding: 15.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20% 2%;
+    background-color: #1B262C;
+    size:100vh;
 }
 
-.title {
-    text-align: center;
-    font-size: 4rem;
-    font-weight: 700;
-    padding: 2rem 6rem;
-    margin-top: 0;
-}   
+.about{
+    margin: 2rem;
+}
 
-.body{
-    background-color:palegreen;
+.aboutTitle{
+    font-family:'Oswald', sans-serif;
     text-align: center;
-    font-size: 2rem;
+    font-size: 3.1rem;
+    padding-bottom: 1rem;
+    color: #0F4C75;
+}
+
+.aboutText{
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.2rem;
+    text-align: center;
+    color: #BBE1FA;
+}
+
+.team{
+    margin: 1rem;
+}
+
+.teamTitle{
+    font-family:'Oswald', sans-serif;
+    text-align: center;
+    font-size: 3.1rem;
+    color: #0F4C75;
+}
+
+
+.cardsTitle{
+    font-family:'Oswald', sans-serif;
+    text-align: center;
+    margin: 1rem;
+    color: #BBE1FA;
 }
