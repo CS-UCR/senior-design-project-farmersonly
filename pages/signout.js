@@ -4,22 +4,13 @@ import { provider, auth } from "../Firebase"
 import { signInWithPopup, signOut } from 'firebase/auth'
 import useRouter from 'next/router'
 
-function redirect({to}) {
-    let router = useRouter();
-
-    useEffect(() => {
-        router.push(to);
-    }, [to]);
-
-    return null;
-}
-
 function logout(){
     const SignOut = () => {
         signOut(auth)
         .then(() => {
-            console.log("signed out")
+            //console.log("signed out")
             localStorage.clear();
+            window.location.href = "/landing";
         })
         .catch((error) => {
         });
