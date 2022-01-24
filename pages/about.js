@@ -6,9 +6,7 @@ import Grid from "@mui/material/Grid";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import Link from "@mui/material/Link";
 
-import { styled } from "@mui/material/styles";
 import styles from "../styles/about.module.css";
-import { CenterFocusStrong } from "@mui/icons-material";
 
 export default function about() {
   return (
@@ -178,7 +176,7 @@ export default function about() {
                   <CardContent>
                     <Typography>Juan Castellon</Typography>
                     <Typography sx={{ fontSize: 13 }}>Undergraute</Typography>
-                    <Link href="google.com">
+                    <Link href="https://www.linkedin.com/in/juan-castellon-0320a8206/">
                       <LinkedInIcon />
                     </Link>
                   </CardContent>
