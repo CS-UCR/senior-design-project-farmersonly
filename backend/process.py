@@ -55,7 +55,12 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     #print("min: ",field_input_index1_min)
     #print("std: ",field_input_index1_std)                
 
-    field_input_index1 = np.reshape(field_input_index1, (-1, 8))
+    largestDivisor = 0
+    for i in range(2, array_size1):
+        if array_size1 % i == 0:
+            largestDivisor = i
+    largestDivisor = 16
+    field_input_index1 = np.reshape(field_input_index1, (-1, largestDivisor))
     array_size1 = (np.shape(field_input_index1))[0] #number of rows
     array_size2 = (np.shape(field_input_index1))[1] #number of columns
     
@@ -94,7 +99,7 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     Sigma_total_zone = []
     Zones_no = []
     optimal_zones = []
-    n_samples = 96;
+    n_samples = len(field_input_index_reshaped_col)
     # Criteria/ condition to avoid situations with Sigma_total_zone[0] = 0 coz it probably makes Zone_percent undefined:
     if (n_samples == 1):
         # print('zone percent out of range, coz only 1 pixel sized image')
@@ -201,7 +206,7 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     plot1 = plt.figure(2)
     cmap = plt.cm.RdYlGn
     cmap.set_bad(color = 'black')    # To set nan values color as 'black'
-    clustered_image_optimal = plt.imshow(field_input_index_clustered_optimal, cmap = plt.cm.RdYlGn, vmin = 1, vmax = optimal_zones_val - 1)                   
+    clustered_image_optimal = plt.imshow(field_input_index_clustered_optimal, cmap = plt.cm.RdYlGn, vmin = 0, vmax = optimal_zones_val - 1)                   
     plt.title('Zones Delineation for the Field')         
     # For Colorbar
     ticks2 = np.linspace(0, optimal_zones_val - 1, optimal_zones_val)                 # to show the ticks same as number of optimal zones/clusters in colorbar
