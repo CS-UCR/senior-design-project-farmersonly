@@ -5,8 +5,6 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from '@mui/material/CardMedia'
 import Typography from "@mui/material/Typography";
 
-import optimalimg from "/public/optiamlclusters.png"
-
 import styles from "../styles/landing.module.css";
 
 export default function landing() {
