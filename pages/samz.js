@@ -5,19 +5,28 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 import axios from "axios";
 import Donut from "../components/donutChart";
 
 import styles from "../styles/samz.module.css";
-//import { getOverlayDirection } from "react-bootstrap";
+
 const Input = styled("input")({
   display: "none",
 });
+
 const config = {
   headers: {
     "content-type": "multipart/form-data",
   },
 };
+
+const ListText = {
+  fontFamily: "Quicksand",
+  fontName: "sans-serif",
+  color: "#BBE1FA",
+};
+
 export class samz extends Component {
   //uploadFile = ({ target: { files } }) =>{
     constructor(props) {
@@ -63,78 +72,105 @@ export class samz extends Component {
       //this.setState({clusters: res.data.clusters});
     });
   };
-  render() {
+
+  render() {   
     return (
       <div className={styles.container}>
         <div class="container">
-          <div class="row">
-            <div class="col">
-              <div className={styles.button}>
-                <label htmlFor="contained-button-file">
-                  <Input
-                    accept=".xlsx"
-                    id="contained-button-file"
-                    onChange={this.uploadFile}
-                    type="file"
-                  />
-                  <Button variant="contained" component="span">
-                    Upload
-                  </Button>
-                </label>
+            <div class="row">
+              <div class="col-4">
+                <div className={styles.button}>
+                  <label htmlFor="contained-button-file">
+                    <Input
+                      accept=".xlsx"
+                      id="contained-button-file"
+                      onChange={this.uploadFile}
+                      type="file"
+                    />
+                    <Button variant="contained" component="span"
+                    style={{
+                      fontFamily: "Quicksand",
+                      fontName: "sans-serif",
+                      backgroundColor: "#0F4C75",
+                      color: "#BBE1FA",
+                      textTransform: "none",
+                    }}>
+                      Upload Data
+                    </Button>
+                  </label>
+                </div>
+
+                <div>
+                  <List>
+                    <Divider style={{ background: '#BBE1FA' }} />
+                    <ListItem>
+                      <ListItemText
+                        primaryTypographyProps={{ style: ListText }}
+                        primary={"Mean: " + this.state.mean}
+                      />
+                    </ListItem>
+                    <Divider style={{ background: '#BBE1FA' }} />
+                    <ListItem>
+                      <ListItemText
+                        primaryTypographyProps={{ style: ListText }}
+                        primary={"Min: " + this.state.min}
+                      />
+                    </ListItem>
+                    <Divider style={{ background: '#BBE1FA' }} />
+                    <ListItem>
+                      <ListItemText
+                        primaryTypographyProps={{ style: ListText }}
+                        primary={"Max: " + this.state.max}
+                      />
+                    </ListItem>
+                    <Divider style={{ background: '#BBE1FA' }} />
+                    <ListItem>
+                      <ListItemText
+                        primaryTypographyProps={{ style: ListText }}
+                        primary={"STD: " + this.state.std}
+                      />
+                    </ListItem>
+                    <Divider style={{ background: '#BBE1FA' }} />
+                    <ListItem>
+                      <ListItemText
+                        primaryTypographyProps={{ style: ListText }}
+                        primary={"Clusters: " + this.state.clusters}
+                      />
+                    </ListItem>
+                    <Divider style={{ background: '#BBE1FA' }} />
+                    <ListItem>
+                      <ListItemText
+                        primaryTypographyProps={{ style: ListText }}
+                        primary={"Message: " + this.state.message}
+                      />
+                    </ListItem>
+                    <Divider style={{ background: '#BBE1FA' }} />
+                    <div className={styles.piechart}>
+                      NDVI Range and Mean
+                    </div>
+                    <div>
+                      <Donut pieData={this.state} />
+                    </div>
+                    <Divider style={{ background: '#BBE1FA' }} />
+                  </List>
+                </div>
+              </div>
+
+              <div class="col-3">
+                <img
+                  src={`data:image/jpeg;base64,${this.state.delineationImage}`}
+                  alt=""
+                />
+              </div>
+
+              <div class="col-5">
+                <img
+                  src={`data:image/jpeg;base64,${this.state.performanceGraphImage}`}
+                  alt=""
+                />
               </div>
             </div>
-          </div>
-
-          <div class="row">
-            <div class="col-4" className="Statistics">
-              <List>
-                <Divider />
-                <ListItem>
-                  <ListItemText primary={"Mean: " + this.state.mean} />
-                </ListItem>
-                <Divider />
-                <ListItem>
-                  <ListItemText primary={"Min: " + this.state.min} />
-                </ListItem>
-                <Divider />
-                <ListItem>
-                  <ListItemText primary={"Max: " + this.state.max} />
-                </ListItem>
-                <Divider />
-                <ListItem>
-                  <ListItemText primary={"STD: " + this.state.std} />
-                </ListItem>
-                <Divider />
-                <ListItem>
-                  <ListItemText primary={"Clusters: " + this.state.clusters} />
-                </ListItem>
-                <Divider />
-                <ListItem>
-                  <ListItemText primary={"Message: " + this.state.message} />
-                </ListItem>
-                <Divider />
-                <p className={styles.piechart}>NDVI Range and Mean</p>
-                <div className={styles.donut}>
-                  <Donut pieData={this.state} />
-                </div>
-                <Divider />
-              </List>
-
-              {/* <p className={styles.piechart}>NDVI Range and Mean</p>
-            
-            </div> */}
-            </div>
-
-            <div class="col-3">
-              <img src={`data:image/jpeg;base64,${this.state.delineationImage}`} alt="" />
-            </div>
-
-            <div class="col-5">
-            <img src={`data:image/jpeg;base64,${this.state.performanceGraphImage}`} alt="" />
-            </div>
-          </div>
         </div>
-
       </div>
     );
   }
