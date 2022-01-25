@@ -1,13 +1,18 @@
 .container{
-    background-image: url(../public/background-field.png);
-    background-size:cover;
-    padding: 15.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 87vh;
+  background-color: #1B262C;
 }
 
 .title {
+    font-family:'Oswald', sans-serif;
+    color: #0F4C75;
     text-align: center;
-    font-size: 4rem;
-    font-weight: 700;
-    padding: 5rem 8rem;
-    margin-top: 0;
+    font-weight: bold;
+    font-size: 3rem;
+    padding: 3rem 20rem;
+
 }

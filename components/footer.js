@@ -9,7 +9,7 @@ const Footer = () => {
             <div className = {styles.content}>
                 <div className = "row">
                     <p className = "col-sm">
-                        Made by the dev team with ❤️
+                        Made with 💙 by the dev team
                     </p>
                 </div>
             </div>

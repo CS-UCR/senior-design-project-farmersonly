@@ -13,7 +13,8 @@ import { PieChart, Pie, Label, Cell } from 'recharts';
 //   { name: "", value: b },   
 //   { name: "0.59", value: 0 },  
 // ];
-const COLORS = ['#0088FE', '#0088FE', '#DBE2EF', '#0088FE'];
+const COLORS = ['#3282B8', '#3282B8', '#BBE1FA', '#3282B8'];
+//const COLORS = ['#284b63', '#284b63', '#d9d9d9', '#284b63'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
@@ -32,9 +33,10 @@ const renderCustomizedLabel = ({
     <text
       x={x < 200 ? x+15 : x-15 }
       y={y + 10 }
-      fill="black"
+      fill="#BBE1FA"
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
+
     >
       {name}
     </text>
@@ -55,13 +57,13 @@ export default function donutChart(props) {
   ]
   return (
     
-    <PieChart width={900} height={900}>
+    <PieChart width={430} height={300}>
       <Pie
         dataKey="value"
         startAngle={180}
         endAngle={0}
         data={data}
-        cx={250}
+        cx={200}
         cy={210}
         outerRadius={170}
         innerRadius={130}
@@ -70,7 +72,7 @@ export default function donutChart(props) {
         
       >
 
-        <Label value={Number(props.pieData.mean).toFixed(2)} position="center" fontSize="60"/>
+        <Label value={Number(props.pieData.mean).toFixed(2)} position="center" fontSize="60" fill="#BBE1FA"/>
         
         {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

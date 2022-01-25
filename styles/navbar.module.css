@@ -1,7 +1,14 @@
 .navbar{
     width: 100%;
     height: 100px;
-    font-family: Arial, Helvetica, sans-serif;
+}
+
+.nav{
+    background-color: rgb(24, 28, 29);
+    font-size: 1.2rem;
+    flex-flow: row;
+    padding-left: 1ex;
+    font-family: 'Quicksand', sans-serif;
 }
 
 .container {

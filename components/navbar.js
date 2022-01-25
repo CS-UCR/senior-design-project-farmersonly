@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { auth } from "../Firebase"
 import { onAuthStateChanged } from 'firebase/auth'
 
-import styles from '../styles/navbar.module.css'
+import styles from "../styles/navbar.module.css";
 
 export default function navbar(){
     //const user = auth.currentUser;
@@ -21,21 +21,19 @@ export default function navbar(){
       }
     });
 
-    return (
-      <Navbar bg="dark" variant="dark" sticky="top" className={styles.container}>
+  return (
+    <Navbar variant="dark" className={styles.nav}>
+      <Navbar.Brand>UCR Water</Navbar.Brand>
 
-        <Navbar.Brand>UCR Water</Navbar.Brand>
-
-        <Nav className="me-auto">
-          <Nav.Link href="landing">Home</Nav.Link>
-          <Nav.Link href="samz">SAMZ-Desert Tool</Nav.Link>
-          <Nav.Link href="about">About</Nav.Link>
-          {/* 
-          { !user ? <Nav.Link href="googleSignInButton">Sign In</Nav.Link> : <Nav.Link href="signout">Sign Out</Nav.Link> } */}
+      <Nav className="me-auto">
+        <Nav.Link href="landing">Home</Nav.Link>
+        <Nav.Link href="samz">SAMZ-Desert Tool</Nav.Link>
+        <Nav.Link href="about">About</Nav.Link>
+      </Nav>
+      <Nav className="justify-content-end">
           <Nav.Link href="googleSignInButton">Sign In</Nav.Link>
           <Nav.Link href="signout">Sign Out</Nav.Link>
-        </Nav>
-      
+      </Nav>
     </Navbar>
-    )
+  );
 }

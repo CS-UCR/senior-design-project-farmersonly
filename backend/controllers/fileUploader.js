@@ -19,6 +19,11 @@ function uploadFile(request, response)
               console.error(err)
               return
             }})
+        fs.unlink("./tmp/Performance_Graph_image_" + JSON.parse(data).randomID + ".png", (err) => { //code to delete file from tmp
+            if (err) {
+                console.error(err)
+                return
+            }})
         fs.unlink(path+".xlsx", (err) => { //code to delete file from tmp
             if (err) {
                 console.error(err)
