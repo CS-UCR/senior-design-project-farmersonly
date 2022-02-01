@@ -11,6 +11,16 @@ const upload = multer({dest:'./tmp/'});
 
 app.use(cors());
 app.use(express.json());
+
+var admin = require("firebase-admin");
+var serviceAccount = require("./serviceAccountKey.json");
+admin.initializeApp({
+credential: admin.credential.cert(serviceAccount),
+});
+
+let db=admin.firestore();
+let a=db.collection('users');
+
 app.listen(port, () => console.log(`Server listening on http://localhost:${port}`));
 app.get('/',(req,res)=>res.send("hello world"))
 /*app.post('/samz/post', upload.single('file'), function (req, res, next) {
@@ -20,3 +30,5 @@ app.get('/',(req,res)=>res.send("hello world"))
     res.send("hello world");
   });*/
 app.post('/samz/post',upload.single('file'),fileUploader.uploadFile);
+
+
