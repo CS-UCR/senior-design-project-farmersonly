@@ -161,7 +161,7 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
         plt.xticks(np.arange(min(Zones_no), max(Zones_no) + 1, 1.0))
         plt.xlabel('Number of Zones')
         plt.ylabel('Total Within-Zone Variance (%)')
-        plt.title('Performance Graph for Field ')
+        plt.title('Performance Graph')
         #plt.show()
         #fig1.savefig('Performance_graphs_socal_apr272018_final/{}'.format('Performance_graph_'+ '.png'), bbox_inches = 'tight', pad_inches = 0.5)
         fig1.savefig('{}'.format(os.path.join(basepath, 'Performance_Graph_image_' + randomString + '.png')), bbox_inches = 'tight', pad_inches = 0.5) 
