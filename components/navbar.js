@@ -1,25 +1,25 @@
 import React, {Component, useState} from 'react'; 
 import {Navbar, Nav} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { auth } from "../Firebase"
-import { onAuthStateChanged } from 'firebase/auth'
+//import { auth } from "../Firebase"
+//import { onAuthStateChanged } from '../Firebase'
 
 import styles from "../styles/navbar.module.css";
 
 export default function navbar(){
     //const user = auth.currentUser;
 
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        // User is signed in.
-        console.log("signed in");
-        console.log(user.displayName);
-      } 
-      else {
-        // No user is signed in.
-        console.log("signed out");
-      }
-    });
+    // onAuthStateChanged(auth, user => {
+    //   if (user) {
+    //     // User is signed in.
+    //     console.log("signed in");
+    //     console.log(user.displayName);
+    //   } 
+    //   else {
+    //     // No user is signed in.
+    //     console.log("signed out");
+    //   }
+    // });
 
   return (
     <Navbar variant="dark" className={styles.nav}>

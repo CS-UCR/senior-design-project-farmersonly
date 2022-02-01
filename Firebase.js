@@ -1,10 +1,7 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-//import 'firebase/firestore'
-//import { useAuthState } from 'react-firebase-hooks/auth'
-//import { useCollectionData } from 'react-firebase-hooks/firestore'
-//import { signInWithEmailAndPassword } from 'firebase/auth' // added //
-import firebase from 'firebase/app'
+import { initializeApp, getAuth } from "firebase/app";
+import { getFirestore } from 'firebase/firestore';
+import { GoogleAuthProvider } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBYwE7zeVbWElrkzByoplpr1Tjy-UX3irg",
@@ -14,14 +11,17 @@ const firebaseConfig = {
   messagingSenderId: "464851300677",
   appId: "1:464851300677:web:f5bf7abfdd6146dfd5ce2c"
 };
-
+ 
 const app = initializeApp(firebaseConfig);
+
+//Exporting the necessary credentials(?) for authenticating through google
+export const provider = new GoogleAuthProvider();
 
 export const auth = getAuth(app);
 
-export const provider = new GoogleAuthProvider();
- 
-//export default app;  // added // 
+//For getting a reference to the storage service (Firestore)
+const storage = getStorage(app);
+
 
 /*export const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
@@ -33,7 +33,6 @@ export const provider = new GoogleAuthProvider();
         console.log(error);
     });
 }
-
 export function SignOut() {
     signOut(auth)
     .then(() => {
