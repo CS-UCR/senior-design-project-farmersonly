@@ -59,8 +59,8 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     for i in range(2, array_size1):
         if array_size1 % i == 0:
             largestDivisor = i
-    largestDivisor = 16
-    field_input_index1 = np.reshape(field_input_index1, (-1, largestDivisor))
+    largestDivisor = 25
+    field_input_index1 = np.reshape(field_input_index1, (-1,8))
     array_size1 = (np.shape(field_input_index1))[0] #number of rows
     array_size2 = (np.shape(field_input_index1))[1] #number of columns
     

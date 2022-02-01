@@ -146,11 +146,11 @@ const config = {
             <div class="col-8">
               <img src={`data:image/jpeg;base64,${this.state.performanceGraphImage}`} alt="" />
             </div>
-            <div class="col-8">
+            {/* <div class="col-8">
               <Button variant="contained" component="span" onClick={() => this.process_wb()}>
                       Download test file
               </Button>
-            </div>
+            </div> */}
             {/* <div class="col">
               <img src={`data:image/jpeg;base64,${this.state.image}`} alt="" />
             </div> */}
