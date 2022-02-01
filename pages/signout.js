@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 //import { signInWithGoogle, SignOut } from "../Firebase"
-import { provider, auth } from "../Firebase"
-import { signInWithPopup, signOut } from 'firebase/auth'
+import { firebaseApp, provider, auth } from "../Firebase"
+import { getAuth, signInWithPopup, signOut } from 'firebase/auth'
 import useRouter from 'next/router'
 
 function logout(){

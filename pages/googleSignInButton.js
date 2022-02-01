@@ -1,25 +1,25 @@
 import React from 'react';
-import { provider, auth } from "../Firebase"
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/app';
+import { firebaseApp, auth, provider } from "../Firebase"
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 //const auth = getAuth();
 
 export default function SignIn(){
     const signInWithGoogle = () =>{
         signInWithPopup(auth, provider)
-        .then((result) => {
+        .then((result) =>{
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
-            
-            //Signed in user's info
+
             const user = result.user;
-            
-        }).catch((error) => { 
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            const email = error.email;
-            const credential = GoogleAuthProvider.credentialFromError(error);
+
+            console.log(user.uid);
+
+        })
+        .catch((error) =>{
+            console.log(error);
         });
+        
     }
 
     // onAuthStateChanged(auth, (user) =>{ 
