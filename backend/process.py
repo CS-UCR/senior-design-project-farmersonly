@@ -12,7 +12,8 @@ import base64
 import os
 basepath = os.path.abspath('tmp')
 arg1 = sys.argv[1]
-
+length = int(sys.argv[2])
+width = int(sys.argv[3])
 field_input_index1 = pandas.read_excel(arg1).to_numpy()
 field_input_index_test = pandas.read_excel(arg1).to_numpy()
 array_size1 = (np.shape(field_input_index1))[0] #number of rows
@@ -55,12 +56,8 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     #print("min: ",field_input_index1_min)
     #print("std: ",field_input_index1_std)                
 
-    largestDivisor = 0
-    for i in range(2, array_size1):
-        if array_size1 % i == 0:
-            largestDivisor = i
-    largestDivisor = 25
-    field_input_index1 = np.reshape(field_input_index1, (-1,8))
+
+    field_input_index1 = np.reshape(field_input_index1, (length,width))
     array_size1 = (np.shape(field_input_index1))[0] #number of rows
     array_size2 = (np.shape(field_input_index1))[1] #number of columns
     
@@ -250,10 +247,10 @@ def main():
     performanceGraphImage = base64.b64encode(performanceGraphImage).decode('utf-8')
     #print("image",base64Image)
     outputDict = {
-    "mean": field_input_index1_mean,
-    "max": field_input_index1_max,
-    "min": field_input_index1_min,
-    "std": field_input_index1_std,
+    "mean": round(field_input_index1_mean,2),
+    "max": round(field_input_index1_max,2),
+    "min": round(field_input_index1_min,2),
+    "std": round(field_input_index1_std,2),
     "clusters": optimal_zones_val,
     "message": message,
     "delineationImage" : delineationImage,
