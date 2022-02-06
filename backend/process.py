@@ -12,7 +12,8 @@ import base64
 import os
 basepath = os.path.abspath('tmp')
 arg1 = sys.argv[1]
-
+length = int(sys.argv[2])
+width = int(sys.argv[3])
 field_input_index1 = pandas.read_excel(arg1).to_numpy()
 field_input_index_test = pandas.read_excel(arg1).to_numpy()
 array_size1 = (np.shape(field_input_index1))[0] #number of rows
@@ -32,7 +33,7 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
         for q in range(array_size2):
             #print(field_input_index1[p,q])
             if field_input_index1[p, q] > 1 or field_input_index1[p, q] < -1:
-	            field_input_index1[p, q] = np.nan              
+                field_input_index1[p, q] = np.nan              
     ind_nonan = np.where(np.isnan(field_input_index1) == False)   # Indices of input matrix where nan is not present  
     global field_input_index1_mean
     global field_input_index1_max
@@ -42,7 +43,10 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     global Nan_index 
     global Not_Nan_index
     global randomString
+    global optimal_zones_val    
     randomString = str(uuid.uuid4().hex)
+    excel_path = os.path.join('./tmp', 'Cluster_info_' + randomString + '.xlsx')
+    writer = pandas.ExcelWriter(excel_path, engine = 'xlsxwriter')   
     field_input_index1_mean = np.mean(field_input_index1[ind_nonan]) 
     field_input_index1_max = np.amax(field_input_index1[ind_nonan])
     field_input_index1_min = np.amin(field_input_index1[ind_nonan])
@@ -52,7 +56,8 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     #print("min: ",field_input_index1_min)
     #print("std: ",field_input_index1_std)                
 
-    field_input_index1 = np.reshape(field_input_index1, (-1, 8))
+
+    field_input_index1 = np.reshape(field_input_index1, (length,width))
     array_size1 = (np.shape(field_input_index1))[0] #number of rows
     array_size2 = (np.shape(field_input_index1))[1] #number of columns
     
@@ -91,7 +96,7 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     Sigma_total_zone = []
     Zones_no = []
     optimal_zones = []
-    n_samples = 96;
+    n_samples = len(field_input_index_reshaped_col)
     # Criteria/ condition to avoid situations with Sigma_total_zone[0] = 0 coz it probably makes Zone_percent undefined:
     if (n_samples == 1):
         # print('zone percent out of range, coz only 1 pixel sized image')
@@ -115,9 +120,7 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
                 field_input_index_clustered_reshaped_col = field_input_index_clustered.reshape(-1,1)  # Reshaping cluster IDs from a clustered row (or list obtained using k means) into an array of same size as that of NDVI values variable
                 df = pandas.DataFrame(np.hstack((field_input_index_clustered_reshaped_col, field_input_index_reshaped_col)), columns = ['Zone','NDVI'])  # Stacking the two 1D arrays of cluster ID and NDVI values to make a dataframe
                 # Write each dataframe to a different worksheet.
-                #with ExcelWriter('excelWriterTest.xlsx') as excel_writer:
-                excel_path = os.path.join('./tmp', 'Cluster_info_' + randomString + str(n) + '.xlsx')
-                writer = pandas.ExcelWriter(excel_path, engine = 'xlsxwriter')                    
+                #with ExcelWriter('excelWriterTest.xlsx') as excel_writer:             
                 df.to_excel(writer, sheet_name = 'Zones_' + str(n))# Creating a different worksheet for different number of zones clustering
                 field_input_index_clustered_im1 = np.copy(outlier_rem_input_array)    #original reshaped input array
                 field_input_index_clustered_im1[(Not_Nan_index)] = field_input_index_clustered_reshaped_col[:,0]
@@ -145,7 +148,7 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
                 Sigma_ref_1cluster = Sigma_total_zone[0]
                 # Close the Pandas Excel writer and output the Excel file.
                 #excel_writer.save() moved higher up
-                writer.save()
+    writer.save()
     if n_samples > 1:
         Zone_percent = (np.divide(Sigma_total_zone, Sigma_total_zone[0])) * 100       # inter-zone variance
         
@@ -161,11 +164,37 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
         fig1.savefig('{}'.format(os.path.join(basepath, 'Performance_Graph_image_' + randomString + '.png')), bbox_inches = 'tight', pad_inches = 0.5) 
 
     #Performance Graph end
-    optimalClusters = 5
-    k_means = KMeans(n_clusters = optimalClusters)
-    k_means.fit(field_input_index_reshaped_col)
-    field_input_index_clustered_optimal = k_means.labels_
-    cluster_centers_sorted = k_means.cluster_centers_
+
+    #-----clustered image begin
+# Determine Optimal number of zones then cluster the field into optimal zones: 
+
+    for Zones_no_index in range(0, max(Zones_no)):# changed from n_clusters to max(Zones_no) for getting optimal zones for field 358987 which has only 2 clusters, otherwise it went out of index bound
+        if (Zones_no_index + 1) < max(Zones_no):
+            if (Zone_percent[Zones_no_index] - Zone_percent[Zones_no_index + 1]) < 10:    # optimal zones criteria
+                optimal_zones.append(Zones_no_index + 2)                                  # +2 coz index starts from 0 and zones from 1
+                optimal_zones_val = Zones_no_index + 2
+
+                # Cluster the field into optimal zones with fixed centroid:
+                k_means = KMeans(n_clusters = Zones_no_index + 2)
+                k_means.fit(field_input_index_reshaped_col)
+                cluster_centers2 = k_means.cluster_centers_
+                cluster_centers_sorted2 = np.sort(cluster_centers2, axis = 0) 
+
+                # Cluster the data again with the fixed cluster centers obtained 
+                k_means2 = KMeans(n_clusters = Zones_no_index + 2, init = cluster_centers_sorted2, n_init = 1, max_iter = 1)
+                k_means2.fit(field_input_index_reshaped_col)
+                field_input_index_clustered_optimal = k_means2.labels_
+
+                break
+        else:                                                    # If the above mentioned criteria doesn't exist at all, such as when there are only maximum 2 clusters  
+                # print('zone percent out of range, above criteria doesnt exist')
+                optimal_zones.append(1)
+                optimal_zones_val = 1
+                k_means = KMeans(n_clusters = 1)
+                k_means.fit(field_input_index_reshaped_col)
+                field_input_index_clustered_optimal = k_means.labels_
+                cluster_centers_sorted2 = k_means.cluster_centers_
+            
     field_input_index_clustered_optimal_col = field_input_index_clustered_optimal.reshape(-1,1) 
     field_input_index_clustered_im1_optimal = np.copy(outlier_rem_input_array)    #original reshaped input array
     field_input_index_clustered_im1_optimal[Not_Nan_index] = field_input_index_clustered_optimal_col[:,0]
@@ -174,47 +203,42 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     plot1 = plt.figure(2)
     cmap = plt.cm.RdYlGn
     cmap.set_bad(color = 'black')    # To set nan values color as 'black'
-    clustered_image_optimal = plt.imshow(field_input_index_clustered_optimal, cmap = plt.cm.RdYlGn, vmin = 1, vmax = optimalClusters- 1)                   
-    plt.title('Zones Delineation')         
+    clustered_image_optimal = plt.imshow(field_input_index_clustered_optimal, cmap = plt.cm.RdYlGn, vmin = 0, vmax = optimal_zones_val - 1)                   
+    plt.title('Zones Delineation for the Field')         
     # For Colorbar
-    ticks2 = np.linspace(0, optimalClusters - 1, optimalClusters) # to show the ticks same as number of optimal zones/clusters in colorbar
-    cbar = plt.colorbar(clustered_image_optimal, shrink = 0.9, ticks = ticks2, label = 'NDVI Value')
-    ticks_labels2 = cluster_centers_sorted     # tick labels as the cluster centers of the optimal clustered image
-    cbar.set_ticklabels([np.round(value, 3) for value in ticks_labels2]) # to label the colorbar with cluster centers of input index (ex. ndvi)
-    plt.axis('off')
+    ticks2 = np.linspace(0, optimal_zones_val - 1, optimal_zones_val)                 # to show the ticks same as number of optimal zones/clusters in colorbar
+    cbar = plt.colorbar(clustered_image_optimal, shrink = 0.65, ticks = ticks2, label = 'NDVI Value')
+    ticks_labels2 = cluster_centers_sorted2                                          # tick labels as the cluster centers of the optimal clustered image
+    cbar.set_ticklabels([np.round(value, 3) for value in ticks_labels2])             # to label the colorbar with cluster centers of input index (ex. ndvi)
+    plt.rcParams["axes.edgecolor"] = "black"
+    plt.rcParams["axes.linewidth"] = 1
+    plt.tick_params(top=False, bottom=False, left=False, right=False,
+    labelleft=False, labelbottom=False)
     #randomString = str(uuid.uuid4().hex)
     plot1.savefig('{}'.format(os.path.join(basepath, 'Optimal_clustered_image_' + randomString + '.png')), bbox_inches = 'tight', pad_inches = 0.5) 
     #plt.show()   
+    if (message == "Zoning may be useful"):   
+        optimal_excel = pandas.read_excel(excel_path, sheet_name = 'Zones_' + str(optimal_zones_val), index_col = 0)
+        # print(optimal_excel.describe())
+        cluster_id1 = optimal_excel['Zone']
+        n_samples_total = len(optimal_excel)                                   # number of pixels in the image 
+        UniqueClusters1 = optimal_excel.Zone.nunique()
+        small_zone_criteria = 10 * n_samples_total / 100                       # 10% of total number of samples/ pixels
+        #  print("Total no. of pixels: ", n_samples_total)
+        for zone_ind in range(0, optimal_zones_val):
+            zone_size = 0
+            for index3, pixel_row3 in optimal_excel.iterrows():
+                if optimal_excel.iloc[index3, 0] == zone_ind:        # to read n compare the cluster id (col 0) from excel sheet
+                    zone_size += 1
+#                     print("Zone size: ", zone_size)
+            if zone_size <= small_zone_criteria:
+                message = "Few zones either consist of boundary pixels or too small. Zoning into rest of the zones may be useful."
 
+    #-----clustered image end
 
 def main():
     outlier_removal2D(field_input_index1, array_size1, array_size2, win_size)
     outlier_rem_array_im = field_input_index1 #np.reshape(field_input_index1, (-1, 8))
-    '''for p in range(array_size1):
-        for q in range(array_size2):
-            if outlier_rem_array_im[p,q] != field_input_index_test[p,q]:
-                print(field_input_index_test[p,q])#for testing purposes
-    '''
-    bestN = 0
-    maxCoeff = -1
-    #outlier_rem_array_im = np.reshape(outlier_rem_array_im, (-1, 8))
-    for n_cluster in range(2, 10):
-        k_means = KMeans(n_clusters=n_cluster).fit(outlier_rem_array_im)
-        label = k_means.labels_
-        sil_coeff = silhouette_score(outlier_rem_array_im, label, metric='euclidean')
-        if(sil_coeff > maxCoeff):
-            maxCoeff = sil_coeff
-            bestN = n_cluster
-        #print("For n_clusters={}, The Silhouette Coefficient is {}".format(n_cluster, sil_coeff))#uncomment for testing
-    #print("clusters: ", bestN)
-    #ax = X_cluster.plot(figsize=(10, 10), alpha=0.5, edgecolor='k')
-    #plot1.savefig('Optimal_clustered_images/{}'.format('Optimal_clustered_image1' + '.png'), bbox_inches = 'tight', pad_inches = 0.5)
-
-    '''print(field_input_index_clustered_optimal)
-    outlier_rem_array_im = np.reshape(outlier_rem_array_im, (-1, 8))
-    plt.scatter(outlier_rem_array_im[:,0],outlier_rem_array_im[:,0], c = k_means.labels_,cmap='rainbow')
-    plt.show()
-    '''
     with open(os.path.join(basepath, 'Optimal_clustered_image_' + randomString + '.png'), "rb") as file:
         delineationImage = file.read()
     with open(os.path.join(basepath, 'Performance_Graph_image_' + randomString + '.png'), "rb") as file:
@@ -223,16 +247,19 @@ def main():
     performanceGraphImage = base64.b64encode(performanceGraphImage).decode('utf-8')
     #print("image",base64Image)
     outputDict = {
-    "mean": field_input_index1_mean,
-    "max": field_input_index1_max,
-    "min": field_input_index1_min,
-    "std": field_input_index1_std,
-    "clusters": bestN,
+    "mean": round(field_input_index1_mean,2),
+    "max": round(field_input_index1_max,2),
+    "min": round(field_input_index1_min,2),
+    "std": round(field_input_index1_std,2),
+    "clusters": optimal_zones_val,
     "message": message,
     "delineationImage" : delineationImage,
     "performanceGraphImage" : performanceGraphImage,
     "randomID": randomString
     }
+    os.remove("./tmp/Optimal_clustered_image_" + randomString + ".png")
+    os.remove("./tmp/Performance_Graph_image_" + randomString + ".png")
+    os.remove("./tmp/Cluster_info_" + randomString + ".xlsx")
     outputDictJSON = json.dumps(outputDict)
     print(outputDictJSON) #outputs the dictionary of results as json
     sys.stdout.flush() #for sending data back to node.js
