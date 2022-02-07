@@ -61,6 +61,7 @@ export class samz extends Component {
       XLSX.writeFile(workbook, "test.xlsx")
   
   };
+
   handleSubmit = (event) =>{
     console.log(event);
     console.log(event.target.file.files[0]);
@@ -94,7 +95,202 @@ export class samz extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <div class="container">
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <form
+              autocomplete="off"
+              name="lengthAndWidth"
+              onSubmit={this.handleSubmit}
+            >
+              <div>
+                <label htmlFor="contained-button-file">
+                  <Input
+                    type="file"
+                    required
+                    name="file"
+                    accept=".xlsx"
+                    id="contained-button-file"
+                  />
+                  <Button
+                    variant="contained"
+                    component="span"
+                    style={{
+                      fontFamily: "Quicksand",
+                      fontName: "sans-serif",
+                      backgroundColor: "#0F4C75",
+                      color: "#3282B8",
+                      textTransform: "none",
+                    }}
+                  >
+                    Select File
+                  </Button>
+                </label>
+              </div>
+              <div>
+                <TextField
+                  inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                  required
+                  name="length"
+                  label="Length"
+                  variant="filled"
+                  size="small"
+                  sx={{ bgcolor: "#e0e0e0" }}
+                  margin="dense"
+                />
+                <TextField
+                  inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                  required
+                  name="width"
+                  label="Width"
+                  variant="filled"
+                  size="small"
+                  sx={{ bgcolor: "#e0e0e0" }}
+                  margin="dense"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="contained-button">
+                  <Input type="submit" required id="contained-button" />
+                  <Button
+                    variant="contained"
+                    component="span"
+                    style={{
+                      fontFamily: "Quicksand",
+                      fontName: "sans-serif",
+                      backgroundColor: "#0F4C75",
+                      color: "#3282B8",
+                      textTransform: "none",
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </label>
+              </div>
+            </form>
+          </Grid>
+
+          <Grid item xs={8}>
+            <div className={styles.instructions}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Aenean
+              sed adipiscing diam donec adipiscing tristique. Viverra accumsan
+              in nisl nisi scelerisque eu ultrices. Porttitor rhoncus dolor
+              purus non enim. Neque egestas congue quisque egestas diam in.
+              Feugiat pretium nibh ipsum consequat nisl vel pretium lectus.
+              Tortor aliquam nulla facilisi cras fermentum. Sit amet massa vitae
+              tortor. Ipsum faucibus vitae aliquet nec ullamcorper sit amet. Non
+              arcu risus quis varius. Integer eget aliquet nibh praesent
+              tristique magna sit amet purus. Sodales ut eu sem integer vitae.
+              Ipsum suspendisse ultrices gravida dictum. Vel risus commodo
+              viverra maecenas accumsan lacus. Tellus molestie nunc non blandit.
+              Ut tellus elementum sagittis vitae et. Commodo ullamcorper a lacus
+              vestibulum. Cursus vitae congue mauris rhoncus. Sodales ut eu sem
+              integer. Arcu bibendum at varius vel pharetra. Integer eget
+              aliquet nibh praesent tristique magna sit amet purus. Mi sit amet
+              mauris commodo quis imperdiet massa. Dictum sit amet justo donec
+            </div>
+          </Grid>
+
+          <Grid item>
+            <List>
+              <Divider style={{ background: "#BBE1FA" }} />
+              <ListItem>
+                {this.state.resultsReceived && (
+                  <ListItemText
+                    primaryTypographyProps={{ style: ListText }}
+                    primary={"Mean: " + this.state.mean}
+                  />
+                )}
+              </ListItem>
+              <Divider style={{ background: "#BBE1FA" }} />
+              <ListItem>
+                {this.state.resultsReceived && (
+                  <ListItemText
+                    primaryTypographyProps={{ style: ListText }}
+                    primary={"Min: " + this.state.min}
+                  />
+                )}
+              </ListItem>
+              <Divider style={{ background: "#BBE1FA" }} />
+              <ListItem>
+                {this.state.resultsReceived && (
+                  <ListItemText
+                    primaryTypographyProps={{ style: ListText }}
+                    primary={"Max: " + this.state.max}
+                  />
+                )}
+              </ListItem>
+              <Divider style={{ background: "#BBE1FA" }} />
+              <ListItem>
+                {this.state.resultsReceived && (
+                  <ListItemText
+                    primaryTypographyProps={{ style: ListText }}
+                    primary={"STD: " + this.state.std}
+                  />
+                )}
+              </ListItem>
+              <Divider style={{ background: "#BBE1FA" }} />
+              <ListItem>
+                {this.state.resultsReceived && (
+                  <ListItemText
+                    primaryTypographyProps={{ style: ListText }}
+                    primary={"Optimal Zones: " + this.state.clusters}
+                  />
+                )}
+              </ListItem>
+              <Divider style={{ background: "#BBE1FA" }} />
+              <ListItem>
+                {this.state.resultsReceived && (
+                  <ListItemText
+                    primaryTypographyProps={{ style: ListText }}
+                    primary={"Input variation: " + this.state.message}
+                  />
+                )}
+              </ListItem>
+              <Divider style={{ background: "#BBE1FA" }} />
+              <ListItem>
+                {this.state.resultsReceived && (
+                  <ListItemText
+                    primaryTypographyProps={{ style: ListText }}
+                    primary={"Message: " + this.state.message}
+                  />
+                )}
+              </ListItem>
+              <Divider style={{ background: "#BBE1FA" }} />
+              <div className={styles.piechart}>NDVI Range and Mean</div>
+              <div>
+                <Donut pieData={this.state} />
+              </div>
+              <Divider style={{ background: "#BBE1FA" }} />
+            </List>
+          </Grid>
+
+          <Grid item>
+            <div>
+              {this.state.fetchInProgress ? (
+                <CircularProgress />
+              ) : (
+                <img
+                  src={`data:image/jpeg;base64,${this.state.delineationImage}`}
+                />
+              )}
+            </div>
+
+            <div>
+              {this.state.fetchInProgress ? (
+                <CircularProgress />
+              ) : (
+                <img
+                  src={`data:image/jpeg;base64,${this.state.performanceGraphImage}`}
+                  className={styles.performanceImg}
+                />
+              )}
+            </div>
+          </Grid>
+        </Grid>
+
+        {/* <div class="container">
           <div class="row">
             <div class="col-4">
 
@@ -181,7 +377,7 @@ export class samz extends Component {
               />}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }
