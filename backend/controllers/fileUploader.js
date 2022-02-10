@@ -7,14 +7,16 @@ var path;
 var filename;
 function uploadFile(request, response)
 {
+    console.log("the width is: "+request.body.width);
+    console.log(request.body.length);
     console.log(request.file.filename);
     path = request.file.path;
     fs.renameSync(path, path+".xlsx")
     const spawn = require("child_process").spawn;
-    const pythonScript = spawn('python', ['./process.py', path+".xlsx"]);
+    const pythonScript = spawn('python', ['./process.py', path+".xlsx", request.body.length, request.body.width]);
     pythonScript.stdout.on('data', function(data) {
         console.log(data.toString());
-        fs.unlink("./tmp/Optimal_clustered_image_" + JSON.parse(data).randomID + ".png", (err) => { //code to delete file from tmp
+        /*fs.unlink("./tmp/Optimal_clustered_image_" + JSON.parse(data).randomID + ".png", (err) => { //code to delete file from tmp
             if (err) {
               console.error(err)
               return
@@ -23,7 +25,7 @@ function uploadFile(request, response)
             if (err) {
                 console.error(err)
                 return
-            }})
+            }})*/
         fs.unlink(path+".xlsx", (err) => { //code to delete file from tmp
             if (err) {
                 console.error(err)
