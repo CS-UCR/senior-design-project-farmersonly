@@ -5,6 +5,7 @@ import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from
 //import { useCollectionData } from 'react-firebase-hooks/firestore'
 //import { signInWithEmailAndPassword } from 'firebase/auth' // added //
 import firebase from 'firebase/app'
+import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
   apiKey: "AIzaSyBYwE7zeVbWElrkzByoplpr1Tjy-UX3irg",
@@ -20,6 +21,8 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 export const provider = new GoogleAuthProvider();
+
+export const db = getFirestore();
  
 //export default app;  // added // 
 
