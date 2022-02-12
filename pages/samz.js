@@ -68,6 +68,26 @@ export class samz extends Component {
     this.state.resultsReceived = false;
     this.state.fetchInProgress = true,
     console.log("results received = " + this.state.resultsReceived);
+    var excelFile = event.target.file.files[0];
+    function getBase64(file, onLoadCallback) {
+      return new Promise(function(resolve, reject) {
+          var reader = new FileReader();
+          reader.onload = function() { resolve(reader.result); };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+      });
+  }
+  var promise = getBase64(excelFile);
+  async function saveResults() {
+    var promise = getBase64(excelFile);
+    var excelFileBase64 = await promise;
+    excelFileBase64 = excelFileBase64.replace("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,","")
+    //send excelFileBase64 to firestore here
+
+}
+saveResults();
+
+    getBase64(excelFile);
     data.append("file", event.target.file.files[0]);
     data.append("length", event.target.length.value);
     data.append("width", event.target.width.value);
@@ -94,12 +114,12 @@ export class samz extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <div class="container">
-          <div class="row">
-            <div class="col-4">
+        <div className="container">
+          <div className="row">
+            <div className="col-4">
 
               <div>
-                <form autocomplete="off" name="lengthAndWidth" onSubmit={this.handleSubmit}>
+                <form autoComplete="off" name="lengthAndWidth" onSubmit={this.handleSubmit}>
                   <TextField  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} required name="length" label="Length" variant="filled" size="small" sx={{bgcolor: '#e0e0e0'  }} margin="dense"/>
                   <TextField  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} required name="width" label="Width" variant="filled" size="small" sx={{bgcolor: '#e0e0e0' }} margin="dense"/>
                   <label htmlFor="contained-button-file">
@@ -119,8 +139,8 @@ export class samz extends Component {
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-4">
+          <div className="row">
+            <div className="col-4">
               <List>
                 <Divider style={{ background: "#BBE1FA" }} />
                 <ListItem>
@@ -173,10 +193,10 @@ export class samz extends Component {
               </List>
             </div>
 
-            <div class="col-3">
+            <div className="col-3">
             {this.state.fetchInProgress ? <CircularProgress/> : <img src={`data:image/jpeg;base64,${this.state.delineationImage}`}/>}
             </div>
-            <div class="col-5" >
+            <div className="col-5" >
               {this.state.fetchInProgress ? <CircularProgress/> : <img src={`data:image/jpeg;base64,${this.state.performanceGraphImage}`} className={styles.performanceImg}
               />}
             </div>

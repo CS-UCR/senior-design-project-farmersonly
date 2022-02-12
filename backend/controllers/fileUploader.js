@@ -1,4 +1,3 @@
-
 const multer = require('multer');
 const upload = multer();
 const fs = require('fs');
@@ -16,16 +15,6 @@ function uploadFile(request, response)
     const pythonScript = spawn('python', ['./process.py', path+".xlsx", request.body.length, request.body.width]);
     pythonScript.stdout.on('data', function(data) {
         console.log(data.toString());
-        /*fs.unlink("./tmp/Optimal_clustered_image_" + JSON.parse(data).randomID + ".png", (err) => { //code to delete file from tmp
-            if (err) {
-              console.error(err)
-              return
-            }})
-        fs.unlink("./tmp/Performance_Graph_image_" + JSON.parse(data).randomID + ".png", (err) => { //code to delete file from tmp
-            if (err) {
-                console.error(err)
-                return
-            }})*/
         fs.unlink(path+".xlsx", (err) => { //code to delete file from tmp
             if (err) {
                 console.error(err)
