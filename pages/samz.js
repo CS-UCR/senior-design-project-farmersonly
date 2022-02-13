@@ -16,7 +16,7 @@ import { Outbound } from "@mui/icons-material";
 //import { getOverlayDirection } from "react-bootstrap";
 
 //Firebase imports
-import { doc, setDoc, collection, getDoc, addDoc } from "firebase/firestore";
+import { doc, setDoc, collection, getDoc, addDoc, updateDoc } from "firebase/firestore";
 import { db, auth } from "../Firebase";
 
 const Input = styled("input")({
@@ -89,10 +89,18 @@ export class samz extends Component {
     
     //Code for uploading to Firestore
     var user = auth.currentUser;
-    
-    setDoc(doc(db,'userFields', user.uid), {
-      username: user.displayName,
-      excel: excelFileBase64
+
+    var path = "userFields/"+user.uid+"/excel_files";
+    const ref = doc(collection(db,path));
+
+    setDoc(doc(db, 'userFields', user.uid),{
+      displayName: user.displayName
+    });
+
+    setDoc(ref, {
+      excel: excelFileBase64,
+      timestamp: "temp",
+      name: "temp"
     });
 
 }
