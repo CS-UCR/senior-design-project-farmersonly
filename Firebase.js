@@ -1,10 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-//import 'firebase/firestore'
-//import { useAuthState } from 'react-firebase-hooks/auth'
-//import { useCollectionData } from 'react-firebase-hooks/firestore'
-//import { signInWithEmailAndPassword } from 'firebase/auth' // added //
-import firebase from 'firebase/app'
+import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
