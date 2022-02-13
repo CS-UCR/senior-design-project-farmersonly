@@ -26,6 +26,7 @@ field_input_index1_mean = 0
 field_input_index1_std = 0
 field_input_index1_max = 0
 field_input_index1_min = 0
+ndvi_range_value = 0
 message = ""
 
 plt.rcParams['axes.labelcolor'] = 'white'
@@ -47,7 +48,8 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     global field_input_index1_mean
     global field_input_index1_max
     global field_input_index1_min
-    global field_input_index1_std    
+    global field_input_index1_std
+    global ndvi_range_value
     global message    
     global Nan_index 
     global Not_Nan_index
@@ -59,7 +61,10 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     field_input_index1_mean = np.mean(field_input_index1[ind_nonan]) 
     field_input_index1_max = np.amax(field_input_index1[ind_nonan])
     field_input_index1_min = np.amin(field_input_index1[ind_nonan])
-    field_input_index1_std = np.std(field_input_index1[ind_nonan]) 
+    field_input_index1_std = np.std(field_input_index1[ind_nonan])
+    ndvi_range_value = np.amax(field_input_index1[ind_nonan]) - np.amin(field_input_index1[ind_nonan])
+
+
     #print("mean: ",field_input_index1_mean)
     #print("max: ",field_input_index1_max)
     #print("min: ",field_input_index1_min)
@@ -264,6 +269,7 @@ def main():
     "max": round(field_input_index1_max,2),
     "min": round(field_input_index1_min,2),
     "std": round(field_input_index1_std,2),
+    "ndvi_range": round(ndvi_range_value,2),
     "clusters": optimal_zones_val,
     "message": message,
     "delineationImage" : delineationImage,

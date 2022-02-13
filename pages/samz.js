@@ -41,6 +41,7 @@ export class samz extends Component {
       max: 0,
       min: 0,
       std: 0,
+      ndvi_range: 0,
       clusters: 0,
       message: "Waiting on file upload",
       delineationImage: "0",
@@ -83,6 +84,7 @@ export class samz extends Component {
         max: res.data.max,
         min: res.data.min,
         std: res.data.std,
+        ndvi_range: res.data.ndvi_range,
         clusters: res.data.clusters,
         message: res.data.message,
         delineationImage: res.data.delineationImage,
@@ -253,7 +255,7 @@ export class samz extends Component {
                 {this.state.resultsReceived && (
                   <ListItemText
                     primaryTypographyProps={{ style: ListText }}
-                    primary={"Input variation: " + this.state.message}
+                    primary={"Input variation: " + this.state.ndvi_range}
                   />
                 )}
               </ListItem>
