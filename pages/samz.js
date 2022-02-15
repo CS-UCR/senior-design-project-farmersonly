@@ -77,7 +77,6 @@ export class samz extends Component {
           reader.readAsDataURL(file);
       });
   }
-  var promise = getBase64(excelFile);
   async function saveResults() {
     var promise = getBase64(excelFile);
     var excelFileBase64 = await promise;
