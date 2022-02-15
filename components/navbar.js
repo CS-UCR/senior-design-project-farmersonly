@@ -60,6 +60,7 @@ export default function navbar(){
           {/* <NestedList /> */}
           <Nav.Link href="googleSignInButton">Sign In</Nav.Link>
           <Nav.Link href="signout">{currentUser ? currentUser.displayName : "Guest"}</Nav.Link>
+          <Nav.Link href="userFiles">{currentUser ? "Downloads" : ""}</Nav.Link>
       </Nav>
     </Navbar>
   );
