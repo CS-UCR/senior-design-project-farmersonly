@@ -65,9 +65,14 @@ export class samz extends Component {
       XLSX.writeFile(workbook, "test.xlsx")
   
   };
+
   handleSubmit = (event) =>{
     console.log(event);
     console.log(event.target.file.files[0]);
+
+    //File name for upload
+    var fileName = event.target.file.files[0].name;
+
     let data = new FormData();
     this.state.resultsReceived = false;
     this.state.fetchInProgress = true,
@@ -80,9 +85,9 @@ export class samz extends Component {
           reader.onerror = reject;
           reader.readAsDataURL(file);
       });
-  }
-  var promise = getBase64(excelFile);
-  async function saveResults() {
+    }
+    var promise = getBase64(excelFile);
+    async function saveResults() {
     var promise = getBase64(excelFile);
     var excelFileBase64 = await promise;
     excelFileBase64 = excelFileBase64.replace("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,","")
@@ -90,8 +95,20 @@ export class samz extends Component {
     //Code for uploading to Firestore
     var user = auth.currentUser;
 
+    //Creating path to user in userFields folder using UID
     var path = "userFields/"+user.uid+"/excel_files";
+
+    //Reference to a document in excel files subcollection
     const ref = doc(collection(db,path));
+
+    //For getting the date/time
+    var currentDate = new Date(); 
+    var dateTime = (currentDate.getMonth()+1) + "/"
+                + currentDate.getDate() + "/"
+                + currentDate.getFullYear() + " @ "  
+                + currentDate.getHours() + ":"    
+                + currentDate.getMinutes() + ":" 
+                + currentDate.getSeconds();
 
     setDoc(doc(db, 'userFields', user.uid),{
       displayName: user.displayName
@@ -99,8 +116,8 @@ export class samz extends Component {
 
     setDoc(ref, {
       excel: excelFileBase64,
-      timestamp: "temp",
-      name: "temp"
+      name: fileName,
+      timestamp: dateTime,
     });
 
 }
