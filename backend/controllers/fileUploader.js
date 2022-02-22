@@ -1,4 +1,3 @@
-
 const multer = require('multer');
 const upload = multer();
 const fs = require('fs');
@@ -13,25 +12,10 @@ function uploadFile(request, response)
     path = request.file.path;
     fs.renameSync(path, path+".xlsx")
     const spawn = require("child_process").spawn;
-    const pythonScript = spawn('python', ['./process.py', path+".xlsx", request.body.length, request.body.width]);
+    const pythonScript = spawn('python3', ['./process.py', path+".xlsx", request.body.length, request.body.width]);
+    var results = "";
     pythonScript.stdout.on('data', function(data) {
-        console.log(data.toString());
-        /*fs.unlink("./tmp/Optimal_clustered_image_" + JSON.parse(data).randomID + ".png", (err) => { //code to delete file from tmp
-            if (err) {
-              console.error(err)
-              return
-            }})
-        fs.unlink("./tmp/Performance_Graph_image_" + JSON.parse(data).randomID + ".png", (err) => { //code to delete file from tmp
-            if (err) {
-                console.error(err)
-                return
-            }})*/
-        fs.unlink(path+".xlsx", (err) => { //code to delete file from tmp
-            if (err) {
-                console.error(err)
-                return
-            }})
-        response.send(data);
+        results += data;
         return;
     });
     pythonScript.stderr.on('data', (data)=>
@@ -42,9 +26,14 @@ function uploadFile(request, response)
     pythonScript.on('close', (code)=>
     {
         console.error('exited with code:' + code.toString())
+        fs.unlink(path+".xlsx", (err) => { //code to delete file from tmp
+            if (err) {
+                console.error(err)
+                return
+            }})
+        reponse.send(results);
         return;
     })
-    //response.send(data);
 }
 module.exports = {
     uploadFile
