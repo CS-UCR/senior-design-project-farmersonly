@@ -12,7 +12,7 @@ function uploadFile(request, response)
     path = request.file.path;
     fs.renameSync(path, path+".xlsx")
     const spawn = require("child_process").spawn;
-    const pythonScript = spawn('python3', ['./process.py', path+".xlsx", request.body.length, request.body.width]);
+    const pythonScript = spawn('python', ['./process.py', path+".xlsx", request.body.length, request.body.width]);
     var results = "";
     pythonScript.stdout.on('data', function(data) {
         results += data;
@@ -31,7 +31,7 @@ function uploadFile(request, response)
                 console.error(err)
                 return
             }})
-        reponse.send(results);
+        response.send(results);
         return;
     })
 }
