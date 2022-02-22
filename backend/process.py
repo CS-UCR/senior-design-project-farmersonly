@@ -10,6 +10,7 @@ import json
 import uuid
 import base64
 import os
+
 basepath = os.path.abspath('tmp')
 arg1 = sys.argv[1]
 length = int(sys.argv[2])
@@ -25,7 +26,16 @@ field_input_index1_mean = 0
 field_input_index1_std = 0
 field_input_index1_max = 0
 field_input_index1_min = 0
+ndvi_range_value = 0
 message = ""
+
+plt.rcParams['axes.labelcolor'] = 'white'
+plt.rcParams['text.color'] = 'white'
+plt.rcParams['axes.labelcolor'] = 'white'
+plt.rcParams['xtick.color'] = 'white'
+plt.rcParams['ytick.color'] = 'white'
+plt.rcParams['axes.facecolor'] = '#1B262C'
+#plt.rcParams['spines.set_color'] = 'white'
 
 def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     # To check the input index data if it has some out of possible range value
@@ -38,7 +48,8 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     global field_input_index1_mean
     global field_input_index1_max
     global field_input_index1_min
-    global field_input_index1_std    
+    global field_input_index1_std
+    global ndvi_range_value
     global message    
     global Nan_index 
     global Not_Nan_index
@@ -50,7 +61,10 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     field_input_index1_mean = np.mean(field_input_index1[ind_nonan]) 
     field_input_index1_max = np.amax(field_input_index1[ind_nonan])
     field_input_index1_min = np.amin(field_input_index1[ind_nonan])
-    field_input_index1_std = np.std(field_input_index1[ind_nonan]) 
+    field_input_index1_std = np.std(field_input_index1[ind_nonan])
+    ndvi_range_value = np.amax(field_input_index1[ind_nonan]) - np.amin(field_input_index1[ind_nonan])
+
+
     #print("mean: ",field_input_index1_mean)
     #print("max: ",field_input_index1_max)
     #print("min: ",field_input_index1_min)
@@ -154,6 +168,9 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
         
         # Display performance graph
         fig1 = plt.figure()
+        fig1.patch.set_facecolor('#1B262C')
+        
+        fig1.patch.set_facecolor('#1B262C')
         plt.plot(Zones_no, Zone_percent)
         plt.xticks(np.arange(min(Zones_no), max(Zones_no) + 1, 1.0))
         plt.xlabel('Number of Zones')
@@ -201,10 +218,11 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     field_input_index_clustered_im1_optimal[Nan_index] = np.nan 
     field_input_index_clustered_optimal = field_input_index_clustered_im1_optimal.reshape(field_input_index1.shape)
     plot1 = plt.figure(2)
+    plot1.patch.set_facecolor('#1B262C')
     cmap = plt.cm.RdYlGn
     cmap.set_bad(color = 'black')    # To set nan values color as 'black'
     clustered_image_optimal = plt.imshow(field_input_index_clustered_optimal, cmap = plt.cm.RdYlGn, vmin = 0, vmax = optimal_zones_val - 1)                   
-    plt.title('Zones Delineation for the Field')         
+    plt.title('Zones Delineation')
     # For Colorbar
     ticks2 = np.linspace(0, optimal_zones_val - 1, optimal_zones_val)                 # to show the ticks same as number of optimal zones/clusters in colorbar
     cbar = plt.colorbar(clustered_image_optimal, shrink = 0.65, ticks = ticks2, label = 'NDVI Value')
@@ -251,6 +269,7 @@ def main():
     "max": round(field_input_index1_max,2),
     "min": round(field_input_index1_min,2),
     "std": round(field_input_index1_std,2),
+    "ndvi_range": round(ndvi_range_value,2),
     "clusters": optimal_zones_val,
     "message": message,
     "delineationImage" : delineationImage,
