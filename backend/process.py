@@ -178,7 +178,7 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
         plt.title('Performance Graph')
         #plt.show()
         #fig1.savefig('Performance_graphs_socal_apr272018_final/{}'.format('Performance_graph_'+ '.png'), bbox_inches = 'tight', pad_inches = 0.5)
-        fig1.savefig('{}'.format(os.path.join(basepath, 'Performance_Graph_image_' + randomString + '.png')), bbox_inches = 'tight', pad_inches = 0.5) 
+        fig1.savefig('{}'.format(os.path.join(basepath, 'Performance_Graph_image_' + randomString + '.png')), transparent=True, bbox_inches = 'tight', pad_inches = 0.5) 
 
     #Performance Graph end
 
@@ -227,13 +227,13 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     ticks2 = np.linspace(0, optimal_zones_val - 1, optimal_zones_val)                 # to show the ticks same as number of optimal zones/clusters in colorbar
     cbar = plt.colorbar(clustered_image_optimal, shrink = 0.65, ticks = ticks2, label = 'NDVI Value')
     ticks_labels2 = cluster_centers_sorted2                                          # tick labels as the cluster centers of the optimal clustered image
-    cbar.set_ticklabels([np.round(value, 3) for value in ticks_labels2])             # to label the colorbar with cluster centers of input index (ex. ndvi)
+    cbar.set_ticklabels([np.round(value, 2) for value in ticks_labels2])             # to label the colorbar with cluster centers of input index (ex. ndvi)
     plt.rcParams["axes.edgecolor"] = "black"
     plt.rcParams["axes.linewidth"] = 1
     plt.tick_params(top=False, bottom=False, left=False, right=False,
     labelleft=False, labelbottom=False)
     #randomString = str(uuid.uuid4().hex)
-    plot1.savefig('{}'.format(os.path.join(basepath, 'Optimal_clustered_image_' + randomString + '.png')), bbox_inches = 'tight', pad_inches = 0.5) 
+    plot1.savefig('{}'.format(os.path.join(basepath, 'Optimal_clustered_image_' + randomString + '.png')), transparent=True, bbox_inches = 'tight', pad_inches = 0.5) 
     #plt.show()   
     if (message == "Zoning may be useful"):   
         optimal_excel = pandas.read_excel(excel_path, sheet_name = 'Zones_' + str(optimal_zones_val), index_col = 0)

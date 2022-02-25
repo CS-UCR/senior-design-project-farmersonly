@@ -90,6 +90,27 @@ export default function about() {
                 </CardContent>
               </Card>
             </Grid>
+            <Grid item>
+              <Card
+                variant="outlined"
+                sx={{ minWidth: 275 }}
+                style={{
+                  backgroundColor: "#0F4C75",
+                  color: "#BBE1FA",
+                  textAlign: "center",
+                }}
+              >
+                <CardContent>
+                  <Typography>Amir Haghverdi</Typography>
+                  <Typography sx={{ fontSize: 13 }}>
+                  Associate CE Professor of Water Management
+                  </Typography>
+                  <Link href="https://www.linkedin.com/in/amirhaghverdi/">
+                    <LinkedInIcon />
+                  </Link>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
         </div>
 

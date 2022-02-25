@@ -3,7 +3,7 @@
     display: inline-block;
     width: 100%;
     background-color: #1B262C;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .button{
