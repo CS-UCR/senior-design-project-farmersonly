@@ -1,6 +1,7 @@
 .navbar{
-    width: 100%;
+    min-width: 100vh;
     height: 100px;
+    overflow: auto;
 }
 
 .nav{
@@ -9,6 +10,7 @@
     flex-flow: row;
     padding-left: 1ex;
     font-family: 'Quicksand', sans-serif;
+    overflow: auto;
 }
 
 .container {

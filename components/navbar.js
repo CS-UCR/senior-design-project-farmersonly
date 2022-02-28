@@ -22,7 +22,7 @@ export default function navbar(){
     });
 
   return (
-    <Navbar variant="dark" className={styles.nav}>
+    <Navbar sticky="top" variant="dark" className={styles.nav}>
       <Navbar.Brand>UCR Water</Navbar.Brand>
 
       <Nav className="me-auto">
