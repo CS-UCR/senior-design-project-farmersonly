@@ -4,6 +4,10 @@ import { provider, auth } from "../Firebase"
 import { signInWithPopup, signOut } from 'firebase/auth'
 import useRouter from 'next/router'
 
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Logout from '@mui/icons-material/Logout';
+
 function logout(){
     const SignOut = () => {
         signOut(auth)

@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState, createContext } from 'react'
 import { auth } from '../../Firebase'
-import { onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged, onIdTokenChanged } from 'firebase/auth'
 
 export const AuthContext = createContext(null);
 
 export const getUser = () => {
     return useContext(AuthContext);
-};
+}; 
 
 export const AuthProvider = ({ children }) => {
 
@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
         onAuthStateChanged(auth, setCurrentUser);
     }, []); */
 
-    useEffect(() => {
+/*     useEffect(() => {
         return onAuthStateChanged(auth, (currentUser) => {
           if (!currentUser) {
             setCurrentUser(null);
@@ -27,7 +27,20 @@ export const AuthProvider = ({ children }) => {
             console.log(currentUser.uid);
           }
         });
-      }, []);
+      }, []); */
+
+    useEffect(() => {
+        return onIdTokenChanged(auth, async (currentUser) => {
+          if (!currentUser) {
+            setCurrentUser(null);
+            console.log("null");
+          } 
+          else {
+            setCurrentUser(currentUser);
+            console.log(currentUser.uid);
+          }
+        });
+    }, []);
 
 
     const value = {
