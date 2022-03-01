@@ -322,7 +322,7 @@ saveResults();
             <Typography gutterBottom align="center"> Your data can be flattened to a single column or be fully expanded. However, if it is flattened please specify the dimensions of the orignal data. Length is the number of rows in the excel file and width is the number of columns. Please use NDVI as the header of your file.</Typography>
             <Divider variant="middle"/>
             <Typography variant="h6" align="center"> Can I get an example of what my data should look like?</Typography>
-            <Typography gutterBottom align="center"> Sure! Please click the button below to download an example. The sample data has two sheets. The first sheet is flattened dataset and the second sheet is an expanded dataset. </Typography>
+            <Typography gutterBottom align="center"> Sure! Please click the button below to download an example. The sample data has two sheets. The first sheet is a flattened dataset and the second sheet is an expanded dataset. </Typography>
           </DialogContentText>
           <DialogActions>
           <Button onClick={this.downloadSampleDate}>Sample Data</Button>
