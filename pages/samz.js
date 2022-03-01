@@ -28,6 +28,10 @@ import { width } from "@mui/system";
 import { Typography } from "@mui/material";
 //import { getOverlayDirection } from "react-bootstrap";
 
+//Firebase imports
+import { doc, setDoc, collection, getDoc, addDoc, updateDoc } from "firebase/firestore";
+import { db, auth } from "../Firebase";
+
 const Input = styled("input")({
   display: "none",
 });
@@ -148,6 +152,10 @@ export class samz extends Component {
     this.setState({
         fetchInProgress: true
     });
+
+    //File name for upload
+    var fileName = event.target.file.files[0].name;
+
     let data = new FormData();
     console.log("results received = " + this.state.resultsReceived);
     var excelFile = event.target.file.files[0];
@@ -160,12 +168,40 @@ export class samz extends Component {
           reader.onerror = reject;
           reader.readAsDataURL(file);
       });
-  }
-  async function saveResults() {
+    }
+    var promise = getBase64(excelFile);
+    async function saveResults() {
     var promise = getBase64(excelFile);
     var excelFileBase64 = await promise;
     excelFileBase64 = excelFileBase64.replace("data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,","")
-    //send excelFileBase64 to firestore here
+    
+    //Code for uploading to Firestore
+    var user = auth.currentUser;
+
+    //Creating path to user in userFields folder using UID
+    var path = "userFields/"+user.uid+"/excel_files";
+
+    //Reference to a document in excel files subcollection
+    const ref = doc(collection(db,path));
+
+    //For getting the date/time
+    var currentDate = new Date(); 
+    var dateTime = (currentDate.getMonth()+1) + "/"
+                + currentDate.getDate() + "/"
+                + currentDate.getFullYear() + " @ "  
+                + currentDate.getHours() + ":"    
+                + currentDate.getMinutes() + ":" 
+                + currentDate.getSeconds();
+
+    setDoc(doc(db, 'userFields', user.uid),{
+      displayName: user.displayName
+    });
+
+    setDoc(ref, {
+      excel: excelFileBase64,
+      name: fileName,
+      timestamp: dateTime,
+    });
 
 }
 saveResults();
