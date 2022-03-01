@@ -6,7 +6,6 @@ function googleSignIn(){
     const signInWithGoogle = () => {
         signInWithPopup(auth, provider)
         .then((result)=>{
-            localStorage.setItem("isAuth", true);
             console.log(result);
             window.location.href = "/landing";
         })

@@ -2,6 +2,12 @@ import React from "react";
 import { db, auth } from "../Firebase";
 import { doc, collection, getDocs, query } from "firebase/firestore";
 import XLSX from "xlsx";
+import { Checkbox, List } from "@mui/material";
+import { ListItem } from "@mui/material";
+import { ListItemIcon } from "@mui/material";
+import { ListItemText } from "@mui/material";
+
+let excelFiles = [];
 
 export default function userFiles() {
     const userDocs = () => { 
@@ -11,16 +17,15 @@ export default function userFiles() {
 
         getDocs(ref)
             .then((snapshot) => {
-                let excelFiles = [];
                 snapshot.docs.forEach((doc) =>{
                     excelFiles.push({...doc.data(), id: doc.id })
                 });
                 for(var i = 0; i < excelFiles.length; i++){
-                    //console.log("File ",i,": \n");
-                    //console.log("Name: ",excelFiles[i].name);
-                    //console.log("Base64 String: ",excelFiles[i].excel);
-                    //console.log("Time Stamp: ",excelFiles[i].timestamp);
-                    //console.log("ID: ",excelFiles[i].id);
+                    console.log("File ",i,": \n");
+                    console.log("Name: ",excelFiles[i].name);
+                    console.log("Base64 String: ",excelFiles[i].excel);
+                    console.log("Time Stamp: ",excelFiles[i].timestamp);
+                    console.log("ID: ",excelFiles[i].id);
                     var temp = excelFiles[i].excel;
                     var workbook = XLSX.read(
                         temp, {type: 'base64', WTF: false}
@@ -35,7 +40,6 @@ export default function userFiles() {
     }
     return (
         <div className="Temp">
-            <button onClick={userDocs}>Test Button</button>
         </div>
     )
 }
