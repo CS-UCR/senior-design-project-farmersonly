@@ -11,10 +11,18 @@ import uuid
 import base64
 import os
 
+from geoprocessing import getmap
+
 basepath = os.path.abspath('tmp')
 arg1 = sys.argv[1]
 length = int(sys.argv[2])
 width = int(sys.argv[3])
+
+longitude = float(sys.argv[4])
+latitude = float(sys.argv[5])
+zoom = 17
+pixelHeight = 30
+
 field_input_index1 = pandas.read_excel(arg1).to_numpy()
 field_input_index_test = pandas.read_excel(arg1).to_numpy()
 array_size1 = (np.shape(field_input_index1))[0] #number of rows
@@ -36,6 +44,7 @@ plt.rcParams['xtick.color'] = 'white'
 plt.rcParams['ytick.color'] = 'white'
 plt.rcParams['axes.facecolor'] = '#1B262C'
 #plt.rcParams['spines.set_color'] = 'white'
+
 
 def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     # To check the input index data if it has some out of possible range value
@@ -254,7 +263,11 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
 
     #-----clustered image end
 
+    # getmap(longitude, latitude, length, width, zoom, pixelHeight)
+
 def main():
+    getmap(latitude, longitude, length, width, zoom, pixelHeight)
+
     outlier_removal2D(field_input_index1, array_size1, array_size2, win_size)
     outlier_rem_array_im = field_input_index1 #np.reshape(field_input_index1, (-1, 8))
     with open(os.path.join(basepath, 'Optimal_clustered_image_' + randomString + '.png'), "rb") as file:
