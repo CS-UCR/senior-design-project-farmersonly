@@ -371,6 +371,14 @@ saveResults();
           <Grid item xs={3}>
             <List>
               <Divider style={{ background: "#BBE1FA" }} />
+              <div className={styles.piechart}>NDVI Range and Mean
+              </div>
+              <ListItem>
+              <div style={{marginLeft:-60}}>
+                <Donut pieData={this.state} />
+              </div>
+              </ListItem>
+              <Divider style={{ background: "#BBE1FA" }} />
               <ListItem>
                 {this.state.resultsReceived && (
                   <ListItemText
@@ -433,11 +441,6 @@ saveResults();
                   />
                 )}
               </ListItem>
-              <Divider style={{ background: "#BBE1FA" }} />
-              <div className={styles.piechart}>NDVI Range and Mean</div>
-              <div>
-                <Donut pieData={this.state} />
-              </div>
               <Divider style={{ background: "#BBE1FA" }} />
             </List>
           </Grid>
