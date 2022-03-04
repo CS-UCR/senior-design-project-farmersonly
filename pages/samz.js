@@ -24,6 +24,7 @@ import styles from "../styles/samz.module.css";
 import { Outbound } from "@mui/icons-material";
 import default_performance_graph from '../public/default_performance_graph.jpg';
 import default_clustered_image from '../public/default_clustered_image.jpg';
+import default_georeferenced_image from '../public/default_georeferenced_image.jpg';
 import { width } from "@mui/system";
 import { Typography } from "@mui/material";
 //import { getOverlayDirection } from "react-bootstrap";
@@ -48,6 +49,7 @@ const ListText = {
   fontName: "sans-serif",
   color: "#BBE1FA",
 };
+
 export class samz extends Component {
   constructor(props) {
     super(props);
@@ -65,14 +67,19 @@ export class samz extends Component {
       message: "Waiting on file upload",
       delineationImage: "0",
       performanceGraphImage: "0",
+      georeferencedImage: "0",
       filename: 0,
       file: 0,
       length: 0,
-      width: 0
+      width: 0,
+      longitude: 0,
+      latitude: 0
     };
     this.changeHandler = this.changeHandler.bind(this);
     this.onLengthChange = this.onLengthChange.bind(this);
     this.onWidthChange = this.onWidthChange.bind(this);
+    this.onLatitudeChange = this.onLatitudeChange.bind(this);
+    this.onLongitudeChange = this.onLongitudeChange.bind(this);
   }
   handleClickOpen = () => {
     this.setState({
@@ -130,7 +137,7 @@ export class samz extends Component {
           filename: eventName,
           file: eventFile,
           length: lengthOfFile,
-          width: widthOfFile
+          width: widthOfFile,
         },() => {
           console.log("updated length: ", scope.state.length);
       });
@@ -147,6 +154,18 @@ export class samz extends Component {
       [event.target.name]: event.target.value
     });
   }
+
+  onLatitudeChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
+  onLongitudeChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
+
   handleSubmit = (event) => {
     console.log(event);
     console.log(event.target.file.files[0]);
@@ -212,6 +231,8 @@ saveResults();
     data.append("file", event.target.file.files[0]);
     data.append("length", event.target.length.value);
     data.append("width", event.target.width.value);
+    data.append("longitude", event.target.longitude.value);
+    data.append("latitude", event.target.latitude.value);
     console.log("in upload");
     console.log(data);
     axios.post("http://localhost:5000/samz/post", data, config).then((res) => {
@@ -228,6 +249,7 @@ saveResults();
         message: res.data.message,
         delineationImage: res.data.delineationImage,
         performanceGraphImage: res.data.performanceGraphImage,
+        georeferencedImage: res.data.georeferencedImage
       });
     });
     event.target.reset();
@@ -274,7 +296,24 @@ saveResults();
                 <div className={styles.fileselectname}>File: {this.state.filename ? (this.state.filename):(<CircularProgress/>)}</div>
               </div>
               <div className={styles.dimensionsInput}>
+
                 <div className={styles.dimensionsLength}>
+                  <TextField
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    required
+                    name="width"
+                    label="Width"
+                    variant="filled"
+                    size="small"
+                    sx={{ bgcolor: "#e0e0e0" }}
+                    margin="dense"
+                    style={{ width: 180 }}
+                    value={this.state.width ? this.state.width : ""}
+                    onChange = {this.onWidthChange}
+                  />
+                </div>
+
+                <div className={styles.dimensionsWidth}>
                   <TextField
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     required
@@ -290,19 +329,40 @@ saveResults();
                     onChange = {this.onLengthChange}
                   />
                 </div>
-                <div className={styles.dimensionsWidth}>
+              </div>
+
+              <div className={styles.dimensionsInput}>
+                <div className={styles.dimensionsLength}>
                   <TextField
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     required
-                    name="width"
-                    label="Width"
+                    name="latitude"
+                    label="Latitude"
                     variant="filled"
                     size="small"
                     sx={{ bgcolor: "#e0e0e0" }}
                     margin="dense"
                     style={{ width: 180 }}
-                    value={this.state.width ? this.state.width : ""}
-                    onChange = {this.onWidthChange}
+                    inputProps={{ readOnly: false }}
+                    value={this.state.latitude ? this.state.latitude : ""}
+                    onChange = {this.onLatitudeChange}
+                  />
+                </div>
+                <div className={styles.dimensionsWidth}>
+                  <TextField
+                    // inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    inputProps={{ inputMode: "numeric" }}
+
+                    required
+                    name="longitude"
+                    label="Longitude"
+                    variant="filled"
+                    size="small"
+                    sx={{ bgcolor: "#e0e0e0" }}
+                    margin="dense"
+                    style={{ width: 180 }}
+                    value={this.state.longitude ? this.state.longitude : ""}
+                    onChange = {this.onLongitudeChange}
                   />
                 </div>
               </div>
@@ -470,6 +530,23 @@ saveResults();
                 ) : (
                   <img
                     src={`data:image/jpeg;base64,${this.state.performanceGraphImage}`}
+                    className={styles.performanceImg}
+                  />
+                )}
+              </div>
+            </div>
+          </Grid>
+          <Grid item xs={9}>
+            <div className={styles.imagestats}>
+            <div>
+                {this.state.noResults ? (
+                  <img
+                  src={default_georeferenced_image.src}
+                  className={styles.performanceImg}
+                />
+                ) : (
+                  <img
+                    src={`data:image/jpeg;base64,${this.state.georeferencedImage}`}
                     className={styles.performanceImg}
                   />
                 )}
