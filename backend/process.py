@@ -23,8 +23,11 @@ basepath = os.path.abspath('tmp')
 arg1 = sys.argv[1]
 length = int(sys.argv[2])
 width = int(sys.argv[3])
-longitude = float(sys.argv[4])
-latitude = float(sys.argv[5])
+longitude = None
+latitude = None
+if(sys.argv[4] and sys.argv[5]):
+    longitude = float(sys.argv[4])
+    latitude = float(sys.argv[5])
 zoom = 17
 pixelSize = 30
 global randomString
@@ -269,18 +272,20 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
 
     #-----clustered image end
 #gdal.AllRegister();
-getmap(latitude, longitude, length, width, zoom, pixelSize, randomString) #produces the image from google maps
-field_input_index = gdal.Open('./tmp/googleMaps_satellite_image_' + randomString + ".png",gdal.GA_ReadOnly)
-#field_input_index2 = field_input_index.ReadAsArray()
-gt = field_input_index.GetGeoTransform()
-xOrigin = gt[0]
-yOrigin = gt[3]
-pixelWidth = gt[1]
-pixelHeight = gt[5]
-imageWidth = field_input_index.RasterXSize 
-imageHeight = field_input_index.RasterYSize
-gdal_obj = field_input_index
-wkt = gdal_obj.GetProjection()
+global wkt
+if(latitude and longitude):
+    getmap(latitude, longitude, length, width, zoom, pixelSize, randomString) #produces the image from google maps
+    field_input_index = gdal.Open('./tmp/googleMaps_satellite_image_' + randomString + ".png",gdal.GA_ReadOnly)
+    #field_input_index2 = field_input_index.ReadAsArray()
+    gt = field_input_index.GetGeoTransform()
+    xOrigin = gt[0]
+    yOrigin = gt[3]
+    pixelWidth = gt[1]
+    pixelHeight = gt[5]
+    imageWidth = field_input_index.RasterXSize 
+    imageHeight = field_input_index.RasterYSize
+    gdal_obj = field_input_index
+    wkt = gdal_obj.GetProjection()
 def array2raster(newRasterfn, xOrigin, yOrigin, pixelWidth, pixelHeight, array):
     cols = array.shape[1]
     rows = array.shape[0]
@@ -312,69 +317,85 @@ def main():
     delineationImage = base64.b64encode(delineationImage).decode('utf-8')
     performanceGraphImage = base64.b64encode(performanceGraphImage).decode('utf-8')
     #print("image",base64Image)
-    newRasterfn = "./tmp/geoTif_" + randomString + ".tif"  #ouput geoTif that gets converted to png below with gda.Translate
-    array2raster(newRasterfn, xOrigin, yOrigin, pixelWidth, pixelHeight, field_input_index_clustered_optimal)
-    options_list = [
-    '-ot Byte',
-    '-of PNG',
-    '-b 1',
-    '-outsize ' + str(imageWidth) + ' ' + str(imageHeight),
-    '-scale'
-    ]           
-    options_string = " ".join(options_list)
-    gdal.Translate(
-    './tmp/Georeference_image_' + randomString + ".png",
-    "./tmp/geoTif_" + randomString + ".tif",
-    options=options_string
-    )
+    if(latitude and longitude):
+        newRasterfn = "./tmp/geoTif_" + randomString + ".tif"  #ouput geoTif that gets converted to png below with gda.Translate
+        array2raster(newRasterfn, xOrigin, yOrigin, pixelWidth, pixelHeight, field_input_index_clustered_optimal)
+        options_list = [
+        '-ot Byte',
+        '-of PNG',
+        '-b 1',
+        '-outsize ' + str(imageWidth) + ' ' + str(imageHeight),
+        '-scale'
+        ]           
+        options_string = " ".join(options_list)
+        gdal.Translate(
+        './tmp/Georeference_image_' + randomString + ".png",
+        "./tmp/geoTif_" + randomString + ".tif",
+        options=options_string
+        )
 
-    cm_hot = mpl.cm.get_cmap('rainbow')
-    img_src = Image.open('./tmp/Georeference_image_' + randomString + ".png").convert('L')
-    im = np.array(img_src)
-    im = cm_hot(im)
-    im = np.uint8(im * 255)
-    im = Image.fromarray(im)
-    im.save('./tmp/Georeference_image_colormap_' + randomString + '.png')
-    img1 = Image.open(r'./tmp/googleMaps_satellite_image_' + randomString + ".png") #image from google maps api to use as background
-    #img2 = Image.open(r"./tmp/field_12_georeference.png")
-    img2 = Image.open(r'./tmp/Georeference_image_colormap_' + randomString + '.png')
-    #img2.show()
-    #img1.paste(img2, (0,0), mask = img2)
-    # Displaying the image
-    #img1.show()
-    img1Converted = img1.convert('RGB')
-    img2Converted = img2.convert('RGB')
-    blended = Image.blend(img1Converted, img2Converted, alpha=.2)
-    blended.save('./tmp/Georeference_image_overlay_' + randomString + '.png')
-    with open(os.path.join(basepath, 'Georeference_image_overlay_' + randomString + '.png'), "rb") as file:
-        georeferencedImage = file.read()    
-    georeferencedImage = base64.b64encode(georeferencedImage).decode('utf-8')
-    img1.close()
-    img2.close()
-    img_src.close()
-    #blended.show()
-    outputDict = {
-    "mean": round(field_input_index1_mean,2),
-    "max": round(field_input_index1_max,2),
-    "min": round(field_input_index1_min,2),
-    "std": round(field_input_index1_std,2),
-    "ndvi_range": round(ndvi_range_value,2),
-    "clusters": optimal_zones_val,
-    "message": message,
-    "delineationImage" : delineationImage,
-    "performanceGraphImage" : performanceGraphImage,
-    "georeferencedImage" : georeferencedImage,
-    "randomID": randomString
-    }
+        cm_hot = mpl.cm.get_cmap('rainbow')
+        img_src = Image.open('./tmp/Georeference_image_' + randomString + ".png").convert('L')
+        im = np.array(img_src)
+        im = cm_hot(im)
+        im = np.uint8(im * 255)
+        im = Image.fromarray(im)
+        im.save('./tmp/Georeference_image_colormap_' + randomString + '.png')
+        img1 = Image.open(r'./tmp/googleMaps_satellite_image_' + randomString + ".png") #image from google maps api to use as background
+        #img2 = Image.open(r"./tmp/field_12_georeference.png")
+        img2 = Image.open(r'./tmp/Georeference_image_colormap_' + randomString + '.png')
+        #img2.show()
+        #img1.paste(img2, (0,0), mask = img2)
+        # Displaying the image
+        #img1.show()
+        img1Converted = img1.convert('RGB')
+        img2Converted = img2.convert('RGB')
+        blended = Image.blend(img1Converted, img2Converted, alpha=.2)
+        blended.save('./tmp/Georeference_image_overlay_' + randomString + '.png')
+        with open(os.path.join(basepath, 'Georeference_image_overlay_' + randomString + '.png'), "rb") as file:
+            georeferencedImage = file.read()    
+        georeferencedImage = base64.b64encode(georeferencedImage).decode('utf-8')
+        img1.close()
+        img2.close()
+        img_src.close()
+        #blended.show()
+    if(latitude and longitude):
+        outputDict = {
+        "mean": round(field_input_index1_mean,2),
+        "max": round(field_input_index1_max,2),
+        "min": round(field_input_index1_min,2),
+        "std": round(field_input_index1_std,2),
+        "ndvi_range": round(ndvi_range_value,2),
+        "clusters": optimal_zones_val,
+        "message": message,
+        "delineationImage" : delineationImage,
+        "performanceGraphImage" : performanceGraphImage,
+        "georeferencedImage" : georeferencedImage,
+        "randomID": randomString
+        }
+    else:
+        outputDict = {
+        "mean": round(field_input_index1_mean,2),
+        "max": round(field_input_index1_max,2),
+        "min": round(field_input_index1_min,2),
+        "std": round(field_input_index1_std,2),
+        "ndvi_range": round(ndvi_range_value,2),
+        "clusters": optimal_zones_val,
+        "message": message,
+        "delineationImage" : delineationImage,
+        "performanceGraphImage" : performanceGraphImage,
+        "randomID": randomString
+        } 
     os.remove("./tmp/Optimal_clustered_image_" + randomString + ".png")
     os.remove("./tmp/Performance_Graph_image_" + randomString + ".png")
     os.remove("./tmp/Cluster_info_" + randomString + ".xlsx")
-    os.remove('./tmp/Georeference_image_' + randomString + ".png")
-    os.remove('./tmp/Georeference_image_' + randomString + ".png.aux.xml")
-    os.remove('./tmp/Georeference_image_colormap_' + randomString + '.png')
-    #os.remove('./tmp/googleMaps_satellite_image_' + randomString + ".png")
-    os.remove("./tmp/geoTif_" + randomString + ".tif")
-    os.remove('./tmp/Georeference_image_overlay_' + randomString + '.png')
+    if(longitude and latitude):
+        os.remove('./tmp/Georeference_image_' + randomString + ".png")
+        os.remove('./tmp/Georeference_image_' + randomString + ".png.aux.xml")
+        os.remove('./tmp/Georeference_image_colormap_' + randomString + '.png')
+        #os.remove('./tmp/googleMaps_satellite_image_' + randomString + ".png")
+        os.remove("./tmp/geoTif_" + randomString + ".tif")
+        os.remove('./tmp/Georeference_image_overlay_' + randomString + '.png')
     outputDictJSON = json.dumps(outputDict)
     print(outputDictJSON) #outputs the dictionary of results as json
     sys.stdout.flush() #for sending data back to node.js

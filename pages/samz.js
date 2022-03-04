@@ -72,8 +72,8 @@ export class samz extends Component {
       file: 0,
       length: 0,
       width: 0,
-      longitude: 0,
-      latitude: 0
+      longitude: null,
+      latitude: null
     };
     this.changeHandler = this.changeHandler.bind(this);
     this.onLengthChange = this.onLengthChange.bind(this);
@@ -335,7 +335,6 @@ saveResults();
                 <div className={styles.dimensionsLength}>
                   <TextField
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                    required
                     name="latitude"
                     label="Latitude"
                     variant="filled"
@@ -352,8 +351,6 @@ saveResults();
                   <TextField
                     // inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     inputProps={{ inputMode: "numeric" }}
-
-                    required
                     name="longitude"
                     label="Longitude"
                     variant="filled"
@@ -548,6 +545,7 @@ saveResults();
                   <img
                     src={`data:image/jpeg;base64,${this.state.georeferencedImage}`}
                     className={styles.performanceImg}
+                    onError={(event) => event.target.style.display = 'none'}
                   />
                 )}
               </div>
