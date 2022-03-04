@@ -31,6 +31,7 @@ import { Typography } from "@mui/material";
 //Firebase imports
 import { doc, setDoc, collection, getDoc, addDoc, updateDoc } from "firebase/firestore";
 import { db, auth } from "../Firebase";
+import { ResponsiveContainer } from "recharts";
 
 const Input = styled("input")({
   display: "none",
@@ -177,31 +178,33 @@ export class samz extends Component {
     
     //Code for uploading to Firestore
     var user = auth.currentUser;
+    if(user)
+    {
+      //Creating path to user in userFields folder using UID
+      var path = "userFields/"+user.uid+"/excel_files";
 
-    //Creating path to user in userFields folder using UID
-    var path = "userFields/"+user.uid+"/excel_files";
+      //Reference to a document in excel files subcollection
+      const ref = doc(collection(db,path));
 
-    //Reference to a document in excel files subcollection
-    const ref = doc(collection(db,path));
+      //For getting the date/time
+      var currentDate = new Date(); 
+      var dateTime = (currentDate.getMonth()+1) + "/"
+                  + currentDate.getDate() + "/"
+                  + currentDate.getFullYear() + " @ "  
+                  + currentDate.getHours() + ":"    
+                  + currentDate.getMinutes() + ":" 
+                  + currentDate.getSeconds();
 
-    //For getting the date/time
-    var currentDate = new Date(); 
-    var dateTime = (currentDate.getMonth()+1) + "/"
-                + currentDate.getDate() + "/"
-                + currentDate.getFullYear() + " @ "  
-                + currentDate.getHours() + ":"    
-                + currentDate.getMinutes() + ":" 
-                + currentDate.getSeconds();
+      setDoc(doc(db, 'userFields', user.uid),{
+        displayName: user.displayName
+      });
 
-    setDoc(doc(db, 'userFields', user.uid),{
-      displayName: user.displayName
-    });
-
-    setDoc(ref, {
-      excel: excelFileBase64,
-      name: fileName,
-      timestamp: dateTime,
-    });
+      setDoc(ref, {
+        excel: excelFileBase64,
+        name: fileName,
+        timestamp: dateTime,
+      });
+  }
 
 }
 saveResults();
@@ -374,9 +377,9 @@ saveResults();
               <div className={styles.piechart}>NDVI Range and Mean
               </div>
               <ListItem>
-              <div style={{marginLeft:-60}}>
+              <ResponsiveContainer aspect={1.5}>
                 <Donut pieData={this.state} />
-              </div>
+              </ResponsiveContainer>
               </ListItem>
               <Divider style={{ background: "#BBE1FA" }} />
               <ListItem>

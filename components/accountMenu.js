@@ -17,6 +17,8 @@ import { getUser } from '../components/contexts/CurrentUser'
 import GoogleIcon from '@mui/icons-material/Google';
 import { Nav } from 'react-bootstrap';
 import PersonIcon from '@mui/icons-material/Person';
+import { provider, auth} from "../Firebase"
+import { signInWithPopup, signOut } from 'firebase/auth'
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -30,15 +32,43 @@ export default function AccountMenu() {
 
   const { currentUser } = getUser();
 
+  function googleSignIn(){
+    console.log("here");
+    const signInWithGoogle = () => {
+        signInWithPopup(auth, provider)
+        .then((result)=>{
+            console.log(result);
+            window.location.href = "/landing";
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+    signInWithGoogle();
+  }
+  function logout(){
+    const SignOut = () => {
+        signOut(auth)
+        .then(() => {
+            //console.log("signed out")
+            localStorage.clear();
+            window.location.href = "/landing";
+        })
+        .catch((error) => {
+        });
+    }
+    SignOut();
+  }
+  
   let icon;
   let status;
   if (!currentUser) {
     icon = <GoogleIcon fontSize="small" />;
-    status = <Nav.Link href="googleSignInButton">Sign In</Nav.Link> ;
+    status = <Nav.Link onClick={googleSignIn}>Sign In</Nav.Link> ;
   }
   else {
     icon = <Logout fontSize="small" />;
-    status = <Nav.Link href="signout">Sign Out</Nav.Link>;
+    status = <Nav.Link onClick={logout}>Sign Out</Nav.Link>;
   }
 
   return (
