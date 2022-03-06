@@ -47,7 +47,7 @@ const ListText = {
   fontName: "sans-serif",
   color: "#BBE1FA",
 };
-export class samz extends Component {
+export class Samz extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -475,4 +475,4 @@ saveResults();
     );
   }
 }
-export default samz;
+export default Samz;

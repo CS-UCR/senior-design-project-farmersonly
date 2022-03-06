@@ -28,7 +28,7 @@ import { SettingsSuggestRounded } from '@mui/icons-material';
 } */
 
 export default function navbar(){
-  const { currentUser } = getUser();
+  //const { currentUser } = getUser();
     //var user = auth.currentUser.displayName;
     //console.log(user);
     /* var name = " s ";
