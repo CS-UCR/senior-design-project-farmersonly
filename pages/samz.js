@@ -49,8 +49,7 @@ const ListText = {
   fontName: "sans-serif",
   color: "#BBE1FA",
 };
-
-export class samz extends Component {
+export class Samz extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -324,7 +323,6 @@ saveResults();
                     sx={{ bgcolor: "#e0e0e0" }}
                     margin="dense"
                     style={{ width: 180 }}
-                    inputProps={{ readOnly: false }}
                     value={this.state.length ? this.state.length : ""}
                     onChange = {this.onLengthChange}
                   />
@@ -342,7 +340,6 @@ saveResults();
                     sx={{ bgcolor: "#e0e0e0" }}
                     margin="dense"
                     style={{ width: 180 }}
-                    inputProps={{ readOnly: false }}
                     value={this.state.latitude ? this.state.latitude : ""}
                     onChange = {this.onLatitudeChange}
                   />
@@ -556,4 +553,4 @@ saveResults();
     );
   }
 }
-export default samz;
+export default Samz;

@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { auth } from "../Firebase"
 import { onAuthStateChanged } from 'firebase/auth'
 import AccountMenu from '../components/accountMenu'
-import { getUser } from '../components/contexts/CurrentUser'
+import { GetUser } from '../components/contexts/CurrentUser'
 
 import styles from "../styles/navbar.module.css";
 import { SettingsSuggestRounded } from '@mui/icons-material';
@@ -28,7 +28,7 @@ import { SettingsSuggestRounded } from '@mui/icons-material';
 } */
 
 export default function navbar(){
-  const { currentUser } = getUser();
+  //const { currentUser } = GetUser();
     //var user = auth.currentUser.displayName;
     //console.log(user);
     /* var name = " s ";

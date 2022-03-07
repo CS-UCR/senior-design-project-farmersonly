@@ -37,3 +37,5 @@ yarn-error.log*
 #temp files
 /backend/tmp
 /backend/excelWriterTest.xlsx
+
+/components/__test__/__snapshots__

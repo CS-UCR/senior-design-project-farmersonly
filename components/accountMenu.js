@@ -11,7 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { getUser } from '../components/contexts/CurrentUser'
+import { GetUser } from '../components/contexts/CurrentUser'
 //import { googleSignIn } from './googleSignInButton'
 //import { logout } from '../pages/signout'
 import GoogleIcon from '@mui/icons-material/Google';
@@ -30,7 +30,7 @@ export default function AccountMenu() {
     setAnchorEl(null);
   };
 
-  const { currentUser } = getUser();
+  const { currentUser } = GetUser();
 
   function googleSignIn(){
     console.log("here");
