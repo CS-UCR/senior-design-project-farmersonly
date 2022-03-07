@@ -282,7 +282,6 @@ saveResults();
                     sx={{ bgcolor: "#e0e0e0" }}
                     margin="dense"
                     style={{ width: 180 }}
-                    inputProps={{ readOnly: false }}
                     value={this.state.length ? this.state.length : ""}
                     onChange = {this.onLengthChange}
                   />
