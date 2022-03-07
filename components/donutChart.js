@@ -57,16 +57,16 @@ export default function donutChart(props) {
   ]
   return (
     
-    <PieChart width={430} height={300}>
+    <PieChart width={380} height={180}>
       <Pie
         dataKey="value"
         startAngle={180}
         endAngle={0}
         data={data}
-        cx={200}
-        cy={210}
-        outerRadius={170}
-        innerRadius={130}
+        cx={145}
+        cy={140}
+        outerRadius={130}
+        innerRadius={90}
         labelLine={false}
         label={renderCustomizedLabel}
         
