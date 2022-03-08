@@ -65,3 +65,13 @@
 .imagestats{
     display: flex;
 }
+
+.image{
+    margin: 0 auto;
+}
+
+.georeferencedImage{
+    display: inline-block;
+    margin: 0 auto;
+    padding: 3px;
+}
