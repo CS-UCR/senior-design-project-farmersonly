@@ -332,7 +332,7 @@ saveResults();
               <div className={styles.dimensionsInput}>
                 <div className={styles.dimensionsLength}>
                   <TextField
-                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    inputProps={{ inputMode: "numeric"}}
                     name="latitude"
                     label="Latitude"
                     variant="filled"
