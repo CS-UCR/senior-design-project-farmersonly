@@ -3,7 +3,7 @@ import {Navbar, Nav} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { auth } from "../Firebase"
 import { onAuthStateChanged } from 'firebase/auth'
-import NestedList from '../components/accountMenu'
+import AccountMenu from '../components/accountMenu'
 import { getUser } from '../components/contexts/CurrentUser'
 
 import styles from "../styles/navbar.module.css";
@@ -57,10 +57,7 @@ export default function navbar(){
         <Nav.Link href="about">About</Nav.Link>
       </Nav>
       <Nav className="justify-content-end">
-          {/* <NestedList /> */}
-          <Nav.Link href="googleSignInButton">Sign In</Nav.Link>
-          <Nav.Link href="signout">{currentUser ? currentUser.displayName : "Guest"}</Nav.Link>
-          <Nav.Link href="userFiles">{currentUser ? "List Test" : ""}</Nav.Link>
+          <AccountMenu />
       </Nav>
     </Navbar>
   );
