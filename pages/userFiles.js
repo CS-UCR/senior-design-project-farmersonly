@@ -26,7 +26,8 @@ class Files extends Component{
 
     //Gets the current document list
     getDocList(){
-        var path = "userFields/"+"mUHiJWAAcPMjLL5sRVSxfjMX2202"+"/excel_files";
+        var user = auth.currentUser;
+        var path = "userFields/"+user.uid+"/excel_files";
         const ref = collection(db,path);
         console.log("In GetDocList");
 
@@ -64,26 +65,19 @@ class Files extends Component{
                 <ListItemText primary="hello"/>
             )
         })
-
-        this.state.array.map(element => {
-            return(
-                <ListItemText primary="hi"/>
-            )
-        })
-    }
-
-    everything(){
-        this.getDocList();
-        this.displayDocs();
-        console.log("Everything");
     }
 
     render(){
         return(
             <div>
-                <button onClick={() => this.everything()}>Everything</button>
+                <h1>{this.state.test}</h1>
+                <button onClick={() => this.getDocList()}>GetDocs</button>
+                <button onClick={() => this.displayDocs()}>DisplayDocs</button>
+                <button onClick={() => this.deleteDocs()}>DeleteDocs</button>
                 <List>
-                    
+                    <ListItem>
+                        {this.renderList()}
+                    </ListItem>
                 </List>
             </div>
         )
