@@ -6,14 +6,19 @@ import { Box } from  "@mui/material";
 import { List } from "@mui/material";
 import { ListItem } from "@mui/material";
 import { ListItemText } from "@mui/material";
-import { ThirtyFpsRounded } from "@mui/icons-material";
+import { ListItemButton } from "@mui/material";
+import { Checkbox } from "@mui/material";
+import { IconButton } from "@mui/material";
+import { CommentIcon } from "@mui/material";
+//import { ThirtyFpsRounded } from "@mui/icons-material";
 
 class Files extends Component{
     constructor(){
         super();
         this.state = {
             test: 'Test',
-            excelFiles: []
+            excelFiles: [],
+            array: [1,2,3,4]
         }
     }
 
@@ -56,7 +61,13 @@ class Files extends Component{
         this.state.excelFiles.map(file =>{
             console.log("in renderlist")
             return(
-                <ListItemText primary={"hello"}/>
+                <ListItemText primary="hello"/>
+            )
+        })
+
+        this.state.array.map(element => {
+            return(
+                <ListItemText primary="hi"/>
             )
         })
     }
@@ -72,9 +83,7 @@ class Files extends Component{
             <div>
                 <button onClick={() => this.everything()}>Everything</button>
                 <List>
-                    <ListItem>
-                        {this.renderList()}
-                    </ListItem>
+                    
                 </List>
             </div>
         )
@@ -82,3 +91,4 @@ class Files extends Component{
 }
 
 export default Files
+
