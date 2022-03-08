@@ -16,21 +16,11 @@ export default function about() {
 
         <div className={styles.aboutText}>
           <div>
-            In collaboration with Dr. Akansha Garg, from The Hanghverdi Water
-            Management Group, the Irrigation Water Management Tool Suite(IWO
-            Tool Suit) is designed to help farmers make better decisions about
-            their farms and harvest. These tools main goals are to tackle
-            California's water scarcity problems and increase farming
-            productivity.
+            {"In collaboration with Dr. Akansha Garg, from The Hanghverdi Water Management Group, the Irrigation Water Management Tool Suite(IWO Tool Suit) is designed to help farmers make better decisions about their farms and harvest. These tools main goals are to tackle California's water scarcity problems and increase farming productivity."}
           </div>
           <br />
           <div>
-            The Samz Dessert Tool is works on agricultural management zones
-            based on NDVI satellite data in order to devleop optimize
-            agricultural management zones and crop production. After uploading
-            NDVI data, processing will compute the mean, min, max, range, and
-            std of data, performace graph, zone delineation, and field
-            recommendation.
+           { "The Samz Dessert Tool is works on agricultural management zones based on NDVI satellite data in order to devleop optimize agricultural management zones and crop production. After uploading NDVI data, processing will compute the mean, min, max, range, and std of data, performace graph, zone delineation, and field recommendation."}
           </div>
         </div>
       </div>
@@ -85,6 +75,27 @@ export default function about() {
                     Postdoctoral Research Associate
                   </Typography>
                   <Link href="https://www.linkedin.com/in/akanksha-garg-ph-d-2025b417/">
+                    <LinkedInIcon />
+                  </Link>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item>
+              <Card
+                variant="outlined"
+                sx={{ minWidth: 275 }}
+                style={{
+                  backgroundColor: "#0F4C75",
+                  color: "#BBE1FA",
+                  textAlign: "center",
+                }}
+              >
+                <CardContent>
+                  <Typography>Amir Haghverdi</Typography>
+                  <Typography sx={{ fontSize: 13 }}>
+                  Associate CE Professor of Water Management
+                  </Typography>
+                  <Link href="https://www.linkedin.com/in/amirhaghverdi/">
                     <LinkedInIcon />
                   </Link>
                 </CardContent>

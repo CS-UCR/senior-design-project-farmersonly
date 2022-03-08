@@ -4,7 +4,7 @@ import { onAuthStateChanged, onIdTokenChanged } from 'firebase/auth'
 
 export const AuthContext = createContext(null);
 
-export const getUser = () => {
+export const GetUser = () => {
     return useContext(AuthContext);
 }; 
 
