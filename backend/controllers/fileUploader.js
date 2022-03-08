@@ -6,13 +6,15 @@ var path;
 var filename;
 function uploadFile(request, response)
 {
-    console.log("the width is: "+request.body.width);
-    console.log(request.body.length);
+    console.log("width: " + request.body.width);
+    console.log("legth: " + request.body.length);
+    console.log("longiude: " + request.body.longitude);
+    console.log("latitude: " + request.body.latitude);
     console.log(request.file.filename);
     path = request.file.path;
     fs.renameSync(path, path+".xlsx")
     const spawn = require("child_process").spawn;
-    const pythonScript = spawn('python3', ['./process.py', path+".xlsx", request.body.length, request.body.width]);
+    const pythonScript = spawn('python', ['./process.py', path+".xlsx", request.body.length, request.body.width, request.body.longitude, request.body.latitude]);
     var results = "";
     pythonScript.stdout.on('data', function(data) {
         results += data;
@@ -31,7 +33,7 @@ function uploadFile(request, response)
                 console.error(err)
                 return
             }})
-        reponse.send(results);
+        response.send(results);
         return;
     })
 }

@@ -1,9 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { getFirestore } from "firebase/firestore"
 //import 'firebase/firestore'
 //import { useAuthState } from 'react-firebase-hooks/auth'
 //import { useCollectionData } from 'react-firebase-hooks/firestore'
 //import { signInWithEmailAndPassword } from 'firebase/auth' // added //
+import { setPersistence, browserSessionPersistence } from 'firebase/auth'
 import firebase from 'firebase/app'
 
 const firebaseConfig = {
@@ -19,7 +21,11 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 
+setPersistence(auth, browserSessionPersistence);
+
 export const provider = new GoogleAuthProvider();
+
+export const db = getFirestore();
  
 //export default app;  // added // 
 
