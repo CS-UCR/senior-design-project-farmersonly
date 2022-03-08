@@ -1,45 +1,84 @@
-import React from "react";
+import React, { Component } from "react";
 import { db, auth } from "../Firebase";
-import { doc, collection, getDocs, query } from "firebase/firestore";
-import XLSX from "xlsx";
-import { Checkbox, List } from "@mui/material";
+import { collection, getDocs } from "firebase/firestore";
+import { getAuth } from 'firebase/auth'
+import { Box } from  "@mui/material";
+import { List } from "@mui/material";
 import { ListItem } from "@mui/material";
-import { ListItemIcon } from "@mui/material";
 import { ListItemText } from "@mui/material";
+import { ThirtyFpsRounded } from "@mui/icons-material";
 
-let excelFiles = [];
+class Files extends Component{
+    constructor(){
+        super();
+        this.state = {
+            test: 'Test',
+            excelFiles: []
+        }
+    }
 
-export default function userFiles() {
-    const userDocs = () => { 
-        var user = auth.currentUser;
-        var path = "userFields/"+user.uid+"/excel_files";
+    //Functions for changing the state of the page (i.e. the list of documents)
+
+    //Gets the current document list
+    getDocList(){
+        var path = "userFields/"+"mUHiJWAAcPMjLL5sRVSxfjMX2202"+"/excel_files";
         const ref = collection(db,path);
+        console.log("In GetDocList");
 
         getDocs(ref)
             .then((snapshot) => {
                 snapshot.docs.forEach((doc) =>{
-                    excelFiles.push({...doc.data(), id: doc.id })
+                    this.setState({test: "GetDocList", excelFiles: [...this.state.excelFiles, doc.data()]})
                 });
-                for(var i = 0; i < excelFiles.length; i++){
-                    console.log("File ",i,": \n");
-                    console.log("Name: ",excelFiles[i].name);
-                    console.log("Base64 String: ",excelFiles[i].excel);
-                    console.log("Time Stamp: ",excelFiles[i].timestamp);
-                    console.log("ID: ",excelFiles[i].id);
-                    var temp = excelFiles[i].excel;
-                    var workbook = XLSX.read(
-                        temp, {type: 'base64', WTF: false}
-                    );
-                    var csv = XLSX.utils.sheet_to_csv(workbook.Sheets[0]);
-                    XLSX.writeFile(workbook, excelFiles[i].name);
-                }
             })
             .catch(err => {
                 console.log(err.message);
             })
     }
-    return (
-        <div className="Temp">
-        </div>
-    )
+
+    //Outputs the current list of documents in the 
+    displayDocs(){
+        this.setState({
+            test: "DisplayDocs",
+        })
+        this.state.excelFiles.map(file => console.log(file.name));
+    }
+
+    //This deletes the current array of excel files for a fresh reload
+    deleteDocs(){
+        this.setState({
+            test: "DeleteDocs",
+            excelFiles: []
+        })
+    }
+
+    renderList(){
+        this.state.excelFiles.map(file =>{
+            console.log("in renderlist")
+            return(
+                <ListItemText primary={"hello"}/>
+            )
+        })
+    }
+
+    everything(){
+        this.getDocList();
+        this.displayDocs();
+        console.log("Everything");
+    }
+
+    render(){
+        return(
+            <div>
+                <button onClick={() => this.everything()}>Everything</button>
+                <List>
+                    <ListItem>
+                        {this.renderList()}
+                    </ListItem>
+                </List>
+            </div>
+        )
+    }
 }
+
+export default Files
