@@ -26,7 +26,9 @@ import default_performance_graph from '../public/default_performance_graph.jpg';
 import default_clustered_image from '../public/default_clustered_image.jpg';
 import default_georeferenced_image from '../public/default_georeferenced_image.jpg';
 import { width } from "@mui/system";
+import { FormHelperText } from '@mui/material';
 import { Typography } from "@mui/material";
+import Tooltip from '@mui/material/Tooltip';
 //import { getOverlayDirection } from "react-bootstrap";
 
 //Firebase imports
@@ -107,7 +109,7 @@ export class Samz extends Component {
     XLSX.writeFile(workbook, "sampleData.xlsx");
   };
 
-    changeHandler = (event) => {
+  changeHandler = (event) => {
       console.log(event.target.files[0]);
       var eventName = event.target.files[0].name;
       var eventFile = event.target.files[0]
@@ -143,6 +145,7 @@ export class Samz extends Component {
     };
     reader.readAsBinaryString(event.target.files[0]);
 	};
+
   onLengthChange(event) {
     this.setState({
       [event.target.name]: event.target.value
@@ -297,6 +300,7 @@ saveResults();
               <div className={styles.dimensionsInput}>
 
                 <div className={styles.dimensionsLength}>
+                  <Tooltip title="Number of columns in excel sheet" placement="top">
                   <TextField
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     required
@@ -310,9 +314,11 @@ saveResults();
                     value={this.state.width ? this.state.width : ""}
                     onChange = {this.onWidthChange}
                   />
+                  </Tooltip>
                 </div>
 
                 <div className={styles.dimensionsWidth}>
+                  <Tooltip title="Number of rows in excel sheet" placement="top">
                   <TextField
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     required
@@ -326,11 +332,13 @@ saveResults();
                     value={this.state.length ? this.state.length : ""}
                     onChange = {this.onLengthChange}
                   />
+                  </Tooltip>
                 </div>
               </div>
 
               <div className={styles.dimensionsInput}>
                 <div className={styles.dimensionsLength}>
+                <Tooltip title="The latitude of the center of your field">
                   <TextField
                     inputProps={{ inputMode: "numeric"}}
                     name="latitude"
@@ -343,8 +351,10 @@ saveResults();
                     value={this.state.latitude ? this.state.latitude : ""}
                     onChange = {this.onLatitudeChange}
                   />
+                  </Tooltip>
                 </div>
                 <div className={styles.dimensionsWidth}>
+                  <Tooltip title="The longitude of the center of your field">
                   <TextField
                     // inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     inputProps={{ inputMode: "numeric" }}
@@ -358,6 +368,7 @@ saveResults();
                     value={this.state.longitude ? this.state.longitude : ""}
                     onChange = {this.onLongitudeChange}
                   />
+                  </Tooltip>
                 </div>
               </div>
 
