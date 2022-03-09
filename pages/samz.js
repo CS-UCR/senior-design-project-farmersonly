@@ -515,7 +515,7 @@ saveResults();
           <Grid item xs={9}>
           {this.state.fetchInProgress ? <Alert onClose={() => {}} severity="info">Please wait while we process your file.</Alert> : ""}
             <div className={styles.imagestats}>
-              <div>
+              <div className={styles.image}>
                 {this.state.noResults ? (
                   <img
                   src={default_clustered_image.src}
@@ -526,7 +526,7 @@ saveResults();
                   />
                 )}
               </div>
-              <div>
+              <div className={styles.image}>
                 {this.state.noResults ? (
                   <img
                   src={default_performance_graph.src}
@@ -541,24 +541,32 @@ saveResults();
               </div>
             </div>
           </Grid>
+          
+
+          <Grid item xs={3}></Grid>
+
           <Grid item xs={9}>
             <div className={styles.imagestats}>
-            <div>
-                {this.state.noResults ? (
-                  <img
-                  src={default_georeferenced_image.src}
-                  className={styles.performanceImg}
-                />
-                ) : (
-                  <img
-                    src={`data:image/jpeg;base64,${this.state.georeferencedImage}`}
-                    className={styles.performanceImg}
-                    onError={(event) => event.target.style.display = 'none'}
-                  />
-                )}
+              <div className={styles.georeferencedImage}>
+                <h1 className={styles.piechart}>Georefrenced Image</h1>
+                <div>
+                  {this.state.noResults ? (
+                    <img
+                      src={default_georeferenced_image.src}
+                      className={styles.performanceImg}
+                    />
+                  ) : (
+                    <img
+                      src={`data:image/jpeg;base64,${this.state.georeferencedImage}`}
+                      className={styles.performanceImg}
+                      onError={(event) => (event.target.style.display = "none")}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </Grid>
+
         </Grid>
       </div>
     );
