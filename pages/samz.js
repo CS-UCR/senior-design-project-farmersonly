@@ -26,7 +26,9 @@ import default_performance_graph from '../public/default_performance_graph.jpg';
 import default_clustered_image from '../public/default_clustered_image.jpg';
 import default_georeferenced_image from '../public/default_georeferenced_image.jpg';
 import { width } from "@mui/system";
+import { FormHelperText } from '@mui/material';
 import { Typography } from "@mui/material";
+import Tooltip from '@mui/material/Tooltip';
 //import { getOverlayDirection } from "react-bootstrap";
 
 //Firebase imports
@@ -72,13 +74,14 @@ export class Samz extends Component {
       length: 0,
       width: 0,
       longitude: null,
-      latitude: null
+      latitude: null,
     };
     this.changeHandler = this.changeHandler.bind(this);
     this.onLengthChange = this.onLengthChange.bind(this);
     this.onWidthChange = this.onWidthChange.bind(this);
     this.onLatitudeChange = this.onLatitudeChange.bind(this);
     this.onLongitudeChange = this.onLongitudeChange.bind(this);
+    this.geoTitle = React.createRef();
   }
   handleClickOpen = () => {
     this.setState({
@@ -107,7 +110,7 @@ export class Samz extends Component {
     XLSX.writeFile(workbook, "sampleData.xlsx");
   };
 
-    changeHandler = (event) => {
+  changeHandler = (event) => {
       console.log(event.target.files[0]);
       var eventName = event.target.files[0].name;
       var eventFile = event.target.files[0]
@@ -143,6 +146,7 @@ export class Samz extends Component {
     };
     reader.readAsBinaryString(event.target.files[0]);
 	};
+
   onLengthChange(event) {
     this.setState({
       [event.target.name]: event.target.value
@@ -297,6 +301,7 @@ saveResults();
               <div className={styles.dimensionsInput}>
 
                 <div className={styles.dimensionsLength}>
+                  <Tooltip title="Number of columns in excel sheet" placement="top">
                   <TextField
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     required
@@ -310,9 +315,11 @@ saveResults();
                     value={this.state.width ? this.state.width : ""}
                     onChange = {this.onWidthChange}
                   />
+                  </Tooltip>
                 </div>
 
                 <div className={styles.dimensionsWidth}>
+                  <Tooltip title="Number of rows in excel sheet" placement="top">
                   <TextField
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     required
@@ -326,11 +333,13 @@ saveResults();
                     value={this.state.length ? this.state.length : ""}
                     onChange = {this.onLengthChange}
                   />
+                  </Tooltip>
                 </div>
               </div>
 
               <div className={styles.dimensionsInput}>
                 <div className={styles.dimensionsLength}>
+                <Tooltip title="The latitude of the center of your field" placement="top">
                   <TextField
                     inputProps={{ inputMode: "numeric"}}
                     name="latitude"
@@ -343,8 +352,10 @@ saveResults();
                     value={this.state.latitude ? this.state.latitude : ""}
                     onChange = {this.onLatitudeChange}
                   />
+                  </Tooltip>
                 </div>
                 <div className={styles.dimensionsWidth}>
+                  <Tooltip title="The longitude of the center of your field" placement="top">
                   <TextField
                     // inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     inputProps={{ inputMode: "numeric" }}
@@ -358,6 +369,7 @@ saveResults();
                     value={this.state.longitude ? this.state.longitude : ""}
                     onChange = {this.onLongitudeChange}
                   />
+                  </Tooltip>
                 </div>
               </div>
 
@@ -537,19 +549,24 @@ saveResults();
           <Grid item xs={9}>
             <div className={styles.imagestats}>
               <div className={styles.georeferencedImage}>
-                <h1 className={styles.piechart}>Georefrenced Image</h1>
                 <div>
                   {this.state.noResults ? (
+                    <div>
+                     <h1 className={styles.piechart}>Georefrenced Image</h1>
                     <img
                       src={default_georeferenced_image.src}
                       className={styles.performanceImg}
                     />
+                    </div>
                   ) : (
+                    <div>
+                      <h1 ref={this.geoTitle} className={styles.piechart}>Georefrenced Image</h1>
                     <img
                       src={`data:image/jpeg;base64,${this.state.georeferencedImage}`}
                       className={styles.performanceImg}
-                      onError={(event) => (event.target.style.display = "none")}
+                      onError={(event) => (event.target.style.display = "none", this.geoTitle.current.style.display = "none")}
                     />
+                    </div>
                   )}
                 </div>
               </div>

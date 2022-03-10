@@ -16,7 +16,7 @@ export default function about() {
 
         <div className={styles.aboutText}>
           <div>
-            {"In collaboration with Dr. Akansha Garg, from The Hanghverdi Water Management Group, the Irrigation Water Management Tool Suite(IWO Tool Suit) is designed to help farmers make better decisions about their farms and harvest. These tools main goals are to tackle California's water scarcity problems and increase farming productivity."}
+            {"In collaboration with Dr. Akanksha Garg, from The Haghverdi Water Management Group, the Irrigation Water Management Tool Suite(IWO Tool Suit) is designed to help farmers make better decisions about their farms and harvest. These tools main goals are to tackle California's water scarcity problems and increase farming productivity."}
           </div>
           <br />
           <div>
@@ -70,7 +70,7 @@ export default function about() {
                 }}
               >
                 <CardContent>
-                  <Typography>Akansha Garg</Typography>
+                  <Typography>Akanksha Garg</Typography>
                   <Typography sx={{ fontSize: 13 }}>
                     Postdoctoral Research Associate
                   </Typography>

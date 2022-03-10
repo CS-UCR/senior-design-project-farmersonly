@@ -1,45 +1,150 @@
-import React from "react";
-import { db, auth } from "../Firebase";
-import { doc, collection, getDocs, query } from "firebase/firestore";
-import XLSX from "xlsx";
-import { Checkbox, List } from "@mui/material";
+import React, { Component } from "react";
+import { db} from "../Firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { Box } from  "@mui/material";
+import { List } from "@mui/material";
 import { ListItem } from "@mui/material";
-import { ListItemIcon } from "@mui/material";
 import { ListItemText } from "@mui/material";
+import { ListItemButton } from "@mui/material";
+import { Checkbox } from "@mui/material";
+import { IconButton } from "@mui/material";
+import { CommentIcon } from "@mui/material";
+import Button from "@mui/material/Button";
+import XLSX from "xlsx";
+import Divider from "@mui/material/Divider";
+//import { ThirtyFpsRounded } from "@mui/icons-material";
 
-let excelFiles = [];
+class Files extends Component{
+    constructor(){
+        super();
+        this.state = {
+            test: 'Test',
+            excelFiles: [],
+            array: [1,2,3,4],
+            rendered: false,
+            renderOnce: 0
+        }
+    }
 
-export default function userFiles() {
-    const userDocs = () => { 
-        var user = auth.currentUser;
-        var path = "userFields/"+user.uid+"/excel_files";
-        const ref = collection(db,path);
+    //Functions for changing the state of the page (i.e. the list of documents)
 
-        getDocs(ref)
+    //Gets the current document list
+    
+    getDocList(){
+        var auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+        if (user) {
+            var user = auth.currentUser;
+            var path = "userFields/"+user.uid+"/excel_files";
+            const ref = collection(db,path);
+            console.log("In GetDocList");
+            getDocs(ref)
             .then((snapshot) => {
                 snapshot.docs.forEach((doc) =>{
-                    excelFiles.push({...doc.data(), id: doc.id })
+                    this.setState({
+                        test: "GetDocList", 
+                        excelFiles: [...this.state.excelFiles, doc.data()],
+                        rendered: true,
+                        renederOnce: 1
+                })
                 });
-                for(var i = 0; i < excelFiles.length; i++){
-                    console.log("File ",i,": \n");
-                    console.log("Name: ",excelFiles[i].name);
-                    console.log("Base64 String: ",excelFiles[i].excel);
-                    console.log("Time Stamp: ",excelFiles[i].timestamp);
-                    console.log("ID: ",excelFiles[i].id);
-                    var temp = excelFiles[i].excel;
-                    var workbook = XLSX.read(
-                        temp, {type: 'base64', WTF: false}
-                    );
-                    var csv = XLSX.utils.sheet_to_csv(workbook.Sheets[0]);
-                    XLSX.writeFile(workbook, excelFiles[i].name);
-                }
             })
             .catch(err => {
                 console.log(err.message);
             })
+        } 
+        else {
+            // User is signed out
+            // ...
+        }
+        });
+
     }
-    return (
-        <div className="Temp">
-        </div>
-    )
+
+    //Outputs the current list of documents in the 
+    displayDocs(){
+        this.setState({
+            test: "DisplayDocs",
+        })
+        this.state.excelFiles.map(file => console.log(file.name));
+    }
+
+    //This deletes the current array of excel files for a fresh reload
+    deleteDocs(){
+        this.setState({
+            test: "DeleteDocs",
+            excelFiles: []
+        })
+    }
+
+    renderList(){
+        this.state.excelFiles.map(file =>{
+            console.log("in renderlist")
+            return(
+                <ListItem key={file.name} primary="hello"/>
+            )
+        })
+    }
+
+    everything(){
+        if(!this.state.rendered)
+        {
+            this.getDocList();
+            //this.displayDocs();
+            console.log("Everything");
+        }
+    }
+
+    downloadData = (base64, name) => {
+        //console.log("top of test");
+        //console.log("the base64" + base64);
+        //console.log("name: " + name);
+        var workbook = XLSX.read(
+          base64,
+          { type: "base64", WTF: false }
+        );
+    
+        var csv = XLSX.utils.sheet_to_csv(workbook.Sheets[0]);
+        var result = [];
+        result.push(csv);
+        result.join("\n");
+        console.log("after");
+        console.log(result);
+        XLSX.writeFile(workbook, name);
+      };
+    render(){
+        return(
+            <div>
+                {/* <button onClick={() => this.everything()}>GetDocs</button> */}
+                { this.state.rendered ? "" : this.everything()}
+                <List>
+                    {this.state.excelFiles.map(file => (
+                    <ListItem key={file.timestamp} className="fileList" >
+                        <div >
+                            <div style={{ display: 'flex', minHeight:50, minWidth: 200, width: "fit-content", height: "fit-content",  justifyContent: "center",  alignItems:'center'}}>
+                                {file.name}
+                                <Button onClick={() => this.downloadData(file.excel, file.name)}variant="contained"
+                                component="span"
+                                style={{
+                                    fontFamily: "Quicksand",
+                                    fontName: "sans-serif",
+                                    backgroundColor: "#0F4C75",
+                                    color: "#BBE1FA",
+                                    textTransform: "none",
+                                }}
+                                >Download File</Button> 
+                            </div> 
+                            <Divider/>  
+                        </div>
+                    </ListItem>
+                ))
+                }
+                </List>
+            </div>
+        )
+    }
 }
+
+export default Files
+
