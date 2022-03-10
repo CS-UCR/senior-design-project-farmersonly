@@ -74,13 +74,14 @@ export class Samz extends Component {
       length: 0,
       width: 0,
       longitude: null,
-      latitude: null
+      latitude: null,
     };
     this.changeHandler = this.changeHandler.bind(this);
     this.onLengthChange = this.onLengthChange.bind(this);
     this.onWidthChange = this.onWidthChange.bind(this);
     this.onLatitudeChange = this.onLatitudeChange.bind(this);
     this.onLongitudeChange = this.onLongitudeChange.bind(this);
+    this.geoTitle = React.createRef();
   }
   handleClickOpen = () => {
     this.setState({
@@ -338,7 +339,7 @@ saveResults();
 
               <div className={styles.dimensionsInput}>
                 <div className={styles.dimensionsLength}>
-                <Tooltip title="The latitude of the center of your field">
+                <Tooltip title="The latitude of the center of your field" placement="top">
                   <TextField
                     inputProps={{ inputMode: "numeric"}}
                     name="latitude"
@@ -354,7 +355,7 @@ saveResults();
                   </Tooltip>
                 </div>
                 <div className={styles.dimensionsWidth}>
-                  <Tooltip title="The longitude of the center of your field">
+                  <Tooltip title="The longitude of the center of your field" placement="top">
                   <TextField
                     // inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     inputProps={{ inputMode: "numeric" }}
@@ -548,19 +549,24 @@ saveResults();
           <Grid item xs={9}>
             <div className={styles.imagestats}>
               <div className={styles.georeferencedImage}>
-                <h1 className={styles.piechart}>Georefrenced Image</h1>
                 <div>
                   {this.state.noResults ? (
+                    <div>
+                     <h1 className={styles.piechart}>Georefrenced Image</h1>
                     <img
                       src={default_georeferenced_image.src}
                       className={styles.performanceImg}
                     />
+                    </div>
                   ) : (
+                    <div>
+                      <h1 ref={this.geoTitle} className={styles.piechart}>Georefrenced Image</h1>
                     <img
                       src={`data:image/jpeg;base64,${this.state.georeferencedImage}`}
                       className={styles.performanceImg}
-                      onError={(event) => (event.target.style.display = "none")}
+                      onError={(event) => (event.target.style.display = "none", this.geoTitle.current.style.display = "none")}
                     />
+                    </div>
                   )}
                 </div>
               </div>
