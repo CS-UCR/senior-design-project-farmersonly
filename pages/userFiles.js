@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { db, auth } from "../Firebase";
+import { db} from "../Firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { getAuth } from 'firebase/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { Box } from  "@mui/material";
 import { List } from "@mui/material";
 import { ListItem } from "@mui/material";
@@ -10,36 +10,52 @@ import { ListItemButton } from "@mui/material";
 import { Checkbox } from "@mui/material";
 import { IconButton } from "@mui/material";
 import { CommentIcon } from "@mui/material";
+import Button from "@mui/material/Button";
+import XLSX from "xlsx";
+import Divider from "@mui/material/Divider";
 //import { ThirtyFpsRounded } from "@mui/icons-material";
 
 class Files extends Component{
     constructor(){
         super();
         this.state = {
-            test: 'Test',
             excelFiles: [],
-            array: [1,2,3,4]
+            rendered: false,
+            renderOnce: 0
         }
     }
 
     //Functions for changing the state of the page (i.e. the list of documents)
 
     //Gets the current document list
+    
     getDocList(){
-        var user = auth.currentUser;
-        var path = "userFields/"+user.uid+"/excel_files";
-        const ref = collection(db,path);
-        console.log("In GetDocList");
-
-        getDocs(ref)
+        var auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+        if (user) {
+            var user = auth.currentUser;
+            var path = "userFields/"+user.uid+"/excel_files";
+            const ref = collection(db,path);
+            getDocs(ref)
             .then((snapshot) => {
                 snapshot.docs.forEach((doc) =>{
-                    this.setState({test: "GetDocList", excelFiles: [...this.state.excelFiles, doc.data()]})
+                    this.setState({
+                        excelFiles: [...this.state.excelFiles, doc.data()],
+                        rendered: true,
+                        renderOnce: 1
+                })
                 });
             })
             .catch(err => {
                 console.log(err.message);
             })
+        } 
+        else {
+            // User is signed out
+            // ...
+        }
+        });
+
     }
 
     //Outputs the current list of documents in the 
@@ -47,7 +63,7 @@ class Files extends Component{
         this.setState({
             test: "DisplayDocs",
         })
-        this.state.excelFiles.map(file => console.log(file.name));
+        //this.state.excelFiles.map(file => console.log(file.name));
     }
 
     //This deletes the current array of excel files for a fresh reload
@@ -58,27 +74,32 @@ class Files extends Component{
         })
     }
 
-    renderList(){
-        this.state.excelFiles.map(file =>{
-            console.log("in renderlist")
-            return(
-                <ListItemText primary="hello"/>
-            )
-        })
+    everything(){
+        if(!this.state.rendered)
+        {
+            this.getDocList();
+        }
     }
+
+    downloadData = (base64, name) => {
+        var workbook = XLSX.read(
+          base64,
+          { type: "base64", WTF: false }
+        );
+    
+        var csv = XLSX.utils.sheet_to_csv(workbook.Sheets[0]);
+        var result = [];
+        result.push(csv);
+        result.join("\n");
+        console.log("after");
+        console.log(result);
+        XLSX.writeFile(workbook, name);
+      };
 
     render(){
         return(
             <div>
-                <h1>{this.state.test}</h1>
-                <button onClick={() => this.getDocList()}>GetDocs</button>
-                <button onClick={() => this.displayDocs()}>DisplayDocs</button>
-                <button onClick={() => this.deleteDocs()}>DeleteDocs</button>
-                <List>
-                    <ListItem>
-                        {this.renderList()}
-                    </ListItem>
-                </List>
+                { this.state.rendered ? "" : this.everything() }
             </div>
         )
     }
