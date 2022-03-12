@@ -54,8 +54,8 @@ export default function navbar(){
       <Nav className="me-auto">
         <Nav.Link href="landing">Home</Nav.Link>
         <Nav.Link href="samz">SAMZ-Desert Tool</Nav.Link>
+        <Nav.Link href="history">History</Nav.Link>
         <Nav.Link href="about">About</Nav.Link>
-        <Nav.Link href="userFiles">Downloads</Nav.Link>
       </Nav>
       <Nav className="justify-content-end">
           <AccountMenu />
