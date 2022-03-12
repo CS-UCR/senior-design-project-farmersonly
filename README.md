@@ -3,10 +3,10 @@
 
 ## Table of Contents
 - [Overview](#overview)
-- [Usage](#usage)
-- [How To Run](#how-to-run)
+- [Using the Site](#using-the-site)
+- [Installing and Running](#installing-and-running)
 - [Diagrams](#diagrams)
-- [Trello](#trello)
+- [Trello](#trello-board)
 - [Dependencies](#dependencies)
 
 ## Overview
