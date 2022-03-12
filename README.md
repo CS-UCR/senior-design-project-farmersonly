@@ -37,9 +37,10 @@ You'll notice in the top right corner there's a profile icon. Clicking this icon
 
 This is the Samz Desert Tool page where you upload an Excel file containing NDVI data for your field. 
 ![Samz Page](public/samz_page.gif)
+
 If your file is in the correct format, the tool will extract the necessary dimensions. You can find out more about the formatting by clicking the "learn more" button. If you have the center coordinates for your field then input them to get a georeferenced image of your field. If you don't have them, leave the latitude and longitude boxes blank. 
 
-If you signed in, navigate to the History page by clicking the button on the navigation bar. 
+If you signed in, navigate to the History Page by clicking the button on the navigation bar. 
 ![File History Page](public/download_page.png)
 Here you will see all the files you have uploaded while signed in. If you click the download button next to the filename you'll immediately download the file.
 
@@ -61,13 +62,13 @@ pip install GDAL-3.4.1-cp310-cp310-win_amd64.whl
 
 After that, install Node.js version 16.13.1. You can find that [here](https://nodejs.org/download/release/v16.13.1/). Please use this version because there are some compatibility problems with the newer versions.
 
-Once you have Python and Node.js installed go ahead and download all of our code from github.
+Once you have Python and Node.js installed go ahead and download all of our code from GitHub.
 
-Then, from the base of the project directory you want to run
+Then, from the root of the project directory you want to run
 ```
 npm install
 ```
-This will install all the necessary packages for the frontend of the project. The backend has it's packages it needs so navigate to the backend folder. Run the same install command from the backend folder.
+This will install all the necessary packages for the frontend of the project. The backend has it's packages it needs, so navigate to the backend folder. Run the same install command from the backend folder.
 
 Now you should have all the packages you need to get the project running.
 
