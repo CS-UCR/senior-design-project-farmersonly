@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { db} from "../Firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, connectFirestoreEmulator, getDocs, query, where } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { Box } from  "@mui/material";
 import { List } from "@mui/material";
@@ -12,7 +12,10 @@ import { IconButton } from "@mui/material";
 import { CommentIcon } from "@mui/material";
 import Button from "@mui/material/Button";
 import XLSX from "xlsx";
+import DownloadIcon from '@mui/icons-material/Download';
 import Divider from "@mui/material/Divider";
+import Container from '@mui/material/Container';
+import DeleteIcon from '@mui/icons-material/Delete';
 //import { ThirtyFpsRounded } from "@mui/icons-material";
 
 class Files extends Component{
@@ -20,10 +23,7 @@ class Files extends Component{
         super();
         this.state = {
             excelFiles: [],
-<<<<<<< HEAD
-=======
-            array: [1,2,3,4],
->>>>>>> 17f813057436573713613c98e082aeaed3f41a5a
+            excelIDs: [],
             rendered: false,
             renderOnce: 0
         }
@@ -40,30 +40,21 @@ class Files extends Component{
             var user = auth.currentUser;
             var path = "userFields/"+user.uid+"/excel_files";
             const ref = collection(db,path);
-<<<<<<< HEAD
-=======
-            console.log("In GetDocList");
->>>>>>> 17f813057436573713613c98e082aeaed3f41a5a
             getDocs(ref)
             .then((snapshot) => {
                 snapshot.docs.forEach((doc) =>{
                     this.setState({
-<<<<<<< HEAD
                         excelFiles: [...this.state.excelFiles, doc.data()],
+                        excelIDs: [...this.state.excelIDs, doc.id],
                         rendered: true,
                         renderOnce: 1
-=======
-                        test: "GetDocList", 
-                        excelFiles: [...this.state.excelFiles, doc.data()],
-                        rendered: true,
-                        renederOnce: 1
->>>>>>> 17f813057436573713613c98e082aeaed3f41a5a
                 })
                 });
             })
             .catch(err => {
                 console.log(err.message);
             })
+            this.excelIDs.map(id => console.log(id));
         } 
         else {
             // User is signed out
@@ -78,50 +69,41 @@ class Files extends Component{
         this.setState({
             test: "DisplayDocs",
         })
-        //this.state.excelFiles.map(file => console.log(file.name));
+        this.state.excelFiles.map(file => console.log(file.name));
     }
 
     //This deletes the current array of excel files for a fresh reload
-    deleteDocs(){
+    deleteDocs(file){
+        var auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                var user = auth.currentUser;
+                var path = "userFields/"+user.uid+"/excel_files";
+                const ref = collection(db,path);
+                const q = query(ref, where("timestamp", "==", `${timestamp}`));
+                const querySnapshot = getDocs(q);
+                querySnapshot.forEach((doc) => {
+                    deleteDoc(doc);
+                });
+                //this.clearExcelFiles();
+            }
+        });
+    }
+
+    everything(){
+        if(!this.state.rendered)
+        {
+            this.getDocList();
+        }
+    }
+
+    clearExcelFiles(){
         this.setState({
-            test: "DeleteDocs",
             excelFiles: []
         })
     }
 
-<<<<<<< HEAD
-    everything(){
-        if(!this.state.rendered)
-        {
-            this.getDocList();
-        }
-    }
-
     downloadData = (base64, name) => {
-=======
-    renderList(){
-        this.state.excelFiles.map(file =>{
-            console.log("in renderlist")
-            return(
-                <ListItem key={file.name} primary="hello"/>
-            )
-        })
-    }
-
-    everything(){
-        if(!this.state.rendered)
-        {
-            this.getDocList();
-            //this.displayDocs();
-            console.log("Everything");
-        }
-    }
-
-    downloadData = (base64, name) => {
-        //console.log("top of test");
-        //console.log("the base64" + base64);
-        //console.log("name: " + name);
->>>>>>> 17f813057436573713613c98e082aeaed3f41a5a
         var workbook = XLSX.read(
           base64,
           { type: "base64", WTF: false }
@@ -135,46 +117,26 @@ class Files extends Component{
         console.log(result);
         XLSX.writeFile(workbook, name);
       };
-<<<<<<< HEAD
 
+    
     render(){
         return(
-            <div>
-                { this.state.rendered ? "" : this.everything() }
-=======
-    render(){
-        return(
-            <div>
-                {/* <button onClick={() => this.everything()}>GetDocs</button> */}
-                { this.state.rendered ? "" : this.everything()}
-                <List>
-                    {this.state.excelFiles.map(file => (
-                    <ListItem key={file.timestamp} className="fileList" >
-                        <div >
-                            <div style={{ display: 'flex', minHeight:50, minWidth: 200, width: "fit-content", height: "fit-content",  justifyContent: "center",  alignItems:'center'}}>
-                                {file.name}
-                                <Button onClick={() => this.downloadData(file.excel, file.name)}variant="contained"
-                                component="span"
-                                style={{
-                                    fontFamily: "Quicksand",
-                                    fontName: "sans-serif",
-                                    backgroundColor: "#0F4C75",
-                                    color: "#BBE1FA",
-                                    textTransform: "none",
-                                }}
-                                >Download File</Button> 
-                            </div> 
-                            <Divider/>  
-                        </div>
-                    </ListItem>
-                ))
-                }
+                <List sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
+                    { this.state.rendered ? "" : this.everything() }
+                    { this.state.excelFiles.map(file => (
+                        <ListItem key={file.timestamp} className="fileList">
+                            <ListItemText primary={file.name}/>
+                            <IconButton onClick={() => this.downloadData(file.excel, file.name)}>
+                                <DownloadIcon/>
+                            </IconButton>
+                            <IconButton onClick={() => this.deleteDocs(file)}>
+                                <DeleteIcon/>
+                            </IconButton>
+                        </ListItem>
+                    ))}
                 </List>
->>>>>>> 17f813057436573713613c98e082aeaed3f41a5a
-            </div>
         )
     }
 }
 
 export default Files
-
