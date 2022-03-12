@@ -16,11 +16,11 @@ export default function about() {
 
         <div className={styles.aboutText}>
           <div>
-            {"In collaboration with Dr. Akanksha Garg, from The Haghverdi Water Management Group, the Irrigation Water Management Tool Suite(IWO Tool Suit) is designed to help farmers make better decisions about their farms and harvest. These tools main goals are to tackle California's water scarcity problems and increase farming productivity."}
+            {"In collaboration with Dr. Akanksha Garg, from The Haghverdi Water Management Group, the Irrigation Water Management Tool Suite(IWM Tool Suit) is designed to help farmers make better decisions about their farms and harvest. These tools main goals are to tackle California's water scarcity problems and increase farming productivity."}
           </div>
           <br />
           <div>
-           { "The Samz Dessert Tool is works on agricultural management zones based on NDVI satellite data in order to devleop optimize agricultural management zones and crop production. After uploading NDVI data, processing will compute the mean, min, max, range, and std of data, performace graph, zone delineation, and field recommendation."}
+           { "The Samz Desert Tool uses NDVI data to display optimal agricultural management zones. After uploading NDVI data, processing will compute the mean, min, max, range, and std of the data. The user will also see a performace graph, zone delineation, and field recommendation. If they have the center coordinate of their field they will also see a satellite image overlayed with a georeferenced delineation image."}
           </div>
         </div>
       </div>
