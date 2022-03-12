@@ -4,17 +4,34 @@ import numpy as np
 from scipy.sparse.construct import rand
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+from osgeo import gdal
+from osgeo import osr
+from PIL import Image
+import matplotlib as mpl
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 import sys
 import json
 import uuid
 import base64
 import os
+import cv2 
+
+from geoprocessing import getmap
 
 basepath = os.path.abspath('tmp')
 arg1 = sys.argv[1]
 length = int(sys.argv[2])
 width = int(sys.argv[3])
+longitude = None
+latitude = None
+if(sys.argv[4] and sys.argv[5]):
+    longitude = float(sys.argv[4])
+    latitude = float(sys.argv[5])
+zoom = 17
+pixelSize = 30
+global randomString
+randomString = str(uuid.uuid4().hex)
 field_input_index1 = pandas.read_excel(arg1).to_numpy()
 field_input_index_test = pandas.read_excel(arg1).to_numpy()
 array_size1 = (np.shape(field_input_index1))[0] #number of rows
@@ -28,7 +45,8 @@ field_input_index1_max = 0
 field_input_index1_min = 0
 ndvi_range_value = 0
 message = ""
-
+global field_input_index_clustered_optimal
+global field_input_index
 plt.rcParams['axes.labelcolor'] = 'white'
 plt.rcParams['text.color'] = 'white'
 plt.rcParams['axes.labelcolor'] = 'white'
@@ -36,6 +54,7 @@ plt.rcParams['xtick.color'] = 'white'
 plt.rcParams['ytick.color'] = 'white'
 plt.rcParams['axes.facecolor'] = '#1B262C'
 #plt.rcParams['spines.set_color'] = 'white'
+
 
 def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     # To check the input index data if it has some out of possible range value
@@ -53,9 +72,8 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     global message    
     global Nan_index 
     global Not_Nan_index
-    global randomString
     global optimal_zones_val    
-    randomString = str(uuid.uuid4().hex)
+    global field_input_index_clustered_optimal
     excel_path = os.path.join('./tmp', 'Cluster_info_' + randomString + '.xlsx')
     writer = pandas.ExcelWriter(excel_path, engine = 'xlsxwriter')   
     field_input_index1_mean = np.mean(field_input_index1[ind_nonan]) 
@@ -178,7 +196,7 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
         plt.title('Performance Graph')
         #plt.show()
         #fig1.savefig('Performance_graphs_socal_apr272018_final/{}'.format('Performance_graph_'+ '.png'), bbox_inches = 'tight', pad_inches = 0.5)
-        fig1.savefig('{}'.format(os.path.join(basepath, 'Performance_Graph_image_' + randomString + '.png')), bbox_inches = 'tight', pad_inches = 0.5) 
+        fig1.savefig('{}'.format(os.path.join(basepath, 'Performance_Graph_image_' + randomString + '.png')), transparent=True, bbox_inches = 'tight', pad_inches = 0.5) 
 
     #Performance Graph end
 
@@ -227,13 +245,13 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
     ticks2 = np.linspace(0, optimal_zones_val - 1, optimal_zones_val)                 # to show the ticks same as number of optimal zones/clusters in colorbar
     cbar = plt.colorbar(clustered_image_optimal, shrink = 0.65, ticks = ticks2, label = 'NDVI Value')
     ticks_labels2 = cluster_centers_sorted2                                          # tick labels as the cluster centers of the optimal clustered image
-    cbar.set_ticklabels([np.round(value, 3) for value in ticks_labels2])             # to label the colorbar with cluster centers of input index (ex. ndvi)
+    cbar.set_ticklabels([np.round(value, 2) for value in ticks_labels2])             # to label the colorbar with cluster centers of input index (ex. ndvi)
     plt.rcParams["axes.edgecolor"] = "black"
     plt.rcParams["axes.linewidth"] = 1
     plt.tick_params(top=False, bottom=False, left=False, right=False,
     labelleft=False, labelbottom=False)
     #randomString = str(uuid.uuid4().hex)
-    plot1.savefig('{}'.format(os.path.join(basepath, 'Optimal_clustered_image_' + randomString + '.png')), bbox_inches = 'tight', pad_inches = 0.5) 
+    plot1.savefig('{}'.format(os.path.join(basepath, 'Optimal_clustered_image_' + randomString + '.png')), transparent=True, bbox_inches = 'tight', pad_inches = 0.5) 
     #plt.show()   
     if (message == "Zoning may be useful"):   
         optimal_excel = pandas.read_excel(excel_path, sheet_name = 'Zones_' + str(optimal_zones_val), index_col = 0)
@@ -253,6 +271,41 @@ def outlier_removal2D(field_input_index1, array_size1, array_size2, win_size):
                 message = "Few zones either consist of boundary pixels or too small. Zoning into rest of the zones may be useful."
 
     #-----clustered image end
+#gdal.AllRegister();
+global wkt
+if(latitude and longitude):
+    getmap(latitude, longitude, length, width, zoom, pixelSize, randomString) #produces the image from google maps
+    field_input_index = gdal.Open('./tmp/googleMaps_satellite_image_' + randomString + ".png",gdal.GA_ReadOnly)
+    #field_input_index2 = field_input_index.ReadAsArray()
+    gt = field_input_index.GetGeoTransform()
+    xOrigin = gt[0]
+    yOrigin = gt[3]
+    pixelWidth = gt[1]
+    pixelHeight = gt[5]
+    imageWidth = field_input_index.RasterXSize 
+    imageHeight = field_input_index.RasterYSize
+    gdal_obj = field_input_index
+    wkt = gdal_obj.GetProjection()
+def array2raster(newRasterfn, xOrigin, yOrigin, pixelWidth, pixelHeight, array):
+    cols = array.shape[1]
+    rows = array.shape[0]
+    originX = xOrigin
+    originY = yOrigin
+
+    driver = gdal.GetDriverByName('GTiff')
+    outRaster = driver.Create(newRasterfn, cols, rows,bands= 1, eType = gdal.GDT_Byte)
+    outRaster.SetGeoTransform((originX, pixelWidth, 0, originY, 0, pixelHeight))
+
+    outRasterSRS = osr.SpatialReference()
+    outRasterSRS.ImportFromWkt(wkt)            
+    outRaster.SetProjection(outRasterSRS.ExportToWkt())
+
+    outband = outRaster.GetRasterBand(1)
+    outband.WriteArray(array)
+    outband.FlushCache()
+
+
+    # getmap(longitude, latitude, length, width, zoom, pixelHeight)
 
 def main():
     outlier_removal2D(field_input_index1, array_size1, array_size2, win_size)
@@ -264,21 +317,85 @@ def main():
     delineationImage = base64.b64encode(delineationImage).decode('utf-8')
     performanceGraphImage = base64.b64encode(performanceGraphImage).decode('utf-8')
     #print("image",base64Image)
-    outputDict = {
-    "mean": round(field_input_index1_mean,2),
-    "max": round(field_input_index1_max,2),
-    "min": round(field_input_index1_min,2),
-    "std": round(field_input_index1_std,2),
-    "ndvi_range": round(ndvi_range_value,2),
-    "clusters": optimal_zones_val,
-    "message": message,
-    "delineationImage" : delineationImage,
-    "performanceGraphImage" : performanceGraphImage,
-    "randomID": randomString
-    }
+    if(latitude and longitude):
+        newRasterfn = "./tmp/geoTif_" + randomString + ".tif"  #ouput geoTif that gets converted to png below with gda.Translate
+        array2raster(newRasterfn, xOrigin, yOrigin, pixelWidth, pixelHeight, field_input_index_clustered_optimal)
+        options_list = [
+        '-ot Byte',
+        '-of PNG',
+        '-b 1',
+        '-outsize ' + str(imageWidth) + ' ' + str(imageHeight),
+        '-scale'
+        ]           
+        options_string = " ".join(options_list)
+        gdal.Translate(
+        './tmp/Georeference_image_' + randomString + ".png",
+        "./tmp/geoTif_" + randomString + ".tif",
+        options=options_string
+        )
+
+        cm_hot = mpl.cm.get_cmap('rainbow')
+        img_src = Image.open('./tmp/Georeference_image_' + randomString + ".png").convert('L')
+        im = np.array(img_src)
+        im = cm_hot(im)
+        im = np.uint8(im * 255)
+        im = Image.fromarray(im)
+        im.save('./tmp/Georeference_image_colormap_' + randomString + '.png')
+        img1 = Image.open(r'./tmp/googleMaps_satellite_image_' + randomString + ".png") #image from google maps api to use as background
+        #img2 = Image.open(r"./tmp/field_12_georeference.png")
+        img2 = Image.open(r'./tmp/Georeference_image_colormap_' + randomString + '.png')
+        #img2.show()
+        #img1.paste(img2, (0,0), mask = img2)
+        # Displaying the image
+        #img1.show()
+        img1Converted = img1.convert('RGB')
+        img2Converted = img2.convert('RGB')
+        blended = Image.blend(img1Converted, img2Converted, alpha=.2)
+        blended.save('./tmp/Georeference_image_overlay_' + randomString + '.png')
+        with open(os.path.join(basepath, 'Georeference_image_overlay_' + randomString + '.png'), "rb") as file:
+            georeferencedImage = file.read()    
+        georeferencedImage = base64.b64encode(georeferencedImage).decode('utf-8')
+        img1.close()
+        img2.close()
+        img_src.close()
+        #blended.show()
+    if(latitude and longitude):
+        outputDict = {
+        "mean": round(field_input_index1_mean,2),
+        "max": round(field_input_index1_max,2),
+        "min": round(field_input_index1_min,2),
+        "std": round(field_input_index1_std,2),
+        "ndvi_range": round(ndvi_range_value,2),
+        "clusters": optimal_zones_val,
+        "message": message,
+        "delineationImage" : delineationImage,
+        "performanceGraphImage" : performanceGraphImage,
+        "georeferencedImage" : georeferencedImage,
+        "randomID": randomString
+        }
+    else:
+        outputDict = {
+        "mean": round(field_input_index1_mean,2),
+        "max": round(field_input_index1_max,2),
+        "min": round(field_input_index1_min,2),
+        "std": round(field_input_index1_std,2),
+        "ndvi_range": round(ndvi_range_value,2),
+        "clusters": optimal_zones_val,
+        "message": message,
+        "delineationImage" : delineationImage,
+        "performanceGraphImage" : performanceGraphImage,
+        "randomID": randomString
+        } 
     os.remove("./tmp/Optimal_clustered_image_" + randomString + ".png")
     os.remove("./tmp/Performance_Graph_image_" + randomString + ".png")
     os.remove("./tmp/Cluster_info_" + randomString + ".xlsx")
+    if(longitude and latitude):
+        os.remove('./tmp/Georeference_image_' + randomString + ".png")
+        os.remove('./tmp/Georeference_image_' + randomString + ".png.aux.xml")
+        os.remove('./tmp/Georeference_image_colormap_' + randomString + '.png')
+        #os.remove('./tmp/googleMaps_satellite_image_' + randomString + ".png")
+        os.remove("./tmp/geoTif_" + randomString + ".tif")
+        os.remove('./tmp/Georeference_image_overlay_' + randomString + '.png')
     outputDictJSON = json.dumps(outputDict)
     print(outputDictJSON) #outputs the dictionary of results as json
     sys.stdout.flush() #for sending data back to node.js

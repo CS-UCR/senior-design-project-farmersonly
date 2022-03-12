@@ -20,6 +20,10 @@ class Files extends Component{
         super();
         this.state = {
             excelFiles: [],
+<<<<<<< HEAD
+=======
+            array: [1,2,3,4],
+>>>>>>> 17f813057436573713613c98e082aeaed3f41a5a
             rendered: false,
             renderOnce: 0
         }
@@ -36,13 +40,24 @@ class Files extends Component{
             var user = auth.currentUser;
             var path = "userFields/"+user.uid+"/excel_files";
             const ref = collection(db,path);
+<<<<<<< HEAD
+=======
+            console.log("In GetDocList");
+>>>>>>> 17f813057436573713613c98e082aeaed3f41a5a
             getDocs(ref)
             .then((snapshot) => {
                 snapshot.docs.forEach((doc) =>{
                     this.setState({
+<<<<<<< HEAD
                         excelFiles: [...this.state.excelFiles, doc.data()],
                         rendered: true,
                         renderOnce: 1
+=======
+                        test: "GetDocList", 
+                        excelFiles: [...this.state.excelFiles, doc.data()],
+                        rendered: true,
+                        renederOnce: 1
+>>>>>>> 17f813057436573713613c98e082aeaed3f41a5a
                 })
                 });
             })
@@ -74,6 +89,7 @@ class Files extends Component{
         })
     }
 
+<<<<<<< HEAD
     everything(){
         if(!this.state.rendered)
         {
@@ -82,6 +98,30 @@ class Files extends Component{
     }
 
     downloadData = (base64, name) => {
+=======
+    renderList(){
+        this.state.excelFiles.map(file =>{
+            console.log("in renderlist")
+            return(
+                <ListItem key={file.name} primary="hello"/>
+            )
+        })
+    }
+
+    everything(){
+        if(!this.state.rendered)
+        {
+            this.getDocList();
+            //this.displayDocs();
+            console.log("Everything");
+        }
+    }
+
+    downloadData = (base64, name) => {
+        //console.log("top of test");
+        //console.log("the base64" + base64);
+        //console.log("name: " + name);
+>>>>>>> 17f813057436573713613c98e082aeaed3f41a5a
         var workbook = XLSX.read(
           base64,
           { type: "base64", WTF: false }
@@ -95,11 +135,42 @@ class Files extends Component{
         console.log(result);
         XLSX.writeFile(workbook, name);
       };
+<<<<<<< HEAD
 
     render(){
         return(
             <div>
                 { this.state.rendered ? "" : this.everything() }
+=======
+    render(){
+        return(
+            <div>
+                {/* <button onClick={() => this.everything()}>GetDocs</button> */}
+                { this.state.rendered ? "" : this.everything()}
+                <List>
+                    {this.state.excelFiles.map(file => (
+                    <ListItem key={file.timestamp} className="fileList" >
+                        <div >
+                            <div style={{ display: 'flex', minHeight:50, minWidth: 200, width: "fit-content", height: "fit-content",  justifyContent: "center",  alignItems:'center'}}>
+                                {file.name}
+                                <Button onClick={() => this.downloadData(file.excel, file.name)}variant="contained"
+                                component="span"
+                                style={{
+                                    fontFamily: "Quicksand",
+                                    fontName: "sans-serif",
+                                    backgroundColor: "#0F4C75",
+                                    color: "#BBE1FA",
+                                    textTransform: "none",
+                                }}
+                                >Download File</Button> 
+                            </div> 
+                            <Divider/>  
+                        </div>
+                    </ListItem>
+                ))
+                }
+                </List>
+>>>>>>> 17f813057436573713613c98e082aeaed3f41a5a
             </div>
         )
     }
