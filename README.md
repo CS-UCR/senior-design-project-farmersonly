@@ -3,8 +3,8 @@
 
 ## Table of Contents
 - [Overview](#overview)
-- [Using the Site](Using-the-Site)
-- [How To Run](#how-to-run)
+- [Using the Site](#using-the-site)
+- [Installing and Running](#installing-and-running)
 - [Diagrams](#diagrams)
 - [Trello](#trello-board)
 - [Dependencies](#dependencies)
