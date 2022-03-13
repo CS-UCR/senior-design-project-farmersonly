@@ -17,9 +17,9 @@ The first tool is in collaboration with Dr. Akanksha Garg and Dr. Amir Haghverdi
 ## Team Advisors
 <a href="https://github.com/msalloum" target="_blank"><img src="https://avatars3.githubusercontent.com/u/1790819?s=400&v=4" align="left" height="30px">Mariam Salloum </a>
 
-<a align="left" href="https://ucrwater.com" target="_blank"><img src="" align="left" height="30px">Dr. Akanksha Garg</a> 
+<a align="left" href="http://www.ucrwater.com/" target="_blank"><img src="" align="left" height="30px">Dr. Akanksha Garg</a> 
 
-<a align="left" href="https://ucrwater.com" target="_blank"><img src="" align="left" height="30px">Dr. Amir Haghverdi</a> 
+<a align="left" href="http://www.ucrwater.com/" target="_blank"><img src="" align="left" height="30px">Dr. Amir Haghverdi</a> 
 
 ## Team 
 <a href="https://github.com/RobertNavarro" target="_blank"><img src="https://avatars.githubusercontent.com/u/22530904?s=400&v=4" align="left" height="30px">Robert Navarro</a>
