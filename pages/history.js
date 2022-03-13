@@ -110,15 +110,15 @@ class Files extends Component{
     render(){
         return(
             <div className={styles.container}>
-                <List sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
+                <List sx={{width: '100%', maxWidth: 360, bgcolor: '#1b262c'}}>
                     { this.state.rendered ? "" : this.everything() }
                     {this.state.excelFiles.map(file => (
                         <ListItem key={file.id} className="fileList">
-                            <ListItemText primary={file.name}/>
-                            <IconButton onClick={() => this.downloadData(file.excel, file.name)}>
+                            <ListItemText primary={file.name} sx={{color:'#BBE1FA'}}/>
+                            <IconButton onClick={() => this.downloadData(file.excel, file.name)} style={{color: 'white'}}>
                                 <DownloadIcon/>
                             </IconButton>
-                            <IconButton onClick={() => this.deleteDocs(file.id)}>
+                            <IconButton onClick={() => this.deleteDocs(file.id)} style={{color: 'white'}}>
                                 <DeleteIcon/>
                             </IconButton>
                         </ListItem>

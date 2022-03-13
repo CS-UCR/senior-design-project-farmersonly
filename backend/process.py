@@ -1,21 +1,17 @@
 import pandas
 from pandas import ExcelWriter
 import numpy as np
-from scipy.sparse.construct import rand
 from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
 from osgeo import gdal
 from osgeo import osr
 from PIL import Image
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 import sys
 import json
 import uuid
 import base64
 import os
-import cv2 
 
 from geoprocessing import getmap
 
