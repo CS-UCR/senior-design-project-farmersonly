@@ -1,0 +1,29 @@
+.navbar{
+    min-width: 100vh;
+    height: 100px;
+    overflow: auto;
+    width: 100%;
+}
+
+.nav{
+    background-color: rgb(24, 28, 29);
+    font-size: 1.2rem;
+    flex-flow: row;
+    padding-left: 1ex;
+    padding-right: 1ex;
+    font-family: 'Quicksand', sans-serif;
+    overflow: auto;
+}
+
+.container {
+    font-size: 1.5rem;
+    flex-flow: row;
+    padding-left: 1ex;
+    min-width: 100vh;
+    overflow: auto;
+}
+
+.option{
+    text-align: right;
+    border-right: 5px;
+}

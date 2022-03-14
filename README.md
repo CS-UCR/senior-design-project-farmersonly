@@ -3,67 +3,120 @@
 
 ## Table of Contents
 - [Overview](#overview)
-- [Usage](#usage)
-- [How To Run](#how-to-run)
+- [Using the Site](#using-the-site)
+- [Installing and Running](#installing-and-running)
 - [Diagrams](#diagrams)
+- [Trello](#trello-board)
 - [Dependencies](#dependencies)
 
 ## Overview
-<Include project description?
+This is the Irrigation Water Management Tool Suite. It's a site that hosts tools that help farmers make better decisions about their farms. These tools were also created to tackle California's water scarcity problems.
 
-## Team
+The first tool is in collaboration with Dr. Akanksha Garg and Dr. Amir Haghverdi from the [Haghverdi Water Management Group](http://www.ucrwater.com/). With their guidance, we developed an advanced version of the SAMZ-Desert Tool. This is a tool for agricultural management zones that relies on NDVI satellite data. The old implementaion only worked on specific fields in Imperial County. We expanded on the tool and allowed users to upload their own field data. Now the tool can be used by farmers from around the world.
+
+## Team Advisors
 <a href="https://github.com/msalloum" target="_blank"><img src="https://avatars3.githubusercontent.com/u/1790819?s=400&v=4" align="left" height="30px">Mariam Salloum </a>
 
-## Usage
-Demo: <Link to youtube video>
+<a align="left" href="http://www.ucrwater.com/" target="_blank"><img src="" align="left" height="30px">Dr. Akanksha Garg</a> 
 
-<Screenshot of application>
+<a align="left" href="http://www.ucrwater.com/" target="_blank"><img src="" align="left" height="30px">Dr. Amir Haghverdi</a> 
 
-## How To Run
-In the project directory, you can run:
+## Team 
+<a href="https://github.com/RobertNavarro" target="_blank"><img src="https://avatars.githubusercontent.com/u/22530904?s=400&v=4" align="left" height="30px">Robert Navarro</a>
 
-### `npm start`
+<a href="https://github.com/seabass04" target="_blank"><img src="https://avatars.githubusercontent.com/u/56372630?v=4" align="left" height="30px">Sebastian Garcia</a>
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<a href="https://github.com/daniel-nis" target="_blank"><img src="https://avatars.githubusercontent.com/u/72157039?v=4" align="left" height="30px">Daniel Nissan</a>
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+<a href="https://github.com/jc2673528" target="_blank"><img src="https://avatars.githubusercontent.com/u/36831132?v=4" align="left" height="30px">Juan Castellon</a>
 
-### `npm test`
+## Using the Site
+When you first visit the site you'll see the home page
+![Home Page](public/home_page.png)
+You'll notice in the top right corner there's a profile icon. Clicking this icon will allow you to sign in using a Google account. If you choose to sign in, all of your uploaded files will be saved for you to download later. Signing in is completely optional. Clicking SAMZ Desert Tool on the navigation bar will take you to the tool.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This is the Samz Desert Tool page where you upload an Excel file containing NDVI data for your field. 
+![Samz Page](public/samz_page.gif)
 
-### `npm run build`
+If your file is in the correct format, the tool will extract the necessary dimensions. You can find out more about the formatting by clicking the "learn more" button. If you have the center coordinates for your field then input them to get a georeferenced image of your field. If you don't have them, leave the latitude and longitude boxes blank. 
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If you signed in, navigate to the History Page by clicking the button on the navigation bar. 
+![File History Page](public/download_page.png)
+Here you will see all the files you have uploaded while signed in. If you click the download button next to the filename you'll immediately download the file.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+If you want to know more about the tool and who had a hand in making it then visit the About Page.
+![About Page](public/about_page.gif)
+## Installing and Running
+Start off by installing Python 3.10 and running
+```
+pip install pandas numpy matplotlib scikit-learn Pillow opencv_python requests
+```
+You should now have almost all of the necesarry packages. The last package needed is GDAL. There are instructions [here](https://pypi.org/project/GDAL/) on how to install it. Some of us were developing on Windows and had to install the wheel file. We are using the wheel file
+```
+GDAL‑3.4.1‑cp310‑cp310‑win_amd64.whl
+```
+and that can be found [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#gdal). If you are on Windows drag this file to the backend folder. Switch your directory to the backend folder and run
+```
+pip install GDAL-3.4.1-cp310-cp310-win_amd64.whl
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+After that, install Node.js version 16.13.1. You can find that [here](https://nodejs.org/download/release/v16.13.1/). Please use this version because there are some compatibility problems with the newer versions.
 
-### `npm run eject`
+Once you have Python and Node.js installed go ahead and download all of our code from GitHub.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Then, from the root of the project directory you want to run
+```
+npm install
+```
+This will install all the necessary packages for the frontend of the project. The backend has it's packages it needs, so navigate to the backend folder. Run the same install command from the backend folder.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Now you should have all the packages you need to get the project running.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+You're going to need a Google Maps API key in order to generate satellite images. You can learn about how to get them [here](https://developers.google.com/maps/documentation/javascript/get-api-key).
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Once you get your API key, you will enter it into the file
+```
+geoprocessing.py
+```
+which can be found in the backend folder.
+
+The API key should be a long string that goes directly into the quotes here
+![API Key Insert Location](public/api_key_location.png) <br>
+Make sure you never upload your API key to GitHub or any other public website.
+
+You should still be in the backend folder. Run the command
+```
+npm start
+```
+to get the backend server running. You should see an output in the terminal if it was successful.
+
+Open another terminal, but do not close the terminal of the backend. In this new terminal make sure you are at the root of the project folder. We want to get the frontend server running now.
+
+From the root, run
+```
+npm run build
+```
+This will build the app for production to the build folder.
+
+We're almost done! Now run
+```
+npm start
+```
+again to get the frontend server started. You should see an output in the terminal if it was successful. Simply click the link that gets outputed to be brought to the website.
 
 ## Diagrams
 
-Sequence Diagram
+### System Diagram 
+![System Diagram](public/SystemDesign.png)  
 
-Frontend Structure
+### Sequence Diagram  
+![Sequence Diagram](public/sequence_diagram.png)  
 
 
-Overall System Diagram
+## Trello Board
+[This](https://trello.com/b/ar2vNBUt/farmersonly) is where we are tracking features and picking what we want to work on.
 
 ## Dependencies
-Install Node Package Manager (npm). [Helpful Documentation](https://www.npmjs.com/get-npm)
+[Python 3.10](https://www.python.org/downloads/release/python-3100/)  
+[Node.js version 16.13.1](https://nodejs.org/download/release/v16.13.1/) 
 
