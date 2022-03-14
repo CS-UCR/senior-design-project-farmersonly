@@ -106,13 +106,12 @@ again to get the frontend server started. You should see an output in the termin
 
 ## Diagrams
 
-Sequence Diagram  
+### System Diagram 
+![System Diagram](public/SystemDesign.png)  
 
+### Sequence Diagram  
 ![Sequence Diagram](public/sequence_diagram.png)  
-Overall System Diagram
 
-![Overall System Diagram](public/overall_system_diagram.png)  
-Frontend Structure
 
 ## Trello Board
 [This](https://trello.com/b/ar2vNBUt/farmersonly) is where we are tracking features and picking what we want to work on.
