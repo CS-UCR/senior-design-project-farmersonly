@@ -12,14 +12,14 @@
 ## Overview
 This is the Irrigation Water Management Tool Suite. It's a site that hosts tools that help farmers make better decisions about their farms. These tools were also created to tackle California's water scarcity problems.
 
-The first tool is in collaboration with Dr. Akanksha Garg and Dr. Amir Haghverdi from the [Haghverdi Water Management Group](https://ucrwater.com). With their guidance, we developed an advanced version of the SAMZ-Desert Tool. This is a tool for agricultural management zones that relies on NDVI satellite data. The old implementaion only worked on specific fields in Imperial County. We expanded on the tool and allowed users to upload their own field data. Now the tool can be used by farmers from around the world.
+The first tool is in collaboration with Dr. Akanksha Garg and Dr. Amir Haghverdi from the [Haghverdi Water Management Group](http://www.ucrwater.com/). With their guidance, we developed an advanced version of the SAMZ-Desert Tool. This is a tool for agricultural management zones that relies on NDVI satellite data. The old implementaion only worked on specific fields in Imperial County. We expanded on the tool and allowed users to upload their own field data. Now the tool can be used by farmers from around the world.
 
 ## Team Advisors
 <a href="https://github.com/msalloum" target="_blank"><img src="https://avatars3.githubusercontent.com/u/1790819?s=400&v=4" align="left" height="30px">Mariam Salloum </a>
 
-<a align="left" href="https://ucrwater.com" target="_blank"><img src="" align="left" height="30px">Dr. Akanksha Garg</a> 
+<a align="left" href="http://www.ucrwater.com/" target="_blank"><img src="" align="left" height="30px">Dr. Akanksha Garg</a> 
 
-<a align="left" href="https://ucrwater.com" target="_blank"><img src="" align="left" height="30px">Dr. Amir Haghverdi</a> 
+<a align="left" href="http://www.ucrwater.com/" target="_blank"><img src="" align="left" height="30px">Dr. Amir Haghverdi</a> 
 
 ## Team 
 <a href="https://github.com/RobertNavarro" target="_blank"><img src="https://avatars.githubusercontent.com/u/22530904?s=400&v=4" align="left" height="30px">Robert Navarro</a>
@@ -81,7 +81,7 @@ geoprocessing.py
 which can be found in the backend folder.
 
 The API key should be a long string that goes directly into the quotes here
-![API Key Insert Location](public/api_key_location.png)
+![API Key Insert Location](public/api_key_location.png) <br>
 Make sure you never upload your API key to GitHub or any other public website.
 
 You should still be in the backend folder. Run the command
