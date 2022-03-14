@@ -2,18 +2,15 @@ import React, { Component } from "react";
 import { db } from "../Firebase";
 import { doc, deleteDoc, collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { List } from "@mui/material";
+import { List, Typography } from "@mui/material";
 import { ListItem } from "@mui/material";
 import { ListItemText } from "@mui/material";
 import { ListItemButton } from "@mui/material";
+import { Box } from "@mui/material";
 import { IconButton } from "@mui/material";
-import Button from "@mui/material/Button";
 import XLSX from "xlsx";
 import DownloadIcon from '@mui/icons-material/Download';
-import Divider from "@mui/material/Divider";
-import Container from '@mui/material/Container';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { async } from "@firebase/util";
 import styles from "../styles/history.module.css";
 //import { ThirtyFpsRounded } from "@mui/icons-material";
 
@@ -22,7 +19,6 @@ class Files extends Component{
         super();
         this.state = {
             excelFiles: [],
-            excelIDs: [],
             rendered: false,
             renderOnce: 0
         }
@@ -108,9 +104,14 @@ class Files extends Component{
 
     
     render(){
-        return(
-            <div className={styles.container}>
-                <List sx={{width: '100%', maxWidth: 360, bgcolor: '#1b262c'}}>
+        if(!this.state.rendered){
+            this.everything();
+            console.log("rendering");
+        }
+        if( this.state.excelFiles.length > 0 ){
+            return(
+                <div className={styles.container}>
+                <List sx={{width: '100%', bgcolor: '#1b262c'}}>
                     { this.state.rendered ? "" : this.everything() }
                     {this.state.excelFiles.map(file => (
                         <ListItem key={file.id} className="fileList">
@@ -125,6 +126,17 @@ class Files extends Component{
                     ))}
                 </List>
                 </div>
+            )
+        }
+        return(
+            <div className={styles.container}>
+                    <Box sx={{width: '100%', maxWidth: 360, color: 'white'}}>
+                        <Typography variant="body1" gutterBottom>
+                            You have no files on record. Please sign in with the icon in the top right corner
+                            and click on the About page to learn more on how to use the SAMZ Tool.
+                        </Typography>
+                    </Box>
+            </div>
         )
     }
 }
