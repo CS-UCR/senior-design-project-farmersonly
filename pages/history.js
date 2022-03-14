@@ -104,13 +104,8 @@ class Files extends Component{
 
     
     render(){
-        if(!this.state.rendered){
-            this.everything();
-            console.log("rendering");
-        }
-        if( this.state.excelFiles.length > 0 ){
-            return(
-                <div className={styles.container}>
+        return(
+            <div className={styles.container}>
                 <List sx={{width: '100%', bgcolor: '#1b262c'}}>
                     { this.state.rendered ? "" : this.everything() }
                     {this.state.excelFiles.map(file => (
@@ -126,17 +121,6 @@ class Files extends Component{
                     ))}
                 </List>
                 </div>
-            )
-        }
-        return(
-            <div className={styles.container}>
-                    <Box sx={{width: '100%', maxWidth: 360, color: 'white'}}>
-                        <Typography variant="body1" gutterBottom>
-                            You have no files on record. Please sign in with the icon in the top right corner
-                            and click on the About page to learn more on how to use the SAMZ Tool.
-                        </Typography>
-                    </Box>
-            </div>
         )
     }
 }
