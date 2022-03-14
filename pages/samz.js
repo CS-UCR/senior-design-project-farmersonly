@@ -552,7 +552,7 @@ saveResults();
                 <div>
                   {this.state.noResults ? (
                     <div>
-                     <h1 className={styles.piechart}>Georefrenced Image</h1>
+                     <h1 className={styles.piechart}>Georeferenced Image</h1>
                     <img
                       src={default_georeferenced_image.src}
                       className={styles.performanceImg}
@@ -560,7 +560,7 @@ saveResults();
                     </div>
                   ) : (
                     <div>
-                      <h1 ref={this.geoTitle} className={styles.piechart}>Georefrenced Image</h1>
+                      <h1 ref={this.geoTitle} className={styles.piechart}>Georeferenced Image</h1>
                     <img
                       src={`data:image/jpeg;base64,${this.state.georeferencedImage}`}
                       className={styles.performanceImg}
